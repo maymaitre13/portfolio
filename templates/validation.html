@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Validationn</title>
+    <style>
+        .good{
+            color: green;
+        }
+        .bad{
+            color: red;
+            font-weight: 100;
+        }
+    </style>
+</head>
+<body>
+    {% if state == 0 :%}
+        <h1>State : <span class="good">Email sent succesfully</span></h1>
+    {% else :%}
+        <h1>State : <span class="bad">Email not sent</span></h1>
+    {% endif %}
+</body>
+</html>
