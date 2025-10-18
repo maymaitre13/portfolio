@@ -1,0 +1,102 @@
+/* Site-wide modern theme overrides */
+
+:root {
+  --bg: #0b1020;
+  --bg-accent: #0f172a;
+  --surface: #111827;
+  --surface-2: #0f172a;
+  --text: #e5e7eb;
+  --muted: #9ca3af;
+  --primary: #6366f1; /* indigo-500 */
+  --primary-600: #5457ef;
+  --primary-700: #4f46e5;
+  --primary-contrast: #ffffff;
+  --border: rgba(255,255,255,0.08);
+}
+
+/* Background & base text */
+html, body {
+  background: radial-gradient(1000px 600px at 10% -10%, rgba(99,102,241,0.18), transparent 60%),
+              radial-gradient(900px 520px at 120% 10%, rgba(16,185,129,0.16), transparent 55%),
+              linear-gradient(180deg, var(--bg) 0%, var(--bg-accent) 100%);
+  color: var(--text);
+}
+
+/* Remove legacy light container */
+#main {
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+/* Panels inside the HTML5UP layout */
+#main > .panel {
+  background-color: rgba(17, 24, 39, 0.82) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 1rem !important;
+}
+
+#main > .panel.intro header h1 { color: var(--text); }
+#main > .panel.intro header p { color: var(--muted); }
+
+/* Links */
+a { color: var(--primary); text-decoration: none; }
+a:hover { color: var(--primary-600); text-decoration: underline; }
+
+/* Generic containers from template */
+.panel, .card, .box, .content {
+  background-color: rgba(17, 24, 39, 0.8);
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  backdrop-filter: saturate(120%) blur(8px);
+}
+
+/* Navigation accents (HTML5 UP style) */
+#nav a { color: var(--muted); opacity: .6; }
+#nav a:hover, #nav a.active { color: var(--primary); opacity: 1; }
+#nav a.active:after { border-bottom-color: var(--primary) !important; }
+#nav a span { background: var(--surface); color: var(--text); }
+#nav a span:after { border-top-color: var(--surface); }
+
+/* Typography tweaks */
+h1, h2, h3, h4, h5, h6 { color: var(--text); }
+p, li, small, .text-secondary { color: var(--muted); }
+span { color: var(--text); }
+
+/* Override legacy colored headings to match theme */
+.text--purple, .text--blue {
+  color: var(--text) !important;
+}
+
+/* Home page tweaks */
+.the_hr { background-color: var(--primary) !important; opacity: .35; }
+section:nth-child(even) { background: transparent !important; }
+
+/* Work section: remove unintended inner box */
+.container-2 {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+/* Buttons (Bootstrap and generic) */
+.btn-primary, button.primary, .actions .primary {
+  background-color: var(--primary) !important;
+  border-color: var(--primary) !important;
+  color: var(--primary-contrast) !important;
+}
+.btn-primary:hover, button.primary:hover, .actions .primary:hover {
+  background-color: var(--primary-700) !important;
+  border-color: var(--primary-700) !important;
+}
+
+/* Inputs */
+input, textarea, select {
+  background-color: rgba(255,255,255,0.03);
+  border: 1px solid var(--border);
+  color: var(--text);
+}
+input::placeholder, textarea::placeholder { color: #9aa0a6; }
+
+/* Footer */
+#footer { color: var(--muted); }
+#footer a { color: var(--primary); }
