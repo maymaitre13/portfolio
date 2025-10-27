@@ -619,7 +619,8 @@ footer {
   }
 
   .about-me__info--para {
-    font-size: 40px;
+    font-size: 18px; /* reduce oversized mobile text */
+    line-height: 1.6;
   }
 
   .language {

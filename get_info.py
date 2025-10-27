@@ -1,3 +1,4 @@
+import os
 import requests
 import smtplib
 from email.mime.text import MIMEText
@@ -22,20 +23,33 @@ def get_sex(name):
 
 
 def send_email(fName, lName, email, message):
+    # SMTP server settings from environment
+    smtp_server = os.getenv("SMTP_SERVER", "smtp.mail.yahoo.com")
+    smtp_port = int(os.getenv("SMTP_PORT", "587"))
+    smtp_username = os.getenv("SMTP_USERNAME")
+    smtp_password = os.getenv("SMTP_PASSWORD")
 
-    # SMTP server settings
-    smtp_server = "smtp.mail.yahoo.com"
-    smtp_port = 587
-    smtp_username = "maelmaitre@yahoo.fr"
-    smtp_password = "uztqoahqgklqlwtc"
+    # Recipient and optional overrides
+    to_address = os.getenv("CONTACT_TO_ADDRESS")
+    from_address = os.getenv("CONTACT_FROM_ADDRESS", smtp_username)
+    subject = os.getenv("CONTACT_SUBJECT", "Message from portfolio contact form")
 
-    # Email message settings
-    from_address = smtp_username
-    to_address = "merji013@gmail.com"
-    subject = "Message from a client"
+    # Validate required configuration
+    missing = [
+        name for name, val in [
+            ("SMTP_USERNAME", smtp_username),
+            ("SMTP_PASSWORD", smtp_password),
+            ("CONTACT_TO_ADDRESS", to_address),
+        ] if not val
+    ]
+    if missing:
+        raise ValueError(f"Missing required environment variables: {', '.join(missing)}")
+
+    # Build email body
     body = (
-        f"The name of the client {fName} {lName} \n The email of the client :"
-        f"{email} \n Message :" + message
+        f"The name of the client: {fName} {lName}\n"
+        f"The email of the client: {email}\n"
+        f"Message: {message}"
     )
 
     # Create the email message
@@ -50,4 +64,3 @@ def send_email(fName, lName, email, message):
         server.starttls()
         server.login(smtp_username, smtp_password)
         server.sendmail(from_address, to_address, msg.as_string())
-        print("Email sent successfully!")

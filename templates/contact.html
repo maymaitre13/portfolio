@@ -183,5 +183,16 @@
       }
     });
   </script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      document.title = 'Contact | Ma\\u00EBl Ma\\u00EEtre';
+    });
+  </script>
 </body>
 </html>
+<!-- Fix title encoding via JS to avoid mojibake -->
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    document.title = 'Contact | Ma\u00EBl Ma\u00EEtre';
+  });
+}</script>

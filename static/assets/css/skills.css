@@ -1,0 +1,111 @@
+:root{
+  --bg: #0b1016;
+  --panel: rgba(255,255,255,0.04);
+  --panel-border: rgba(255,255,255,0.08);
+  --text: #e6edf3;
+  --muted: #9aa4ae;
+
+  /* Accent colors per spec */
+  --cyan:   #00bcd4; /* Network Admin */
+  --indigo: #5c6bc0; /* System Admin */
+  --orange: #ff9800; /* Linux Admin */
+  --purple: #9c27b0; /* Web Dev */
+  --yellow: #ffeb3b; /* Python */
+  --teal:   #009688; /* Cybersecurity (alt: use --red) */
+  --red:    #ff5d5d;
+}
+
+.skills-section{
+  font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif;
+  color: var(--text);
+  background:
+    radial-gradient(1200px 500px at 10% -10%, rgba(162,89,255,0.12), transparent 60%),
+    radial-gradient(1000px 400px at 110% 10%, rgba(0,229,255,0.10), transparent 60%),
+    linear-gradient(180deg, #0b0f14 0%, #0b1016 100%);
+  border-radius: 16px;
+}
+
+.skills-section .text-secondary{ color: var(--muted) !important; }
+
+.skill-card{
+  --accent: var(--cyan);
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+  border: 1px solid var(--panel-border);
+  border-left: 4px solid var(--accent);
+  border-radius: 16px;
+  padding: 18px 18px 16px;
+  box-shadow:
+    0 1px 0 rgba(255,255,255,0.04) inset,
+    0 8px 24px rgba(0,0,0,0.35);
+  transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.skill-card:hover{
+  transform: translateY(-6px);
+  box-shadow:
+    0 1px 0 rgba(255,255,255,0.05) inset,
+    0 10px 26px rgba(0,0,0,0.45),
+    0 0 20px color-mix(in oklab, var(--accent), transparent 75%);
+}
+
+/* Accent helpers */
+.acc-cyan   { --accent: var(--cyan); }
+.acc-indigo { --accent: var(--indigo); }
+.acc-orange { --accent: var(--orange); }
+.acc-purple { --accent: var(--purple); }
+.acc-yellow { --accent: var(--yellow); }
+.acc-teal   { --accent: var(--teal); }
+.acc-red    { --accent: var(--red); }
+
+.skill-icon{
+  width: 48px; height: 48px;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 6px rgba(0,0,0,0.35));
+  flex: 0 0 auto;
+}
+
+.skill-title{
+  font-size: 1.1rem;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+}
+
+/* Lists inside cards */
+.skill-list{
+  padding-left: 1.15rem;
+  margin: 0;
+}
+.skill-list li{
+  color: rgba(255,255,255,0.85);
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin-bottom: 4px;
+}
+
+/* Hide legacy skills markup in this article */
+article#work .skill_class,
+article#work .container.container-2{ display:none !important; }
+
+/* Title color fixes */
+h2.about-me__info--title,
+article#work > header h2{
+  color: #ffffff !important;
+  opacity: 1 !important;
+}
+/* Ensure body text in hero is not oversized; target paragraphs within the container */
+.about-me__info--para,
+.about-me__info--para p{
+  color: rgba(255,255,255,0.85) !important;
+  font-size: clamp(0.95rem, 0.9rem + 0.25vw, 1.125rem);
+  line-height: 1.6;
+}
+
+/* Small tweaks for very small screens */
+@media (max-width: 375px){
+  .skill-icon{ width: 44px; height: 44px; }
+  .skill-title{ font-size: 1.05rem; }
+}

@@ -7,9 +7,11 @@
 		<link rel="stylesheet" href="static/assets/css/index.css" />
 		<link rel="stylesheet" href="static/assets/css/main.css" />
 		<link rel="stylesheet" href="static/assets/css/theme.css" />
-		<!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" /> -->
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
+		<link rel="stylesheet" href="static/assets/css/skills.css" />
 		<link href="https://fonts.googleapis.com/css2?family=Macondo&display=swap" rel="stylesheet">
 		<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
 		<link href="https://fonts.googleapis.com/css2?family=Righteous&display=swap" rel="stylesheet">
 		<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
 		
@@ -35,21 +37,23 @@
 						<!-- Me -->
 							<article id="home" class="panel intro">
 								<header>
-									<h2 class="about-me__info--title buttom">
-										Hey, I'm Maël Maître
-									</h2>
-									<br>
-									<p class="about-me__info--para buttom ">
-      
-										<p>More than 10 years of experience in the Telecom industry.<br/>
-											Experienced Radio Design &Optimization engineer, NOC engineer.</p> 
+									
+									<div class="about-me__info--para buttom">
 
-										<p>Strong skill in <strong>Computer Network</strong>, <strong>Web development</strong>.
-											I have a degree in Computer Sciences from <b>INUQUA / UQAM</b>.</p>
-									</p>
+										<h2 class="about-me__info--title buttom">
+											Hey, I'm Maël Maître
+										</h2>
+										<br>
+      
+										Telecom professional with over a decade of experience since <time datetime="2012">2012</time>. 
+										Experienced <strong>NOC Engineer</strong> and <strong>Network Management System Engineer</strong> with strong skills in 
+										<strong>Network Administration</strong> and <strong>Coding</strong>. 
+										Holder of a Computer Science degree from <b>INUKA / UQAM</b>.
+									</div> 
+
+									
 								</header>
 								<a href="#work" class="jumplink pic">
-									<span class="arrow icon solid fa-chevron-right"><span>See my work</span></span>
 									<img src="static/images/mael.png" alt="" />
 								</a>
 							</article>
@@ -59,11 +63,119 @@
 								<header>
 									<h2>My skills</h2>
 								</header>
-								<p>
-									I am a skilled computer science engineer with a strong foundation in web developer. 
-									I am proficient in Networking , Linux, Network Administration . I am also familiar with JavaScrip, HTML, CSS, Flask and Python, . 
-									I am a motivated and self-directed learner, and I am confident that my skills would be a valuable asset to your team.
-								</p>
+
+								<!-- New Skills Grid -->
+								<section class="skills-section py-4" id="skills" aria-labelledby="skills-title">
+								  <div class="container">
+    <!-- header intentionally minimal per request (no subtitle) -->
+
+								    <div class="row g-4">
+								      <!-- Network Admin -->
+								      <div class="col-12 col-md-6 col-lg-4">
+        <article class="skill-card acc-cyan h-100">
+          <div class="d-flex align-items-center gap-3 mb-2">
+            <img class="skill-icon" src="static/images/networking.png" alt="Network Admin icon" />
+            <h3 class="skill-title mb-0">Network Admin</h3>
+          </div>
+          <ul class="skill-list mb-0">
+            <li>VLANs, trunking, routing basics</li>
+            <li>Switch/router configuration & backups</li>
+            <li>Monitoring (SNMP, syslog, NetFlow)</li>
+            <li>Troubleshoot latency & packet loss</li>
+            <li>Document network topologies</li>
+          </ul>
+        </article>
+								      </div>
+
+								      <!-- System Admin -->
+								      <div class="col-12 col-md-6 col-lg-4">
+        <article class="skill-card acc-indigo h-100">
+          <div class="d-flex align-items-center gap-3 mb-2">
+            <img class="skill-icon" src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/icons/hdd-stack.svg" alt="System Admin icon" />
+            <h3 class="skill-title mb-0">System Admin</h3>
+          </div>
+          <ul class="skill-list mb-0">
+            <li>Windows & Linux server provisioning</li>
+            <li>User/group management & IAM</li>
+            <li>Backup, restore, and patching</li>
+            <li>AD/DNS/DHCP configuration</li>
+            <li>SLA and uptime monitoring</li>
+          </ul>
+        </article>
+								      </div>
+
+								      <!-- Linux Admin -->
+								      <div class="col-12 col-md-6 col-lg-4">
+        <article class="skill-card acc-orange h-100">
+          <div class="d-flex align-items-center gap-3 mb-2">
+            <img class="skill-icon" src="static/images/Linux.png" alt="Linux Admin icon" />
+            <h3 class="skill-title mb-0">Linux Admin</h3>
+          </div>
+          <ul class="skill-list mb-0">
+            <li>Shell scripting & automation</li>
+            <li>Systemd services & log analysis</li>
+            <li>Package management (apt/yum/dnf)</li>
+            <li>Firewall (ufw, iptables) & hardening</li>
+            <li>Filesystem and permissions management</li>
+          </ul>
+        </article>
+								      </div>
+
+								      <!-- Web Dev -->
+								      <div class="col-12 col-md-6 col-lg-4">
+        <article class="skill-card acc-purple h-100">
+          <div class="d-flex align-items-center gap-3 mb-2">
+            <img class="skill-icon" src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/icons/code-slash.svg" alt="Web Dev icon" />
+            <h3 class="skill-title mb-0">Web Dev</h3>
+          </div>
+          <ul class="skill-list mb-0">
+            <li>Responsive UI with HTML, CSS, Bootstrap</li>
+            <li>JavaScript interactivity & forms</li>
+            <li>Flask routing & Jinja templates</li>
+            <li>REST API integration & JSON handling</li>
+            <li>Linux deployment (Gunicorn/Nginx)</li>
+          </ul>
+        </article>
+								      </div>
+
+								      <!-- Python -->
+								      <div class="col-12 col-md-6 col-lg-4">
+        <article class="skill-card acc-yellow h-100">
+          <div class="d-flex align-items-center gap-3 mb-2">
+            <img class="skill-icon" src="static/images/Python.svg" alt="Python icon" />
+            <h3 class="skill-title mb-0">Python</h3>
+          </div>
+          <ul class="skill-list mb-0">
+            <li>Automation scripts & CLI tools</li>
+            <li>Data parsing (CSV, JSON)</li>
+            <li>API requests with requests</li>
+            <li>Virtualenv or Poetry management</li>
+            <li>Testing with pytest</li>
+          </ul>
+        </article>
+								      </div>
+
+								      <!-- Cybersecurity -->
+								      <div class="col-12 col-md-6 col-lg-4">
+        <article class="skill-card acc-teal h-100">
+          <div class="d-flex align-items-center gap-3 mb-2">
+            <img class="skill-icon" src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/icons/shield-lock.svg" alt="Cybersecurity icon" />
+            <h3 class="skill-title mb-0">Cybersecurity</h3>
+          </div>
+          <ul class="skill-list mb-0">
+            <li>Principle of least privilege</li>
+            <li>Patch & vulnerability management</li>
+            <li>Secure configuration & secrets handling</li>
+            <li>Network segmentation & firewalls</li>
+            <li>Log review & incident response basics</li>
+          </ul>
+        </article>
+								      </div>
+								    </div>
+								  </div>
+								</section>
+
+								<!-- Legacy section hidden by skills.css to keep markup light -->
 								<section class="skill_class">
 									<div id="languages">
 										<div class="container">
@@ -466,7 +578,7 @@
 
 						<ul class="copyright">
 
-							<li>Design: Maël Maître & <a href="http://html5up.net" target="_blank">HTML5 UP</a></li>
+							<!-- <li>Design: Maël Maître & <a href="http://html5up.net" target="_blank">HTML5 UP</a></li>-->
 
 						</ul>
 
@@ -491,5 +603,12 @@
 			<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 			
 
-	</body>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      document.title = 'Ma\u00EBl Ma\u00EEtre';
+      var el = document.querySelector('h2.about-me__info--title.buttom');
+      if (el) el.textContent = "Hey, I'm Ma\u00EBl Ma\u00EEtre";
+    });
+  </script>
+</body>
 </html>
