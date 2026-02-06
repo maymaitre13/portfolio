@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Projects | Ma&euml;l Maitre</title>
+  <title>User Admin | Ma&euml;l Maitre</title>
 
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
@@ -34,22 +34,18 @@
         radial-gradient(760px 440px at 86% 26%, rgba(66, 105, 255, 0.18), transparent 62%),
         linear-gradient(165deg, #05050b, #090a16 46%, #070711 100%);
     }
-
     .glass {
       background: rgba(15, 16, 32, 0.76);
       backdrop-filter: blur(6px);
     }
-
     .topline {
       border-bottom: 1px solid rgba(124, 126, 188, 0.2);
     }
-
     .panel {
       background: rgba(16, 18, 38, 0.78);
       backdrop-filter: blur(6px);
       box-shadow: 0 14px 36px rgba(6, 8, 24, 0.42);
     }
-
     .soft-border {
       border: 1px solid rgba(130, 138, 235, 0.16);
     }
@@ -76,55 +72,90 @@
 
         <nav class="hidden items-center gap-7 text-[15px] text-slate-300 lg:flex">
           <a class="transition hover:text-white" href="/#home">Home</a>
-          <a class="font-semibold text-white" href="/projects">Projects</a>
+          <a class="transition hover:text-white" href="/projects">Projects</a>
           <a class="transition hover:text-white" href="/tools">Tools</a>
-          {% if current_user.is_authenticated %}
           <a class="transition hover:text-white" href="/more-tools">More Tools</a>
-          {% if current_user.is_admin %}
-          <a class="transition hover:text-white" href="/user-admin">User Admin</a>
-          {% endif %}
-          {% endif %}
+          <a class="font-semibold text-white" href="/user-admin">User Admin</a>
           <a class="transition hover:text-white" href="/#about">About</a>
         </nav>
 
         <div class="hidden gap-2 lg:flex">
           <a href="/contact" class="rounded-xl soft-border bg-indigo-500/18 px-4 py-2 text-center text-sm font-semibold text-indigo-100">Contact</a>
-          {% if current_user.is_authenticated %}
           <a href="/logout" class="rounded-xl soft-border bg-slate-700/20 px-4 py-2 text-center text-sm font-semibold text-slate-200">Logout</a>
-          {% else %}
-          <a href="/login" class="rounded-xl soft-border bg-slate-700/20 px-4 py-2 text-center text-sm font-semibold text-slate-200">Login</a>
-          {% endif %}
         </div>
       </div>
 
       <div id="mobileMenu" class="mt-3 hidden border-t border-indigo-300/20 pt-3 lg:hidden">
         <nav class="grid gap-2 text-sm text-slate-200">
           <a class="rounded-lg px-3 py-2 hover:bg-indigo-500/20" href="/#home">Home</a>
-          <a class="rounded-lg bg-indigo-500/20 px-3 py-2 font-semibold text-white" href="/projects">Projects</a>
+          <a class="rounded-lg px-3 py-2 hover:bg-indigo-500/20" href="/projects">Projects</a>
           <a class="rounded-lg px-3 py-2 hover:bg-indigo-500/20" href="/tools">Tools</a>
-          {% if current_user.is_authenticated %}
           <a class="rounded-lg px-3 py-2 hover:bg-indigo-500/20" href="/more-tools">More Tools</a>
-          {% if current_user.is_admin %}
-          <a class="rounded-lg px-3 py-2 hover:bg-indigo-500/20" href="/user-admin">User Admin</a>
-          {% endif %}
-          {% endif %}
+          <a class="rounded-lg bg-indigo-500/20 px-3 py-2 font-semibold text-white" href="/user-admin">User Admin</a>
           <a class="rounded-lg px-3 py-2 hover:bg-indigo-500/20" href="/#about">About</a>
         </nav>
         <div class="mt-3 grid grid-cols-2 gap-2">
           <a href="/contact" class="rounded-lg soft-border bg-indigo-500/20 px-3 py-2 text-center text-sm font-semibold text-indigo-100">Contact</a>
-          {% if current_user.is_authenticated %}
           <a href="/logout" class="rounded-lg soft-border bg-slate-700/25 px-3 py-2 text-center text-sm font-semibold text-slate-200">Logout</a>
-          {% else %}
-          <a href="/login" class="rounded-lg soft-border bg-slate-700/25 px-3 py-2 text-center text-sm font-semibold text-slate-200">Login</a>
-          {% endif %}
         </div>
       </div>
     </header>
 
     <main class="space-y-4 pt-2">
       <section class="panel rounded-3xl p-6 lg:p-7">
-        <h1 class="font-display text-[34px] font-extrabold leading-tight text-white sm:text-[44px]">Projects</h1>
-        <p class="mt-3 text-[16px] text-slate-300">No projects published yet.</p>
+        <h1 class="font-display text-[34px] font-extrabold leading-tight text-white sm:text-[44px]">User Admin</h1>
+        <p class="mt-2 text-[15px] text-slate-300">Create, update, delete, and search users. Visible only to admins.</p>
+
+        {% if error %}
+        <p class="mt-4 rounded-lg border border-rose-300/30 bg-rose-500/10 px-3 py-2 text-sm text-rose-200">{{ error }}</p>
+        {% endif %}
+        {% if success %}
+        <p class="mt-4 rounded-lg border border-emerald-300/30 bg-emerald-500/10 px-3 py-2 text-sm text-emerald-200">{{ success }}</p>
+        {% endif %}
+      </section>
+
+      <section class="panel rounded-3xl p-6 lg:p-7">
+        <h2 class="font-display text-[26px] font-bold text-white">Create User</h2>
+        <form method="post" action="/user-admin/create" class="mt-4 grid gap-3 md:grid-cols-2">
+          <input name="username" type="text" placeholder="Username" required class="rounded-xl soft-border bg-slate-900/35 px-4 py-3 text-sm text-slate-100 focus:outline-none focus:ring-2 focus:ring-indigo-400/45" />
+          <input name="password" type="password" placeholder="Password (min 8 chars)" required class="rounded-xl soft-border bg-slate-900/35 px-4 py-3 text-sm text-slate-100 focus:outline-none focus:ring-2 focus:ring-indigo-400/45" />
+          <label class="inline-flex items-center gap-2 text-sm text-slate-200"><input type="checkbox" name="enabled" checked /> Enabled</label>
+          <label class="inline-flex items-center gap-2 text-sm text-slate-200"><input type="checkbox" name="is_admin" /> Admin</label>
+          <button type="submit" class="w-fit rounded-xl border border-indigo-300/40 bg-gradient-to-r from-indigo-600 to-indigo-500 px-6 py-3 text-sm font-semibold text-white">Add User</button>
+        </form>
+      </section>
+
+      <section class="panel rounded-3xl p-6 lg:p-7">
+        <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <h2 class="font-display text-[26px] font-bold text-white">Users</h2>
+          <form method="get" action="/user-admin" class="flex gap-2">
+            <input name="q" value="{{ q }}" type="text" placeholder="Search username..." class="rounded-xl soft-border bg-slate-900/35 px-4 py-2 text-sm text-slate-100 focus:outline-none focus:ring-2 focus:ring-indigo-400/45" />
+            <button type="submit" class="rounded-xl border border-indigo-300/40 bg-indigo-500/20 px-4 py-2 text-sm font-semibold text-indigo-100">Search</button>
+          </form>
+        </div>
+
+        <div class="mt-4 space-y-3">
+          {% for user in users %}
+          <form method="post" action="/user-admin/update/{{ user.id }}" class="rounded-xl bg-slate-900/35 p-4 ring-1 ring-indigo-300/12">
+            <div class="grid gap-3 lg:grid-cols-[1fr_1fr_auto]">
+              <input name="username" type="text" value="{{ user.username }}" required class="rounded-xl soft-border bg-slate-900/40 px-4 py-2 text-sm text-slate-100 focus:outline-none focus:ring-2 focus:ring-indigo-400/45" />
+              <input name="password" type="password" placeholder="New password (optional)" class="rounded-xl soft-border bg-slate-900/40 px-4 py-2 text-sm text-slate-100 focus:outline-none focus:ring-2 focus:ring-indigo-400/45" />
+              <div class="flex items-center gap-3">
+                <label class="inline-flex items-center gap-2 text-sm text-slate-200"><input type="checkbox" name="enabled" {% if user.enabled %}checked{% endif %}/> Enabled</label>
+                <label class="inline-flex items-center gap-2 text-sm text-slate-200"><input type="checkbox" name="is_admin" {% if user.is_admin %}checked{% endif %}/> Admin</label>
+              </div>
+            </div>
+            <div class="mt-3 flex flex-wrap items-center gap-2">
+              <button type="submit" class="rounded-lg border border-indigo-300/35 bg-indigo-500/20 px-4 py-2 text-sm font-semibold text-indigo-100">Save</button>
+              {% if user.id != current_user.id %}
+              <button type="submit" formaction="/user-admin/delete/{{ user.id }}" formmethod="post" class="rounded-lg border border-rose-300/35 bg-rose-500/15 px-4 py-2 text-sm font-semibold text-rose-100" onclick="return confirm('Delete this user?');">Delete</button>
+              {% endif %}
+            </div>
+          </form>
+          {% else %}
+          <p class="text-sm text-slate-300">No users found.</p>
+          {% endfor %}
+        </div>
       </section>
     </main>
   </div>

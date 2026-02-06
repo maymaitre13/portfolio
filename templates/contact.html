@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Contact | Mael Maitre</title>
+  <title>Contact | Ma&euml;l Maitre</title>
 
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
@@ -70,7 +70,7 @@
     <header class="panel mb-4 rounded-2xl px-4 py-3 shadow-neon">
       <div class="flex items-center justify-between gap-3">
         <a href="/#home" class="flex items-center gap-3">
-          <img src="{{ url_for('static', filename='images/Mael Logo.png') }}" alt="Mael Logo" class="h-9 w-auto rounded-lg object-contain" />
+          <img src="{{ url_for('static', filename='images/Mael Logo.png') }}" alt="Ma&euml;l Logo" class="h-9 w-auto rounded-lg object-contain" />
           <span class="text-sm font-semibold tracking-wide text-white/95">MM</span>
         </a>
 
@@ -81,13 +81,23 @@
         <nav class="hidden items-center gap-5 text-sm text-slate-300 lg:flex">
           <a class="transition hover:text-white" href="/#home">Home</a>
           <a class="transition hover:text-white" href="/projects">Projects</a>
-          <a class="transition hover:text-white" href="/projects#tools">Tools</a>
+          <a class="transition hover:text-white" href="/tools">Tools</a>
+          {% if current_user.is_authenticated %}
+          <a class="transition hover:text-white" href="/more-tools">More Tools</a>
+          {% if current_user.is_admin %}
+          <a class="transition hover:text-white" href="/user-admin">User Admin</a>
+          {% endif %}
+          {% endif %}
           <a class="transition hover:text-white" href="/#about">About</a>
         </nav>
 
         <div class="hidden gap-2 lg:flex">
           <a href="/contact" class="rounded-xl border border-indigo-300/35 bg-indigo-500/20 px-4 py-2 text-center text-sm font-semibold text-indigo-100">Contact</a>
-          <a href="#" class="rounded-xl border border-slate-500/35 bg-slate-700/25 px-4 py-2 text-center text-sm font-semibold text-slate-200">Login</a>
+          {% if current_user.is_authenticated %}
+          <a href="/logout" class="rounded-xl border border-slate-500/35 bg-slate-700/25 px-4 py-2 text-center text-sm font-semibold text-slate-200">Logout</a>
+          {% else %}
+          <a href="/login" class="rounded-xl border border-slate-500/35 bg-slate-700/25 px-4 py-2 text-center text-sm font-semibold text-slate-200">Login</a>
+          {% endif %}
         </div>
       </div>
 
@@ -95,12 +105,22 @@
         <nav class="grid gap-2 text-sm text-slate-200">
           <a class="rounded-lg px-3 py-2 hover:bg-indigo-500/20" href="/#home">Home</a>
           <a class="rounded-lg px-3 py-2 hover:bg-indigo-500/20" href="/projects">Projects</a>
-          <a class="rounded-lg px-3 py-2 hover:bg-indigo-500/20" href="/projects#tools">Tools</a>
+          <a class="rounded-lg px-3 py-2 hover:bg-indigo-500/20" href="/tools">Tools</a>
+          {% if current_user.is_authenticated %}
+          <a class="rounded-lg px-3 py-2 hover:bg-indigo-500/20" href="/more-tools">More Tools</a>
+          {% if current_user.is_admin %}
+          <a class="rounded-lg px-3 py-2 hover:bg-indigo-500/20" href="/user-admin">User Admin</a>
+          {% endif %}
+          {% endif %}
           <a class="rounded-lg px-3 py-2 hover:bg-indigo-500/20" href="/#about">About</a>
         </nav>
         <div class="mt-3 grid grid-cols-2 gap-2">
           <a href="/contact" class="rounded-lg border border-indigo-300/35 bg-indigo-500/20 px-3 py-2 text-center text-sm font-semibold text-indigo-100">Contact</a>
-          <a href="#" class="rounded-lg border border-slate-500/35 bg-slate-700/25 px-3 py-2 text-center text-sm font-semibold text-slate-200">Login</a>
+          {% if current_user.is_authenticated %}
+          <a href="/logout" class="rounded-lg border border-slate-500/35 bg-slate-700/25 px-3 py-2 text-center text-sm font-semibold text-slate-200">Logout</a>
+          {% else %}
+          <a href="/login" class="rounded-lg border border-slate-500/35 bg-slate-700/25 px-3 py-2 text-center text-sm font-semibold text-slate-200">Login</a>
+          {% endif %}
         </div>
       </div>
     </header>
@@ -261,3 +281,5 @@
   </script>
 </body>
 </html>
+
+

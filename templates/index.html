@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mael Maitre | Portfolio</title>
+  <title>Ma&euml;l Maitre | Portfolio</title>
 
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
@@ -64,14 +64,22 @@
       background: rgba(43, 47, 91, 0.48);
     }
 
-    .timeline-line::before {
+    .xp-timeline {
+      position: relative;
+    }
+
+    .xp-timeline::before {
       content: "";
       position: absolute;
-      left: 12px;
-      top: 28px;
-      width: 2px;
-      height: calc(100% - 10px);
-      background: linear-gradient(180deg, rgba(118, 110, 255, 0.65), rgba(118, 110, 255, 0));
+      left: 15px;
+      top: 14px;
+      bottom: 14px;
+      width: 1px;
+      background: linear-gradient(180deg, rgba(118, 110, 255, 0.65), rgba(118, 110, 255, 0.2));
+    }
+
+    .xp-dot {
+      box-shadow: 0 0 18px rgba(125, 114, 255, 0.35);
     }
   </style>
 </head>
@@ -86,7 +94,7 @@
     <header class="glass rounded-2xl px-4 py-3 shadow-card topline">
       <div class="flex items-center justify-between gap-3">
         <a href="#home" class="flex items-center gap-3">
-          <img src="{{ url_for('static', filename='images/Mael Logo.png') }}" alt="Mael Logo" class="h-9 w-auto rounded-md object-contain" />
+          <img src="{{ url_for('static', filename='images/Mael Logo.png') }}" alt="Ma&euml;l Logo" class="h-9 w-auto rounded-md object-contain" />
           <span class="text-[13px] font-semibold tracking-[0.08em] text-slate-100">MM</span>
         </a>
 
@@ -97,13 +105,23 @@
         <nav class="hidden items-center gap-7 text-[15px] text-slate-300 lg:flex">
           <a class="font-semibold text-white" href="#home">Home</a>
           <a class="transition hover:text-white" href="/projects">Projects</a>
-          <a class="transition hover:text-white" href="/projects#tools">Tools</a>
+          <a class="transition hover:text-white" href="/tools">Tools</a>
+          {% if current_user.is_authenticated %}
+          <a class="transition hover:text-white" href="/more-tools">More Tools</a>
+          {% if current_user.is_admin %}
+          <a class="transition hover:text-white" href="/user-admin">User Admin</a>
+          {% endif %}
+          {% endif %}
           <a class="transition hover:text-white" href="#about">About</a>
         </nav>
 
         <div class="hidden gap-2 lg:flex">
           <a href="/contact" class="rounded-xl soft-border bg-indigo-500/18 px-4 py-2 text-center text-sm font-semibold text-indigo-100">Contact</a>
-          <a href="#" class="rounded-xl soft-border bg-slate-700/20 px-4 py-2 text-center text-sm font-semibold text-slate-200">Login</a>
+          {% if current_user.is_authenticated %}
+          <a href="/logout" class="rounded-xl soft-border bg-slate-700/20 px-4 py-2 text-center text-sm font-semibold text-slate-200">Logout</a>
+          {% else %}
+          <a href="/login" class="rounded-xl soft-border bg-slate-700/20 px-4 py-2 text-center text-sm font-semibold text-slate-200">Login</a>
+          {% endif %}
         </div>
       </div>
 
@@ -111,12 +129,22 @@
         <nav class="grid gap-2 text-sm text-slate-200">
           <a class="rounded-lg bg-indigo-500/20 px-3 py-2 font-semibold text-white" href="#home">Home</a>
           <a class="rounded-lg px-3 py-2 hover:bg-indigo-500/20" href="/projects">Projects</a>
-          <a class="rounded-lg px-3 py-2 hover:bg-indigo-500/20" href="/projects#tools">Tools</a>
+          <a class="rounded-lg px-3 py-2 hover:bg-indigo-500/20" href="/tools">Tools</a>
+          {% if current_user.is_authenticated %}
+          <a class="rounded-lg px-3 py-2 hover:bg-indigo-500/20" href="/more-tools">More Tools</a>
+          {% if current_user.is_admin %}
+          <a class="rounded-lg px-3 py-2 hover:bg-indigo-500/20" href="/user-admin">User Admin</a>
+          {% endif %}
+          {% endif %}
           <a class="rounded-lg px-3 py-2 hover:bg-indigo-500/20" href="#about">About</a>
         </nav>
         <div class="mt-3 grid grid-cols-2 gap-2">
           <a href="/contact" class="rounded-lg soft-border bg-indigo-500/20 px-3 py-2 text-center text-sm font-semibold text-indigo-100">Contact</a>
-          <a href="#" class="rounded-lg soft-border bg-slate-700/25 px-3 py-2 text-center text-sm font-semibold text-slate-200">Login</a>
+          {% if current_user.is_authenticated %}
+          <a href="/logout" class="rounded-lg soft-border bg-slate-700/25 px-3 py-2 text-center text-sm font-semibold text-slate-200">Logout</a>
+          {% else %}
+          <a href="/login" class="rounded-lg soft-border bg-slate-700/25 px-3 py-2 text-center text-sm font-semibold text-slate-200">Login</a>
+          {% endif %}
         </div>
       </div>
     </header>
@@ -124,9 +152,9 @@
     <main class="space-y-4 pt-2">
       <section id="home" class="grid gap-4 lg:grid-cols-12">
         <article class="panel rounded-3xl p-7 sm:p-9 lg:col-span-6">
-          <h1 class="font-display text-[42px] font-extrabold leading-tight text-white sm:text-[56px]">Hi, I am Mael Maitre.</h1>
-          <h2 class="mt-2 font-display text-[34px] font-semibold leading-tight text-white sm:text-[44px]">Cyber Security Expert</h2>
-          <h2 class="mt-1 font-display text-[34px] font-semibold leading-tight text-white sm:text-[44px]">&amp; Software Creator</h2>
+          <h1 class="font-display text-[32px] font-extrabold leading-tight text-white sm:text-[44px]">Hi, I am Ma&euml;l Maitre.</h1>
+          <h2 class="mt-2 font-display text-[25px] font-semibold leading-tight text-white sm:text-[34px]">Cyber Security Expert</h2>
+          <h2 class="mt-1 font-display text-[25px] font-semibold leading-tight text-white sm:text-[34px]">&amp; Software Creator</h2>
           <p class="mt-5 max-w-2xl text-[16px] leading-relaxed text-slate-300">I build secure and innovative tools to solve real world operational problems.</p>
           <div class="mt-7 flex flex-wrap gap-3">
             <a href="/projects" class="rounded-xl border border-indigo-300/45 bg-gradient-to-r from-indigo-600 to-indigo-500 px-6 py-3 text-sm font-semibold text-white shadow-glow">View My Projects</a>
@@ -134,19 +162,19 @@
         </article>
 
         <figure class="panel rounded-3xl p-3 lg:col-span-6">
-          <img src="{{ url_for('static', filename='images/Mael Maitre.png') }}" alt="Portrait of Mael Maitre" class="h-full w-full rounded-2xl object-cover" />
+          <img src="{{ url_for('static', filename='images/Mael Maitre.png') }}" alt="Portrait of Ma&euml;l Maitre" class="h-full w-full rounded-2xl object-cover" />
         </figure>
       </section>
 
       <section class="grid gap-4 xl:grid-cols-12">
         <article id="about" class="panel rounded-3xl p-6 lg:p-7 xl:col-span-6">
-          <h2 class="font-display text-[38px] font-extrabold text-white">About Me</h2>
+          <h2 class="font-display text-[34px] font-extrabold text-white">About Me</h2>
           <p class="mt-3 max-w-3xl text-[16px] leading-relaxed text-slate-300">Passionate IT professional with extensive experience in cyber security, automation, and creating practical tools in Python and JavaScript.</p>
 
-          <h2 id="projects" class="mt-8 font-display text-[38px] font-extrabold text-white">Skills</h2>
+          <h2 id="projects" class="mt-8 font-display text-[34px] font-extrabold text-white">Skills</h2>
           <div class="mt-4 grid gap-3 sm:grid-cols-2">
             <article class="rounded-2xl bg-slate-900/35 p-4 ring-1 ring-indigo-300/12">
-              <h3 class="text-[22px] font-bold leading-none text-white">Networking</h3>
+              <h3 class="text-[20px] font-bold leading-none text-white">Networking</h3>
               <p class="mt-2 text-[14px] leading-relaxed text-slate-300">Routing, switching, and observability workflows.</p>
               <div class="mt-3 flex flex-wrap gap-2 text-[11px] text-indigo-100">
                 <span class="chip rounded-full px-2 py-1">NOC</span>
@@ -156,7 +184,7 @@
             </article>
 
             <article class="rounded-2xl bg-slate-900/35 p-4 ring-1 ring-indigo-300/12">
-              <h3 class="text-[22px] font-bold leading-none text-white">Automation</h3>
+              <h3 class="text-[20px] font-bold leading-none text-white">Automation</h3>
               <p class="mt-2 text-[14px] leading-relaxed text-slate-300">Python-driven tools for stable operations.</p>
               <div class="mt-3 flex flex-wrap gap-2 text-[11px] text-indigo-100">
                 <span class="chip rounded-full px-2 py-1">Python</span>
@@ -166,7 +194,7 @@
             </article>
 
             <article class="rounded-2xl bg-slate-900/35 p-4 ring-1 ring-indigo-300/12">
-              <h3 class="text-[22px] font-bold leading-none text-white">Linux Security</h3>
+              <h3 class="text-[20px] font-bold leading-none text-white">Linux Security</h3>
               <p class="mt-2 text-[14px] leading-relaxed text-slate-300">Hardening baselines and patch discipline.</p>
               <div class="mt-3 flex flex-wrap gap-2 text-[11px] text-indigo-100">
                 <span class="chip rounded-full px-2 py-1">Audit</span>
@@ -176,7 +204,7 @@
             </article>
 
             <article class="rounded-2xl bg-slate-900/35 p-4 ring-1 ring-indigo-300/12">
-              <h3 class="text-[22px] font-bold leading-none text-white">Web Development</h3>
+              <h3 class="text-[20px] font-bold leading-none text-white">Web Development</h3>
               <p class="mt-2 text-[14px] leading-relaxed text-slate-300">Flask and modern UI with clean APIs.</p>
               <div class="mt-3 flex flex-wrap gap-2 text-[11px] text-indigo-100">
                 <span class="chip rounded-full px-2 py-1">Flask</span>
@@ -186,29 +214,44 @@
             </article>
           </div>
 
-          <a href="/projects#tools" class="mt-5 inline-flex rounded-xl border border-indigo-300/42 bg-gradient-to-r from-indigo-600 to-indigo-500 px-6 py-3 text-sm font-semibold text-white shadow-glow">View All Projects</a>
+          <a href="/projects" class="mt-5 inline-flex rounded-xl border border-indigo-300/42 bg-gradient-to-r from-indigo-600 to-indigo-500 px-6 py-3 text-sm font-semibold text-white shadow-glow">View All Projects</a>
         </article>
 
         <article class="panel rounded-3xl p-6 lg:p-7 xl:col-span-3">
-          <h2 class="font-display text-[38px] font-extrabold text-white">Experience</h2>
-          <div class="mt-4 space-y-3">
-            <div class="rounded-xl bg-slate-900/35 p-3 ring-1 ring-indigo-300/12">
-              <p class="text-[20px] font-semibold leading-tight text-white">2021 &ndash; Present</p>
-              <p class="mt-1 text-[14px] text-slate-300">Cyber Security Analyst</p>
-            </div>
-            <div class="rounded-xl bg-slate-900/35 p-3 ring-1 ring-indigo-300/12">
-              <p class="text-[20px] font-semibold leading-tight text-white">2019 &ndash; 2021</p>
-              <p class="mt-1 text-[14px] text-slate-300">NMS Developer</p>
-            </div>
-            <div class="rounded-xl bg-slate-900/35 p-3 ring-1 ring-indigo-300/12">
-              <p class="text-[20px] font-semibold leading-tight text-white">2012 &ndash; 2019</p>
-              <p class="mt-1 text-[14px] text-slate-300">NOC and Telecom Ops</p>
-            </div>
-          </div>
+          <h2 class="font-display text-[34px] font-extrabold text-white">Experience</h2>
+          <ol class="xp-timeline mt-4 space-y-5">
+            <li class="relative flex items-start gap-3">
+              <span class="xp-dot mt-0.5 grid h-8 w-8 shrink-0 place-items-center rounded-full bg-indigo-500/20 ring-1 ring-indigo-300/35">
+                <i data-lucide="search" class="h-4 w-4 text-indigo-100"></i>
+              </span>
+              <div>
+                <p class="text-[20px] font-semibold leading-tight text-white">2021 &ndash; Present</p>
+                <p class="mt-1 text-[14px] text-slate-300">Cyber Security Analyst</p>
+              </div>
+            </li>
+            <li class="relative flex items-start gap-3">
+              <span class="xp-dot mt-0.5 grid h-8 w-8 shrink-0 place-items-center rounded-full bg-indigo-500/20 ring-1 ring-indigo-300/35">
+                <i data-lucide="monitor-cog" class="h-4 w-4 text-indigo-100"></i>
+              </span>
+              <div>
+                <p class="text-[20px] font-semibold leading-tight text-white">2019 &ndash; 2021</p>
+                <p class="mt-1 text-[14px] text-slate-300">NMS Developer</p>
+              </div>
+            </li>
+            <li class="relative flex items-start gap-3">
+              <span class="xp-dot mt-0.5 grid h-8 w-8 shrink-0 place-items-center rounded-full bg-indigo-500/20 ring-1 ring-indigo-300/35">
+                <i data-lucide="radio" class="h-4 w-4 text-indigo-100"></i>
+              </span>
+              <div>
+                <p class="text-[20px] font-semibold leading-tight text-white">2017 &ndash; 2019</p>
+                <p class="mt-1 text-[14px] text-slate-300">NOC &amp; Telecom Ops</p>
+              </div>
+            </li>
+          </ol>
         </article>
 
         <article class="panel rounded-3xl p-6 lg:p-7 xl:col-span-3">
-          <h2 id="tools" class="font-display text-[38px] font-extrabold text-white">Certifications</h2>
+          <h2 id="tools" class="font-display text-[34px] font-extrabold text-white">Certifications</h2>
           <div class="mt-4 space-y-2">
             <a href="#" class="block rounded-xl bg-slate-900/35 px-4 py-3 text-[16px] text-slate-100 ring-1 ring-indigo-300/12">Network</a>
             <a href="#" class="block rounded-xl bg-slate-900/35 px-4 py-3 text-[16px] text-slate-100 ring-1 ring-indigo-300/12">Security</a>
@@ -243,3 +286,5 @@
   </script>
 </body>
 </html>
+
+

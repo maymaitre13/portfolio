@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tools | Ma&euml;l Maitre</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ["Space Grotesk", "ui-sans-serif", "system-ui"],
+            display: ["Sora", "Space Grotesk", "ui-sans-serif"]
+          },
+          colors: {
+            accent: "#6f63ff",
+            accent2: "#8e81ff"
+          },
+          boxShadow: {
+            glow: "0 0 35px rgba(125, 114, 255, 0.22)",
+            card: "0 14px 36px rgba(6, 8, 24, 0.42)"
+          }
+        }
+      }
+    };
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    .bg-mesh {
+      background:
+        radial-gradient(1020px 540px at 24% 20%, rgba(103, 88, 255, 0.24), transparent 60%),
+        radial-gradient(760px 440px at 86% 26%, rgba(66, 105, 255, 0.18), transparent 62%),
+        linear-gradient(165deg, #05050b, #090a16 46%, #070711 100%);
+    }
+
+    .glass {
+      background: rgba(15, 16, 32, 0.76);
+      backdrop-filter: blur(6px);
+    }
+
+    .topline {
+      border-bottom: 1px solid rgba(124, 126, 188, 0.2);
+    }
+
+    .panel {
+      background: rgba(16, 18, 38, 0.78);
+      backdrop-filter: blur(6px);
+      box-shadow: 0 14px 36px rgba(6, 8, 24, 0.42);
+    }
+
+    .soft-border {
+      border: 1px solid rgba(130, 138, 235, 0.16);
+    }
+
+    .chip {
+      border: 1px solid rgba(134, 139, 220, 0.28);
+      background: rgba(43, 47, 91, 0.48);
+    }
+
+    .tool-card {
+      background: rgba(22, 24, 47, 0.88);
+      box-shadow: 0 10px 24px rgba(4, 6, 21, 0.38);
+    }
+  </style>
+</head>
+<body class="bg-mesh min-h-screen text-slate-100 font-sans antialiased">
+  <div class="fixed inset-0 pointer-events-none">
+    <div class="absolute -left-24 -top-28 h-80 w-80 rounded-full bg-indigo-500/30 blur-3xl"></div>
+    <div class="absolute -right-20 top-20 h-[24rem] w-[24rem] rounded-full bg-blue-500/20 blur-3xl"></div>
+    <div class="absolute bottom-[-12rem] left-1/3 h-80 w-80 rounded-full bg-violet-500/20 blur-3xl"></div>
+  </div>
+
+  <div class="relative mx-auto w-[min(1220px,calc(100%-1.2rem))] py-4">
+    <header class="glass rounded-2xl px-4 py-3 shadow-card topline">
+      <div class="flex items-center justify-between gap-3">
+        <a href="/#home" class="flex items-center gap-3">
+          <img src="{{ url_for('static', filename='images/Mael Logo.png') }}" alt="Ma&euml;l Logo" class="h-9 w-auto rounded-md object-contain" />
+          <span class="text-[13px] font-semibold tracking-[0.08em] text-slate-100">MM</span>
+        </a>
+
+        <button id="menuToggle" type="button" aria-label="Open menu" aria-expanded="false" class="inline-flex items-center justify-center rounded-xl soft-border bg-indigo-500/20 p-2 text-indigo-100 lg:hidden">
+          <i data-lucide="menu" class="h-5 w-5"></i>
+        </button>
+
+        <nav class="hidden items-center gap-7 text-[15px] text-slate-300 lg:flex">
+          <a class="transition hover:text-white" href="/#home">Home</a>
+          <a class="transition hover:text-white" href="/projects">Projects</a>
+          <a class="font-semibold text-white" href="/tools">Tools</a>
+          {% if current_user.is_authenticated %}
+          <a class="transition hover:text-white" href="/more-tools">More Tools</a>
+          {% if current_user.is_admin %}
+          <a class="transition hover:text-white" href="/user-admin">User Admin</a>
+          {% endif %}
+          {% endif %}
+          <a class="transition hover:text-white" href="/#about">About</a>
+        </nav>
+
+        <div class="hidden gap-2 lg:flex">
+          <a href="/contact" class="rounded-xl soft-border bg-indigo-500/18 px-4 py-2 text-center text-sm font-semibold text-indigo-100">Contact</a>
+          {% if current_user.is_authenticated %}
+          <a href="/logout" class="rounded-xl soft-border bg-slate-700/20 px-4 py-2 text-center text-sm font-semibold text-slate-200">Logout</a>
+          {% else %}
+          <a href="/login" class="rounded-xl soft-border bg-slate-700/20 px-4 py-2 text-center text-sm font-semibold text-slate-200">Login</a>
+          {% endif %}
+        </div>
+      </div>
+
+      <div id="mobileMenu" class="mt-3 hidden border-t border-indigo-300/20 pt-3 lg:hidden">
+        <nav class="grid gap-2 text-sm text-slate-200">
+          <a class="rounded-lg px-3 py-2 hover:bg-indigo-500/20" href="/#home">Home</a>
+          <a class="rounded-lg px-3 py-2 hover:bg-indigo-500/20" href="/projects">Projects</a>
+          <a class="rounded-lg bg-indigo-500/20 px-3 py-2 font-semibold text-white" href="/tools">Tools</a>
+          {% if current_user.is_authenticated %}
+          <a class="rounded-lg px-3 py-2 hover:bg-indigo-500/20" href="/more-tools">More Tools</a>
+          {% if current_user.is_admin %}
+          <a class="rounded-lg px-3 py-2 hover:bg-indigo-500/20" href="/user-admin">User Admin</a>
+          {% endif %}
+          {% endif %}
+          <a class="rounded-lg px-3 py-2 hover:bg-indigo-500/20" href="/#about">About</a>
+        </nav>
+        <div class="mt-3 grid grid-cols-2 gap-2">
+          <a href="/contact" class="rounded-lg soft-border bg-indigo-500/20 px-3 py-2 text-center text-sm font-semibold text-indigo-100">Contact</a>
+          {% if current_user.is_authenticated %}
+          <a href="/logout" class="rounded-lg soft-border bg-slate-700/25 px-3 py-2 text-center text-sm font-semibold text-slate-200">Logout</a>
+          {% else %}
+          <a href="/login" class="rounded-lg soft-border bg-slate-700/25 px-3 py-2 text-center text-sm font-semibold text-slate-200">Login</a>
+          {% endif %}
+        </div>
+      </div>
+    </header>
+
+    <main class="space-y-4 pt-2">
+      <section class="panel rounded-3xl p-6 lg:p-7">
+        <div class="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
+          <div>
+            <h1 class="font-display text-[34px] font-extrabold leading-tight text-white sm:text-[44px]">Tools</h1>
+            <p class="mt-3 max-w-2xl text-[17px] leading-relaxed text-slate-300">
+              Here are some powerful tools and apps I built. Explore them below.
+            </p>
+            {% if not current_user.is_authenticated %}
+            <p class="mt-2 text-[14px] text-slate-400">Login to unlock private tools and More Tools.</p>
+            {% endif %}
+          </div>
+
+          <label class="relative block w-full lg:max-w-md">
+            <i data-lucide="search" class="pointer-events-none absolute left-3 top-3.5 h-4 w-4 text-slate-400"></i>
+            <input type="text" placeholder="Search tools..." class="w-full rounded-xl soft-border bg-slate-900/35 py-3 pl-10 pr-10 text-sm text-slate-200 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-400/45" />
+            <i data-lucide="sliders-horizontal" class="pointer-events-none absolute right-3 top-3.5 h-4 w-4 text-slate-400"></i>
+          </label>
+        </div>
+      </section>
+
+      <section class="grid gap-4 lg:grid-cols-12">
+        <aside class="panel rounded-3xl p-4 lg:col-span-2">
+          <h2 class="mb-3 text-[12px] font-semibold uppercase tracking-[0.14em] text-slate-300">Categories</h2>
+          <ul class="space-y-2 text-[14px]">
+            <li class="rounded-xl bg-indigo-500/15 px-3 py-2 font-semibold text-white">All</li>
+            <li class="rounded-xl px-3 py-2 text-slate-200 hover:bg-indigo-500/10">Mods</li>
+            <li class="rounded-xl px-3 py-2 text-slate-200 hover:bg-indigo-500/10">Productivity</li>
+            <li class="rounded-xl px-3 py-2 text-slate-200 hover:bg-indigo-500/10">Networking</li>
+            <li class="rounded-xl px-3 py-2 text-slate-200 hover:bg-indigo-500/10">Security</li>
+            <li class="rounded-xl px-3 py-2 text-slate-200 hover:bg-indigo-500/10">Utilities</li>
+          </ul>
+        </aside>
+
+        <article class="panel rounded-3xl p-4 lg:col-span-10">
+          <div id="tools" class="mb-4 flex flex-wrap gap-2 border-b border-indigo-300/12 pb-4 text-[13px]">
+            <button class="rounded-lg bg-indigo-500/20 px-3 py-1.5 font-semibold text-white">All</button>
+            <button class="rounded-lg px-3 py-1.5 text-slate-300 hover:bg-indigo-500/15 hover:text-white">Mods</button>
+            <button class="rounded-lg px-3 py-1.5 text-slate-300 hover:bg-indigo-500/15 hover:text-white">Productivity</button>
+            <button class="rounded-lg px-3 py-1.5 text-slate-300 hover:bg-indigo-500/15 hover:text-white">Networking</button>
+            <button class="rounded-lg px-3 py-1.5 text-slate-300 hover:bg-indigo-500/15 hover:text-white">Security</button>
+            <button class="rounded-lg px-3 py-1.5 text-slate-300 hover:bg-indigo-500/15 hover:text-white">Utilities</button>
+          </div>
+
+          <div class="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
+            <article class="tool-card rounded-2xl p-4 ring-1 ring-indigo-300/12">
+              <div class="mb-2 flex items-start justify-between gap-2">
+                <div class="flex items-center gap-3">
+                  <span class="grid h-11 w-11 place-items-center rounded-xl bg-rose-500/20">
+                    <i data-lucide="youtube" class="h-5 w-5 text-rose-200"></i>
+                  </span>
+                  <h3 class="text-[23px] font-bold leading-none text-white">YouTube Downloader</h3>
+                </div>
+                <i data-lucide="more-horizontal" class="h-4 w-4 text-slate-400"></i>
+              </div>
+              <p class="text-[14px] leading-relaxed text-slate-300">Fast downloader for media export and offline workflow support.</p>
+              <div class="mt-3 flex flex-wrap gap-2 text-[11px]">
+                <span class="chip rounded-full px-2 py-1 text-indigo-100">Browser</span>
+                <span class="chip rounded-full px-2 py-1 text-indigo-100">API</span>
+                <span class="chip rounded-full px-2 py-1 text-indigo-100">Media</span>
+              </div>
+              <div class="mt-4 flex items-center justify-between">
+                <span class="text-[12px] text-slate-400">Python</span>
+                <button class="rounded-lg soft-border bg-indigo-500/18 px-4 py-1.5 text-[13px] font-semibold text-indigo-100">Open</button>
+              </div>
+            </article>
+
+            <article class="tool-card rounded-2xl p-4 ring-1 ring-indigo-300/12">
+              <div class="mb-2 flex items-start justify-between gap-2">
+                <div class="flex items-center gap-3">
+                  <span class="grid h-11 w-11 place-items-center rounded-xl bg-sky-500/20">
+                    <i data-lucide="twitter" class="h-5 w-5 text-sky-200"></i>
+                  </span>
+                  <h3 class="text-[23px] font-bold leading-none text-white">X Video Saver</h3>
+                </div>
+                <i data-lucide="more-horizontal" class="h-4 w-4 text-slate-400"></i>
+              </div>
+              <p class="text-[14px] leading-relaxed text-slate-300">Grab media from X and prepare clean downloadable exports.</p>
+              <div class="mt-3 flex flex-wrap gap-2 text-[11px]">
+                <span class="chip rounded-full px-2 py-1 text-indigo-100">Automation</span>
+                <span class="chip rounded-full px-2 py-1 text-indigo-100">API</span>
+                <span class="chip rounded-full px-2 py-1 text-indigo-100">SaaS</span>
+              </div>
+              <div class="mt-4 flex items-center justify-between">
+                <span class="text-[12px] text-slate-400">YouTube</span>
+                <button class="rounded-lg soft-border bg-indigo-500/18 px-4 py-1.5 text-[13px] font-semibold text-indigo-100">Open</button>
+              </div>
+            </article>
+
+            <article class="tool-card rounded-2xl p-4 ring-1 ring-indigo-300/12">
+              <div class="mb-2 flex items-start justify-between gap-2">
+                <div class="flex items-center gap-3">
+                  <span class="grid h-11 w-11 place-items-center rounded-xl bg-amber-500/20">
+                    <i data-lucide="music-2" class="h-5 w-5 text-amber-200"></i>
+                  </span>
+                  <h3 class="text-[23px] font-bold leading-none text-white">TikTok Downloader</h3>
+                </div>
+                <i data-lucide="more-horizontal" class="h-4 w-4 text-slate-400"></i>
+              </div>
+              <p class="text-[14px] leading-relaxed text-slate-300">Archive clips quickly with format controls and clean output.</p>
+              <div class="mt-3 flex flex-wrap gap-2 text-[11px]">
+                <span class="chip rounded-full px-2 py-1 text-indigo-100">Extract</span>
+                <span class="chip rounded-full px-2 py-1 text-indigo-100">Web</span>
+                <span class="chip rounded-full px-2 py-1 text-indigo-100">AAC</span>
+              </div>
+              <div class="mt-4 flex items-center justify-between">
+                <span class="text-[12px] text-slate-400">Python, Nmap</span>
+                <button class="rounded-lg soft-border bg-indigo-500/18 px-4 py-1.5 text-[13px] font-semibold text-indigo-100">Open</button>
+              </div>
+            </article>
+
+            {% if current_user.is_authenticated %}
+            <article class="tool-card rounded-2xl p-4 ring-1 ring-indigo-300/12">
+              <div class="mb-2 flex items-start justify-between gap-2">
+                <div class="flex items-center gap-3">
+                  <span class="grid h-11 w-11 place-items-center rounded-xl bg-fuchsia-500/20">
+                    <i data-lucide="reddit" class="h-5 w-5 text-fuchsia-200"></i>
+                  </span>
+                  <h3 class="text-[23px] font-bold leading-none text-white">Reddit Video Saver</h3>
+                </div>
+                <i data-lucide="more-horizontal" class="h-4 w-4 text-slate-400"></i>
+              </div>
+              <p class="text-[14px] leading-relaxed text-slate-300">Fast saving tool for Reddit media and threaded content capture.</p>
+              <div class="mt-3 flex flex-wrap gap-2 text-[11px]">
+                <span class="chip rounded-full px-2 py-1 text-indigo-100">Network</span>
+                <span class="chip rounded-full px-2 py-1 text-indigo-100">CLI</span>
+                <span class="chip rounded-full px-2 py-1 text-indigo-100">SaaS</span>
+              </div>
+              <div class="mt-4 flex items-center justify-between">
+                <span class="text-[12px] text-slate-400">Python, Nmap</span>
+                <button class="rounded-lg soft-border bg-indigo-500/18 px-4 py-1.5 text-[13px] font-semibold text-indigo-100">Open</button>
+              </div>
+            </article>
+
+            <article class="tool-card rounded-2xl p-4 ring-1 ring-indigo-300/12">
+              <div class="mb-2 flex items-start justify-between gap-2">
+                <div class="flex items-center gap-3">
+                  <span class="grid h-11 w-11 place-items-center rounded-xl bg-cyan-500/20">
+                    <i data-lucide="image" class="h-5 w-5 text-cyan-200"></i>
+                  </span>
+                  <h3 class="text-[23px] font-bold leading-none text-white">Image Resizer</h3>
+                </div>
+                <i data-lucide="more-horizontal" class="h-4 w-4 text-slate-400"></i>
+              </div>
+              <p class="text-[14px] leading-relaxed text-slate-300">Batch resize and export utility for image assets and previews.</p>
+              <div class="mt-3 flex flex-wrap gap-2 text-[11px]">
+                <span class="chip rounded-full px-2 py-1 text-indigo-100">Compression</span>
+                <span class="chip rounded-full px-2 py-1 text-indigo-100">UI</span>
+                <span class="chip rounded-full px-2 py-1 text-indigo-100">SaaS</span>
+              </div>
+              <div class="mt-4 flex items-center justify-between">
+                <span class="text-[12px] text-slate-400">Web Tooling</span>
+                <button class="rounded-lg soft-border bg-indigo-500/18 px-4 py-1.5 text-[13px] font-semibold text-indigo-100">Open</button>
+              </div>
+            </article>
+
+            <article class="tool-card rounded-2xl p-4 ring-1 ring-indigo-300/12">
+              <div class="mb-2 flex items-start justify-between gap-2">
+                <div class="flex items-center gap-3">
+                  <span class="grid h-11 w-11 place-items-center rounded-xl bg-pink-500/20">
+                    <i data-lucide="panel-top" class="h-5 w-5 text-pink-200"></i>
+                  </span>
+                  <h3 class="text-[23px] font-bold leading-none text-white">Thumbnail Maker</h3>
+                </div>
+                <i data-lucide="more-horizontal" class="h-4 w-4 text-slate-400"></i>
+              </div>
+              <p class="text-[14px] leading-relaxed text-slate-300">Template driven thumbnail generator for social and video channels.</p>
+              <div class="mt-3 flex flex-wrap gap-2 text-[11px]">
+                <span class="chip rounded-full px-2 py-1 text-indigo-100">UX</span>
+                <span class="chip rounded-full px-2 py-1 text-indigo-100">A/B</span>
+                <span class="chip rounded-full px-2 py-1 text-indigo-100">PNG</span>
+              </div>
+              <div class="mt-4 flex items-center justify-between">
+                <span class="text-[12px] text-slate-400">Python, Web</span>
+                <button class="rounded-lg soft-border bg-indigo-500/18 px-4 py-1.5 text-[13px] font-semibold text-indigo-100">Open</button>
+              </div>
+            </article>
+            {% endif %}
+          </div>
+
+          <div class="mt-5 flex justify-center">
+            {% if current_user.is_authenticated %}
+            <a href="/more-tools" class="rounded-xl border border-indigo-300/40 bg-gradient-to-r from-indigo-600 to-indigo-500 px-7 py-3 text-sm font-semibold text-white shadow-glow">
+              More Tools
+            </a>
+            {% else %}
+            <a href="/login?next=/tools" class="rounded-xl border border-indigo-300/40 bg-gradient-to-r from-indigo-600 to-indigo-500 px-7 py-3 text-sm font-semibold text-white shadow-glow">
+              Login for Private Tools
+            </a>
+            {% endif %}
+          </div>
+        </article>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    function initMobileMenu(toggleId, menuId) {
+      const toggle = document.getElementById(toggleId);
+      const menu = document.getElementById(menuId);
+      if (!toggle || !menu) return;
+
+      toggle.addEventListener("click", function () {
+        const isHidden = menu.classList.contains("hidden");
+        menu.classList.toggle("hidden", !isHidden);
+        toggle.setAttribute("aria-expanded", String(isHidden));
+      });
+
+      menu.querySelectorAll("a").forEach(function (link) {
+        link.addEventListener("click", function () {
+          menu.classList.add("hidden");
+          toggle.setAttribute("aria-expanded", "false");
+        });
+      });
+    }
+
+    lucide.createIcons();
+    initMobileMenu("menuToggle", "mobileMenu");
+  </script>
+</body>
+</html>
+

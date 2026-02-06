@@ -2,8 +2,11 @@
 
 Personal portfolio app with a Flask backend and a redesigned UI (dark glass style) for:
 - Home (`/`)
-- Projects & Tools (`/projects`)
+- Projects (`/projects`)
+- Tools (`/tools`)
+- More Tools (`/more-tools`, authenticated only)
 - Contact (`/contact`)
+- Login (`/login`)
 
 The repo also contains an optional Next.js frontend in `frontend/`.
 
@@ -18,7 +21,11 @@ The repo also contains an optional Next.js frontend in `frontend/`.
 
 ## What Was Recently Added
 
-- New route and page: `GET /projects` using `templates/projects.html`
+- New routes/pages:
+  - `GET /projects` (`templates/projects.html`)
+  - `GET /tools` (`templates/tools.html`)
+  - `GET /more-tools` (`templates/more_tools.html`, login required)
+  - `GET /login` and `GET /logout`
 - Mobile nav that collapses behind a menu button (`menuToggle` / `mobileMenu`)
 - Updated branding assets:
   - Header logo: `static/images/Mael Logo.png`
@@ -27,13 +34,20 @@ The repo also contains an optional Next.js frontend in `frontend/`.
   - JSON + form payload support
   - Honeypot field (`company`)
   - Minimum message length validation
+- Authentication hardening:
+  - SQLite-backed users
+  - Password hashing with Werkzeug
+  - Account lockout after failed attempts (no IP-based restriction)
 
 ## Project Structure (Important Files)
 
 - `main.py`: Flask app, routes, and `/send_email` API
 - `get_info.py`: SMTP send logic
 - `templates/index.html`: Home page
-- `templates/projects.html`: Projects & Tools page
+- `templates/projects.html`: Projects page (placeholder)
+- `templates/tools.html`: public/private tools page
+- `templates/more_tools.html`: private tools page
+- `templates/login.html`: login page
 - `templates/contact.html`: Contact page and frontend submit JS
 - `static/images/`: image assets (logo, hero, social images, etc.)
 - `env.example`: expected environment variables
@@ -61,8 +75,37 @@ python main.py
 Flask runs on:
 - `http://127.0.0.1:5000/`
 - `http://127.0.0.1:5000/projects`
+- `http://127.0.0.1:5000/tools`
+- `http://127.0.0.1:5000/login`
 - `http://127.0.0.1:5000/contact`
 - `http://127.0.0.1:5000/health`
+
+## Authentication and Database
+
+This project uses SQLite + Flask-Login.
+
+1. Install dependencies:
+```powershell
+pip install -r requirements.txt
+```
+
+2. Set admin credentials in your shell (or `.env` loader if you use one):
+```powershell
+$env:ADMIN_USERNAME="admin"
+$env:ADMIN_PASSWORD="change-this-password"
+```
+
+3. Initialize database and create admin user:
+```powershell
+python main.py init-db
+```
+
+4. Start app and login at `/login`.
+
+Auth behavior:
+- Failed login attempts are counted per existing user.
+- After `LOGIN_MAX_ATTEMPTS`, account is locked for `LOGIN_LOCKOUT_MINUTES`.
+- No IP-based rate limiting is used.
 
 ## API Contract
 
