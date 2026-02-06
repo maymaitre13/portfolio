@@ -90,6 +90,39 @@ class User(UserMixin, db.Model):
         return self.enabled
 
 
+class UserSession(db.Model):
+    __tablename__ = "user_sessions"
+
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=True, index=True)
+    username = db.Column(db.String(120), nullable=False)
+    login_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    logout_at = db.Column(db.DateTime, nullable=True)
+    status = db.Column(db.String(24), nullable=False, default="active")
+    login_ip = db.Column(db.String(64), nullable=True)
+    logout_ip = db.Column(db.String(64), nullable=True)
+    user_agent = db.Column(db.String(255), nullable=True)
+
+
+class AuthEvent(db.Model):
+    __tablename__ = "auth_events"
+
+    id = db.Column(db.Integer, primary_key=True)
+    created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow, index=True)
+    username = db.Column(db.String(120), nullable=True, index=True)
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=True, index=True)
+    event_type = db.Column(db.String(48), nullable=False)
+    status = db.Column(db.String(32), nullable=False)
+    success = db.Column(db.Boolean, nullable=False, default=False)
+    reason = db.Column(db.String(255), nullable=True)
+    ip_address = db.Column(db.String(64), nullable=True)
+    user_agent = db.Column(db.String(255), nullable=True)
+    request_path = db.Column(db.String(255), nullable=True)
+    session_record_id = db.Column(
+        db.Integer, db.ForeignKey("user_sessions.id"), nullable=True, index=True
+    )
+
+
 @login_manager.user_loader
 def load_user(user_id):
     return db.session.get(User, int(user_id))
@@ -98,6 +131,42 @@ def load_user(user_id):
 @login_manager.unauthorized_handler
 def unauthorized():
     return redirect(url_for("login", next=request.path))
+
+
+def _client_ip():
+    forwarded_for = (request.headers.get("X-Forwarded-For") or "").split(",")[0].strip()
+    return forwarded_for or request.remote_addr or ""
+
+
+def _user_agent():
+    value = request.user_agent.string if request.user_agent else ""
+    return (value or "")[:255]
+
+
+def add_auth_event(
+    *,
+    event_type,
+    status,
+    success,
+    username="",
+    user=None,
+    reason="",
+    session_record_id=None,
+):
+    event = AuthEvent(
+        username=(username or getattr(user, "username", "") or "")[:120],
+        user_id=getattr(user, "id", None),
+        event_type=event_type[:48],
+        status=status[:32],
+        success=bool(success),
+        reason=(reason or "")[:255] or None,
+        ip_address=_client_ip()[:64] or None,
+        user_agent=_user_agent()[:255] or None,
+        request_path=(request.path or "")[:255] or None,
+        session_record_id=session_record_id,
+    )
+    db.session.add(event)
+    return event
 
 
 def ensure_schema_columns():
@@ -208,7 +277,17 @@ def user_admin():
         users_query = users_query.filter(User.username.ilike(f"%{query_text}%"))
 
     users = users_query.order_by(User.username.asc()).all()
-    return rt("user_admin.html", users=users, q=query_text, error=error, success=success)
+    recent_auth_events = AuthEvent.query.order_by(AuthEvent.created_at.desc()).limit(50).all()
+    recent_sessions = UserSession.query.order_by(UserSession.login_at.desc()).limit(30).all()
+    return rt(
+        "user_admin.html",
+        users=users,
+        q=query_text,
+        error=error,
+        success=success,
+        recent_auth_events=recent_auth_events,
+        recent_sessions=recent_sessions,
+    )
 
 
 @app.route("/user-admin/create", methods=["POST"])
@@ -234,6 +313,15 @@ def user_admin_create():
     user = User(username=username, enabled=enabled, is_admin=is_admin)
     user.set_password(password)
     db.session.add(user)
+    db.session.flush()
+    add_auth_event(
+        event_type="user_create",
+        status="success",
+        success=True,
+        username=user.username,
+        user=user,
+        reason=f"created_by:{current_user.username}",
+    )
     db.session.commit()
     return redirect(url_for("user_admin", success="User created."))
 
@@ -271,6 +359,14 @@ def user_admin_update(user_id):
             )
         user.set_password(password)
 
+    add_auth_event(
+        event_type="user_update",
+        status="success",
+        success=True,
+        username=user.username,
+        user=user,
+        reason=f"updated_by:{current_user.username}",
+    )
     db.session.commit()
     return redirect(url_for("user_admin", success="User updated."))
 
@@ -285,7 +381,15 @@ def user_admin_delete(user_id):
     if user.id == current_user.id:
         return redirect(url_for("user_admin", error="You cannot delete your own account."))
 
+    target_username = user.username
     db.session.delete(user)
+    add_auth_event(
+        event_type="user_delete",
+        status="success",
+        success=True,
+        username=target_username,
+        reason=f"deleted_by:{current_user.username}",
+    )
     db.session.commit()
     return redirect(url_for("user_admin", success="User deleted."))
 
@@ -310,20 +414,57 @@ def login():
         user = User.query.filter_by(username=username).first() if username else None
 
         if user and user.is_locked():
+            add_auth_event(
+                event_type="login_locked",
+                status="locked",
+                success=False,
+                username=username,
+                user=user,
+                reason="account_locked",
+            )
+            db.session.commit()
             error = "Account temporarily locked. Please try again later."
             return rt("login.html", error=error, next_url=next_url), 429
 
         if not user or not user.enabled or not user.check_password(password):
+            reason = "disabled_account" if (user and not user.enabled) else "invalid_credentials"
             if user:
                 user.register_failed_login()
-                db.session.commit()
+            add_auth_event(
+                event_type="login_failed",
+                status="failed",
+                success=False,
+                username=username,
+                user=user,
+                reason=reason,
+            )
+            db.session.commit()
             error = "Invalid credentials."
             return rt("login.html", error=error, next_url=next_url), 401
 
         user.reset_login_failures()
-        db.session.commit()
         login_user(user)
         session.permanent = True
+        new_session = UserSession(
+            user_id=user.id,
+            username=user.username,
+            status="active",
+            login_ip=_client_ip()[:64] or None,
+            user_agent=_user_agent()[:255] or None,
+        )
+        db.session.add(new_session)
+        db.session.flush()
+        session["auth_session_id"] = new_session.id
+        add_auth_event(
+            event_type="login_success",
+            status="success",
+            success=True,
+            username=user.username,
+            user=user,
+            reason="credentials_valid",
+            session_record_id=new_session.id,
+        )
+        db.session.commit()
 
         if _safe_next_url(next_url):
             return redirect(next_url)
@@ -335,6 +476,27 @@ def login():
 @app.route("/logout")
 @login_required
 def logout():
+    auth_session_id = session.pop("auth_session_id", None)
+    username = current_user.username
+    user_id = current_user.id
+
+    if auth_session_id:
+        active_session = db.session.get(UserSession, int(auth_session_id))
+        if active_session and active_session.user_id == user_id:
+            active_session.logout_at = datetime.utcnow()
+            active_session.status = "closed"
+            active_session.logout_ip = _client_ip()[:64] or None
+
+    add_auth_event(
+        event_type="logout",
+        status="success",
+        success=True,
+        username=username,
+        user=current_user,
+        reason="user_logout",
+        session_record_id=auth_session_id,
+    )
+    db.session.commit()
     logout_user()
     return redirect(url_for("home"))
 
