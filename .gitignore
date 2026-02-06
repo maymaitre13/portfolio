@@ -1,0 +1,18 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv*/
+Env/
+
+# Local environment files
+.env
+.env.*
+!.env.example
+
+# Frontend build artifacts
+frontend/node_modules/
+frontend/.next/
+
+# Editor/project files
+.idea/
+.vscode/

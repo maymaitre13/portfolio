@@ -1,0 +1,31 @@
+/* Contact page specific styles */
+
+.contact-hero {
+  background: radial-gradient(1000px 600px at 10% -10%, rgba(99,102,241,.2), transparent 60%),
+              radial-gradient(800px 500px at 110% 0%, rgba(16,185,129,.18), transparent 55%);
+}
+
+.contact-icon {
+  width: 28px;
+  height: 28px;
+  object-fit: cover;
+}
+
+.contact-icon--round {
+  border-radius: 6px;
+}
+
+.list-group-item {
+  border: 1px solid rgba(255,255,255,0.08) !important;
+}
+
+.form-floating > label { color: #adb5bd; }
+.form-floating > .form-control, .form-floating > .form-control:focus, .form-floating > .form-control:active {
+  background-color: rgba(255,255,255,0.02);
+  border-color: rgba(255,255,255,0.12);
+}
+
+.btn-primary {
+  box-shadow: 0 6px 20px rgba(37,99,235,0.25);
+}
+

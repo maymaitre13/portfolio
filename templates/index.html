@@ -1,614 +1,245 @@
-<!DOCTYPE HTML>
-<html>
-	<head>
-		<title>Maël Maître</title>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-		<link rel="stylesheet" href="static/assets/css/index.css" />
-		<link rel="stylesheet" href="static/assets/css/main.css" />
-		<link rel="stylesheet" href="static/assets/css/theme.css" />
-		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
-		<link rel="stylesheet" href="static/assets/css/skills.css" />
-		<link href="https://fonts.googleapis.com/css2?family=Macondo&display=swap" rel="stylesheet">
-		<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
-		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
-		<link href="https://fonts.googleapis.com/css2?family=Righteous&display=swap" rel="stylesheet">
-		<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
-		
-		
-		<noscript><link rel="stylesheet" href="static/assets/css/noscript.css" /></noscript>
-	</head>
-	<body class="is-preload cl_contact">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mael Maitre | Portfolio</title>
 
-		<!-- Wrapper-->
-			<div id="wrapper">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ["Space Grotesk", "ui-sans-serif", "system-ui"],
+            display: ["Sora", "Space Grotesk", "ui-sans-serif"]
+          },
+          colors: {
+            accent: "#6f63ff",
+            accent2: "#8e81ff"
+          },
+          boxShadow: {
+            glow: "0 0 35px rgba(125, 114, 255, 0.22)",
+            card: "0 14px 36px rgba(6, 8, 24, 0.42)"
+          }
+        }
+      }
+    };
+  </script>
 
-				<!-- Nav -->
-					<nav id="nav">
-						<a href="#" class="icon solid fa-home"><span>Home</span></a>
-						<a href="#work" class="icon solid fa-folder"><span>Skills</span></a>
-						<a href="#tools" class="icon solid fa-wrench"><span>Project/Tools</span></a>
-						<a href="contact" class="icon solid fa-comments" target="_blank"><span>Contact</span></a>
-					</nav>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://unpkg.com/lucide@latest"></script>
 
-				<!-- Main -->
-					<div id="main">
+  <style>
+    .bg-mesh {
+      background:
+        radial-gradient(1050px 560px at 22% 18%, rgba(103, 88, 255, 0.26), transparent 60%),
+        radial-gradient(760px 440px at 86% 26%, rgba(66, 105, 255, 0.18), transparent 62%),
+        linear-gradient(165deg, #05050b, #090a16 46%, #070711 100%);
+    }
 
-						<!-- Me -->
-							<article id="home" class="panel intro">
-								<header>
-									
-									<div class="about-me__info--para buttom">
+    .glass {
+      background: rgba(15, 16, 32, 0.76);
+      backdrop-filter: blur(6px);
+    }
 
-										<h2 class="about-me__info--title buttom">
-											Hey, I'm Maël Maître
-										</h2>
-										<br>
-      
-										Telecom professional with over a decade of experience since <time datetime="2012">2012</time>. 
-										Experienced <strong>NOC Engineer</strong> and <strong>Network Management System Engineer</strong> with strong skills in 
-										<strong>Network Administration</strong> and <strong>Coding</strong>. 
-										Holder of a Computer Science degree from <b>INUKA / UQAM</b>.
-									</div> 
+    .topline {
+      border-bottom: 1px solid rgba(124, 126, 188, 0.2);
+    }
 
-									
-								</header>
-								<a href="#work" class="jumplink pic">
-									<img src="static/images/mael.png" alt="" />
-								</a>
-							</article>
+    .panel {
+      background: rgba(16, 18, 38, 0.78);
+      backdrop-filter: blur(6px);
+      box-shadow: 0 14px 36px rgba(6, 8, 24, 0.42);
+    }
 
-						<!-- Work -->
-							<article id="work" class="panel">
-								<header>
-									<h2>My skills</h2>
-								</header>
+    .soft-border {
+      border: 1px solid rgba(130, 138, 235, 0.16);
+    }
 
-								<!-- New Skills Grid -->
-								<section class="skills-section py-4" id="skills" aria-labelledby="skills-title">
-								  <div class="container">
-    <!-- header intentionally minimal per request (no subtitle) -->
+    .chip {
+      border: 1px solid rgba(134, 139, 220, 0.28);
+      background: rgba(43, 47, 91, 0.48);
+    }
 
-								    <div class="row g-4">
-								      <!-- Network Admin -->
-								      <div class="col-12 col-md-6 col-lg-4">
-        <article class="skill-card acc-cyan h-100">
-          <div class="d-flex align-items-center gap-3 mb-2">
-            <img class="skill-icon" src="static/images/networking.png" alt="Network Admin icon" />
-            <h3 class="skill-title mb-0">Network Admin</h3>
+    .timeline-line::before {
+      content: "";
+      position: absolute;
+      left: 12px;
+      top: 28px;
+      width: 2px;
+      height: calc(100% - 10px);
+      background: linear-gradient(180deg, rgba(118, 110, 255, 0.65), rgba(118, 110, 255, 0));
+    }
+  </style>
+</head>
+<body class="bg-mesh min-h-screen text-slate-100 font-sans antialiased">
+  <div class="fixed inset-0 pointer-events-none">
+    <div class="absolute -left-24 -top-28 h-80 w-80 rounded-full bg-indigo-500/30 blur-3xl"></div>
+    <div class="absolute -right-20 top-20 h-[24rem] w-[24rem] rounded-full bg-blue-500/20 blur-3xl"></div>
+    <div class="absolute bottom-[-12rem] left-1/3 h-80 w-80 rounded-full bg-violet-500/20 blur-3xl"></div>
+  </div>
+
+  <div class="relative mx-auto w-[min(1220px,calc(100%-1.2rem))] py-4">
+    <header class="glass rounded-2xl px-4 py-3 shadow-card topline">
+      <div class="flex items-center justify-between gap-3">
+        <a href="#home" class="flex items-center gap-3">
+          <img src="{{ url_for('static', filename='images/Mael Logo.png') }}" alt="Mael Logo" class="h-9 w-auto rounded-md object-contain" />
+          <span class="text-[13px] font-semibold tracking-[0.08em] text-slate-100">MM</span>
+        </a>
+
+        <button id="menuToggle" type="button" aria-label="Open menu" aria-expanded="false" class="inline-flex items-center justify-center rounded-xl soft-border bg-indigo-500/20 p-2 text-indigo-100 lg:hidden">
+          <i data-lucide="menu" class="h-5 w-5"></i>
+        </button>
+
+        <nav class="hidden items-center gap-7 text-[15px] text-slate-300 lg:flex">
+          <a class="font-semibold text-white" href="#home">Home</a>
+          <a class="transition hover:text-white" href="/projects">Projects</a>
+          <a class="transition hover:text-white" href="/projects#tools">Tools</a>
+          <a class="transition hover:text-white" href="#about">About</a>
+        </nav>
+
+        <div class="hidden gap-2 lg:flex">
+          <a href="/contact" class="rounded-xl soft-border bg-indigo-500/18 px-4 py-2 text-center text-sm font-semibold text-indigo-100">Contact</a>
+          <a href="#" class="rounded-xl soft-border bg-slate-700/20 px-4 py-2 text-center text-sm font-semibold text-slate-200">Login</a>
+        </div>
+      </div>
+
+      <div id="mobileMenu" class="mt-3 hidden border-t border-indigo-300/20 pt-3 lg:hidden">
+        <nav class="grid gap-2 text-sm text-slate-200">
+          <a class="rounded-lg bg-indigo-500/20 px-3 py-2 font-semibold text-white" href="#home">Home</a>
+          <a class="rounded-lg px-3 py-2 hover:bg-indigo-500/20" href="/projects">Projects</a>
+          <a class="rounded-lg px-3 py-2 hover:bg-indigo-500/20" href="/projects#tools">Tools</a>
+          <a class="rounded-lg px-3 py-2 hover:bg-indigo-500/20" href="#about">About</a>
+        </nav>
+        <div class="mt-3 grid grid-cols-2 gap-2">
+          <a href="/contact" class="rounded-lg soft-border bg-indigo-500/20 px-3 py-2 text-center text-sm font-semibold text-indigo-100">Contact</a>
+          <a href="#" class="rounded-lg soft-border bg-slate-700/25 px-3 py-2 text-center text-sm font-semibold text-slate-200">Login</a>
+        </div>
+      </div>
+    </header>
+
+    <main class="space-y-4 pt-2">
+      <section id="home" class="grid gap-4 lg:grid-cols-12">
+        <article class="panel rounded-3xl p-7 sm:p-9 lg:col-span-6">
+          <h1 class="font-display text-[42px] font-extrabold leading-tight text-white sm:text-[56px]">Hi, I am Mael Maitre.</h1>
+          <h2 class="mt-2 font-display text-[34px] font-semibold leading-tight text-white sm:text-[44px]">Cyber Security Expert</h2>
+          <h2 class="mt-1 font-display text-[34px] font-semibold leading-tight text-white sm:text-[44px]">&amp; Software Creator</h2>
+          <p class="mt-5 max-w-2xl text-[16px] leading-relaxed text-slate-300">I build secure and innovative tools to solve real world operational problems.</p>
+          <div class="mt-7 flex flex-wrap gap-3">
+            <a href="/projects" class="rounded-xl border border-indigo-300/45 bg-gradient-to-r from-indigo-600 to-indigo-500 px-6 py-3 text-sm font-semibold text-white shadow-glow">View My Projects</a>
           </div>
-          <ul class="skill-list mb-0">
-            <li>VLANs, trunking, routing basics</li>
-            <li>Switch/router configuration & backups</li>
-            <li>Monitoring (SNMP, syslog, NetFlow)</li>
-            <li>Troubleshoot latency & packet loss</li>
-            <li>Document network topologies</li>
-          </ul>
         </article>
-								      </div>
 
-								      <!-- System Admin -->
-								      <div class="col-12 col-md-6 col-lg-4">
-        <article class="skill-card acc-indigo h-100">
-          <div class="d-flex align-items-center gap-3 mb-2">
-            <img class="skill-icon" src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/icons/hdd-stack.svg" alt="System Admin icon" />
-            <h3 class="skill-title mb-0">System Admin</h3>
+        <figure class="panel rounded-3xl p-3 lg:col-span-6">
+          <img src="{{ url_for('static', filename='images/Mael Maitre.png') }}" alt="Portrait of Mael Maitre" class="h-full w-full rounded-2xl object-cover" />
+        </figure>
+      </section>
+
+      <section class="grid gap-4 xl:grid-cols-12">
+        <article id="about" class="panel rounded-3xl p-6 lg:p-7 xl:col-span-6">
+          <h2 class="font-display text-[38px] font-extrabold text-white">About Me</h2>
+          <p class="mt-3 max-w-3xl text-[16px] leading-relaxed text-slate-300">Passionate IT professional with extensive experience in cyber security, automation, and creating practical tools in Python and JavaScript.</p>
+
+          <h2 id="projects" class="mt-8 font-display text-[38px] font-extrabold text-white">Skills</h2>
+          <div class="mt-4 grid gap-3 sm:grid-cols-2">
+            <article class="rounded-2xl bg-slate-900/35 p-4 ring-1 ring-indigo-300/12">
+              <h3 class="text-[22px] font-bold leading-none text-white">Networking</h3>
+              <p class="mt-2 text-[14px] leading-relaxed text-slate-300">Routing, switching, and observability workflows.</p>
+              <div class="mt-3 flex flex-wrap gap-2 text-[11px] text-indigo-100">
+                <span class="chip rounded-full px-2 py-1">NOC</span>
+                <span class="chip rounded-full px-2 py-1">SNMP</span>
+                <span class="chip rounded-full px-2 py-1">SLA</span>
+              </div>
+            </article>
+
+            <article class="rounded-2xl bg-slate-900/35 p-4 ring-1 ring-indigo-300/12">
+              <h3 class="text-[22px] font-bold leading-none text-white">Automation</h3>
+              <p class="mt-2 text-[14px] leading-relaxed text-slate-300">Python-driven tools for stable operations.</p>
+              <div class="mt-3 flex flex-wrap gap-2 text-[11px] text-indigo-100">
+                <span class="chip rounded-full px-2 py-1">Python</span>
+                <span class="chip rounded-full px-2 py-1">API</span>
+                <span class="chip rounded-full px-2 py-1">Scripts</span>
+              </div>
+            </article>
+
+            <article class="rounded-2xl bg-slate-900/35 p-4 ring-1 ring-indigo-300/12">
+              <h3 class="text-[22px] font-bold leading-none text-white">Linux Security</h3>
+              <p class="mt-2 text-[14px] leading-relaxed text-slate-300">Hardening baselines and patch discipline.</p>
+              <div class="mt-3 flex flex-wrap gap-2 text-[11px] text-indigo-100">
+                <span class="chip rounded-full px-2 py-1">Audit</span>
+                <span class="chip rounded-full px-2 py-1">UFW</span>
+                <span class="chip rounded-full px-2 py-1">Logs</span>
+              </div>
+            </article>
+
+            <article class="rounded-2xl bg-slate-900/35 p-4 ring-1 ring-indigo-300/12">
+              <h3 class="text-[22px] font-bold leading-none text-white">Web Development</h3>
+              <p class="mt-2 text-[14px] leading-relaxed text-slate-300">Flask and modern UI with clean APIs.</p>
+              <div class="mt-3 flex flex-wrap gap-2 text-[11px] text-indigo-100">
+                <span class="chip rounded-full px-2 py-1">Flask</span>
+                <span class="chip rounded-full px-2 py-1">JS</span>
+                <span class="chip rounded-full px-2 py-1">UX</span>
+              </div>
+            </article>
           </div>
-          <ul class="skill-list mb-0">
-            <li>Windows & Linux server provisioning</li>
-            <li>User/group management & IAM</li>
-            <li>Backup, restore, and patching</li>
-            <li>AD/DNS/DHCP configuration</li>
-            <li>SLA and uptime monitoring</li>
-          </ul>
-        </article>
-								      </div>
 
-								      <!-- Linux Admin -->
-								      <div class="col-12 col-md-6 col-lg-4">
-        <article class="skill-card acc-orange h-100">
-          <div class="d-flex align-items-center gap-3 mb-2">
-            <img class="skill-icon" src="static/images/Linux.png" alt="Linux Admin icon" />
-            <h3 class="skill-title mb-0">Linux Admin</h3>
+          <a href="/projects#tools" class="mt-5 inline-flex rounded-xl border border-indigo-300/42 bg-gradient-to-r from-indigo-600 to-indigo-500 px-6 py-3 text-sm font-semibold text-white shadow-glow">View All Projects</a>
+        </article>
+
+        <article class="panel rounded-3xl p-6 lg:p-7 xl:col-span-3">
+          <h2 class="font-display text-[38px] font-extrabold text-white">Experience</h2>
+          <div class="mt-4 space-y-3">
+            <div class="rounded-xl bg-slate-900/35 p-3 ring-1 ring-indigo-300/12">
+              <p class="text-[20px] font-semibold leading-tight text-white">2021 &ndash; Present</p>
+              <p class="mt-1 text-[14px] text-slate-300">Cyber Security Analyst</p>
+            </div>
+            <div class="rounded-xl bg-slate-900/35 p-3 ring-1 ring-indigo-300/12">
+              <p class="text-[20px] font-semibold leading-tight text-white">2019 &ndash; 2021</p>
+              <p class="mt-1 text-[14px] text-slate-300">NMS Developer</p>
+            </div>
+            <div class="rounded-xl bg-slate-900/35 p-3 ring-1 ring-indigo-300/12">
+              <p class="text-[20px] font-semibold leading-tight text-white">2012 &ndash; 2019</p>
+              <p class="mt-1 text-[14px] text-slate-300">NOC and Telecom Ops</p>
+            </div>
           </div>
-          <ul class="skill-list mb-0">
-            <li>Shell scripting & automation</li>
-            <li>Systemd services & log analysis</li>
-            <li>Package management (apt/yum/dnf)</li>
-            <li>Firewall (ufw, iptables) & hardening</li>
-            <li>Filesystem and permissions management</li>
-          </ul>
         </article>
-								      </div>
 
-								      <!-- Web Dev -->
-								      <div class="col-12 col-md-6 col-lg-4">
-        <article class="skill-card acc-purple h-100">
-          <div class="d-flex align-items-center gap-3 mb-2">
-            <img class="skill-icon" src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/icons/code-slash.svg" alt="Web Dev icon" />
-            <h3 class="skill-title mb-0">Web Dev</h3>
+        <article class="panel rounded-3xl p-6 lg:p-7 xl:col-span-3">
+          <h2 id="tools" class="font-display text-[38px] font-extrabold text-white">Certifications</h2>
+          <div class="mt-4 space-y-2">
+            <a href="#" class="block rounded-xl bg-slate-900/35 px-4 py-3 text-[16px] text-slate-100 ring-1 ring-indigo-300/12">Network</a>
+            <a href="#" class="block rounded-xl bg-slate-900/35 px-4 py-3 text-[16px] text-slate-100 ring-1 ring-indigo-300/12">Security</a>
           </div>
-          <ul class="skill-list mb-0">
-            <li>Responsive UI with HTML, CSS, Bootstrap</li>
-            <li>JavaScript interactivity & forms</li>
-            <li>Flask routing & Jinja templates</li>
-            <li>REST API integration & JSON handling</li>
-            <li>Linux deployment (Gunicorn/Nginx)</li>
-          </ul>
         </article>
-								      </div>
-
-								      <!-- Python -->
-								      <div class="col-12 col-md-6 col-lg-4">
-        <article class="skill-card acc-yellow h-100">
-          <div class="d-flex align-items-center gap-3 mb-2">
-            <img class="skill-icon" src="static/images/Python.svg" alt="Python icon" />
-            <h3 class="skill-title mb-0">Python</h3>
-          </div>
-          <ul class="skill-list mb-0">
-            <li>Automation scripts & CLI tools</li>
-            <li>Data parsing (CSV, JSON)</li>
-            <li>API requests with requests</li>
-            <li>Virtualenv or Poetry management</li>
-            <li>Testing with pytest</li>
-          </ul>
-        </article>
-								      </div>
-
-								      <!-- Cybersecurity -->
-								      <div class="col-12 col-md-6 col-lg-4">
-        <article class="skill-card acc-teal h-100">
-          <div class="d-flex align-items-center gap-3 mb-2">
-            <img class="skill-icon" src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/icons/shield-lock.svg" alt="Cybersecurity icon" />
-            <h3 class="skill-title mb-0">Cybersecurity</h3>
-          </div>
-          <ul class="skill-list mb-0">
-            <li>Principle of least privilege</li>
-            <li>Patch & vulnerability management</li>
-            <li>Secure configuration & secrets handling</li>
-            <li>Network segmentation & firewalls</li>
-            <li>Log review & incident response basics</li>
-          </ul>
-        </article>
-								      </div>
-								    </div>
-								  </div>
-								</section>
-
-								<!-- Legacy section hidden by skills.css to keep markup light -->
-								<section class="skill_class">
-									<div id="languages">
-										<div class="container">
-											<div class="row">
-												<h1 class="section__title"><strong class="text--purple other-font">Web Development skills</strong></h1>
-												<div class="language__list">
-													<div class="language">
-														<figure class="language__img--wrapper">
-
-															<img
-															src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/HTML5_Badge.svg/240px-HTML5_Badge.svg.png"
-															alt="Html Logo" class="language__img" />
-														</figure>
-														<span class="language__name">HTML</span>
-														</div>
-
-														<div class="language">
-
-														<figure class="language__img--wrapper">
-															<img src="https://cdn.iconscout.com/icon/free/png-256/css-131-722685.png" alt="CSS Logo"
-															class="language__img" />
-														</figure>
-														<span class="language__name">CSS</span>
-														</div>
-
-														<div class="language">
-
-														<figure class="language__img--wrapper">
-															<img src="https://cdn.iconscout.com/icon/free/png-256/javascript-1-225993.png" alt="JavaScript Logo"
-															class="language__img" />
-														</figure>
-														<span class="language__name">JavaScript</span>
-														</div>
-
-														<div class="language">
-
-														<figure class="language__img--wrapper">
-															<img src="static/images/git.png"
-															alt="TypeScript Logo" class="language__img" />
-														</figure>
-														<span class="language__name">Git</span>
-														</div>
-
-														<div class="language">
-
-														<figure class="language__img--wrapper">
-															<img src="static/images/php.png" alt="React Logo"
-															class="language__img" />
-														</figure>
-														<span class="language__name">PHP</span>
-														</div>
-
-														<div class="language">
-
-														<figure class="language__img--wrapper">
-															<img src="static/images/Python.svg" alt="React Logo" 
-															class="language__img" />
-														</figure>
-
-														<span class="language__name">Python</span>
-														</div>
-
-												</div>
-											</div>
-
-										</div>
-
-										<hr class="the_hr">
-
-										<div class="container container-2">
-											<div class="row">
-
-												<h1 class="section__title"><strong class="text--blue other-font">Computer Sciences skills</strong></h1>
-
-												<div class="language__list">
-
-												<div class="skills">
-
-													<div class="child--help">
-
-													<div class="child">
-
-														<div class="click">👋 Click here <span class="wave">👋</span></div>
-
-														<figure class="language__img--wrapper">
-
-														<img
-															src="static/images/networking.png"
-															alt="Html Logo" class="language__img" />
-
-														</figure>
-
-													</div>
-
-													
-
-													<div class="child--description">
-
-														
-
-														<h3>Computer Networking</h3>
-
-														<div class="descrip">
-
-														<ul>
-
-															<li>Networking device and cabling</li>
-
-															<hr>
-
-															<li>Network planning & designing process</li>
-
-															<hr>
-
-															<li>IP addressing & subnetting</li>
-
-															<hr>
-
-															<li>Cisco router & and Switch configuration</li>
-
-															<hr>
-
-															<li>OSI & TCP/IP</li>
-
-															<hr>
-
-															<li>Wireless networking</li>
-
-														</ul>
-
-														</div>
-
-													</div>
-
-													</div>
-
-													<div class="child--help">
-
-													<div class="child">
-
-														<div class="click">👋 Click here <span class="wave">👋</span></div>
-
-														<figure class="language__img--wrapper">
-
-														<img src="static/images/Linux.png" alt="CSS Logo"
-
-															class="language__img" />
-
-														</figure>
-
-													</div>
-
-													<div class="child--description">
-
-														<h3>Linux</h3>
-
-														<div class="descrip">
-
-														<ul>
-
-															<li>System Access and File System</li>
-
-															<hr>
-
-															<li>System Administration</li>
-
-															<hr>
-
-															<li>Shell Scripting</li>
-
-															<hr>
-
-															<li>Networking, Servers and System Updates</li>
-
-															<hr>
-
-															<li>Disk Management and Run Levels</li>
-
-														</ul>
-
-														</div>
-
-													</div>
-
-													</div>  
-
-													<div class="child--help">
-
-													<div class="child">
-
-														<div class="click">👋 Click here <span class="wave">👋</span></div>
-
-														<figure class="language__img--wrapper">
-
-														<img src="static/images/Network_admin.png" alt="JavaScript Logo"
-
-															class="language__img" />
-
-														</figure>
-
-													</div>
-
-													<div class="child--description">
-
-														<h3>Network Admin</h3>
-
-														<div class="descrip">
-
-														<ul>
-
-															<li>Windows Server Administration</li>
-
-															<hr>
-
-															<li>Active Directory Domain Services</li>
-
-															<hr>
-
-															<li>Implementing and managing DHCP and DNS</li>
-
-															<hr>
-
-															<li>Managing file Servers and Storage</li>
-
-															<hr>
-
-															<li>Implementing VPN</li>
-
-															<hr>
-
-															<li>Performance Monitoring</li>
-
-														</ul>
-
-														</div>
-
-													</div>
-
-													</div>
-
-													<div class="child--help">
-
-													<div class="child">
-
-														<div class="click">👋 Click here <span class="wave">👋</span></div>
-
-														<figure class="language__img--wrapper">
-
-														<img src="static/images/telecom.png" alt="JavaScript Logo"
-
-															class="language__img" />
-
-														</figure>
-
-														
-
-													</div>
-
-													<div class="child--description">
-
-														<h3>Telecommunication</h3>
-
-														<br>
-
-														<div class="descrip">
-
-														NOC Engineer <br>&<br> Radio Frequency Design Engineer <br><br>
-
-														<span> LinkedIn profile for more info -></span>
-
-														<a href="https://www.linkedin.com/in/ma%C3%ABl-ma%C3%AEtre-9318a983/" target="_blank" class="about-me__link">
-
-															<i class="fab fa-brands fa-linkedin-in"></i>
-
-														</a>
-
-														</div>
-
-													</div>
-
-													</div>    
-
-												</div>
-
-											</div>  
-
-											</div>
-
-										</div>
-
-									</div>
-
-								</section>
-
-							</article>
-
-						<!-- Tools -->
-
-							<article id="tools" class="panel">
-
-								<header>
-
-									<h2>Project and Tools</h2>
-
-								</header>
-
-								<section class="tool-list">
-
-									<h5 style="color: red;">No tools for now</h5>
-
-								</section>
-
-							</article>
-
-						
-
-								<!-- Contact me -->
-
-								<article id="contact" class="panel">
-
-									<header>
-
-										<h2>Contact me</h2>
-
-									</header>
-
-									<section>
-
-										<div class="row row-cols-1 row-cols-sm-2 g-4">
-
-											<div class="col d-flex flex-column gap-2">
-
-												
-
-												<div class="feature-icon-small d-inline-flex align-items-center justify-content-center bg-gradient fs-4 rounded-3">
-
-													<a href="https://twitter.com/maelmaitre/" target="_blank"><img src="/static/images/twitter.png" alt="" class="img_contact"></a>
-
-												</div>
-
-												<a href="https://twitter.com/maelmaitre/" target="_blank"><h4 class="fw-semibold mb-0 text-body-emphasis">Twitter</h4></a>
-
-											</div>
-
-								  
-
-											<div class="col d-flex flex-column gap-2">
-
-												
-
-												<div class="feature-icon-small d-inline-flex align-items-center justify-content-center bg-gradient fs-4 rounded-3">
-
-													<a href="https://www.linkedin.com/in/ma%C3%ABl-ma%C3%AEtre-9318a983//" target="_blank"><img src="/static/images/linkedin.svg" alt="" class="img_contact"></a>
-
-												</div>
-
-												<a href="https://twitter.com/maelmaitre/" target="_blank"><h4 class="fw-semibold mb-0 text-body-emphasis">LinkedIn</h4></a>
-
-											</div>
-
-											<div class="col d-flex flex-column gap-2">
-
-												
-
-												<div class="feature-icon-small d-inline-flex align-items-center justify-content-center bg-gradient fs-4 rounded-3">
-
-													<a href="https://www.facebook.com/hackerhaiti/" target="_blank"><img src="/static/images/facebook.png" alt="" class="img_contact"></a>
-
-												</div>
-
-												<a href="https://twitter.com/maelmaitre/" target="_blank"><h4 class="fw-semibold mb-0 text-body-emphasis">Facebook</h4></a>
-
-											</div>
-
-											<div class="col d-flex flex-column gap-2">
-
-												
-
-												<div class="feature-icon-small d-inline-flex align-items-center justify-content-center bg-gradient fs-4 rounded-3">
-
-													<a href="https://twitter.com/maelmaitre/" target="_blank"><img src="/static/images/instagram.jpg" alt="" class="img_contact"></a>
-
-												</div>
-
-												<a href="https://www.instagram.com/maymaitre/" target="_blank"><h4 class="fw-semibold mb-0 text-body-emphasis">Instagram</h4></a>
-
-											</div>
-
-										  </div>
-
-									</section>
-
-								</article>
-
-					</div>
-
-				<!-- Footer -->
-
-					<div id="footer">
-
-						<ul class="copyright">
-
-							<!-- <li>Design: Maël Maître & <a href="http://html5up.net" target="_blank">HTML5 UP</a></li>-->
-
-						</ul>
-
-					</div>
-
-			</div>
-
-		<!-- Scripts -->
-
-			<script src="static/assets/js/jquery.min.js"></script>
-
-			<script src="static/assets/js/browser.min.js"></script>
-
-			<script src="static/assets/js/breakpoints.min.js"></script>
-
-			<script src="static/assets/js/util.js"></script>
-
-			<script src="static/assets/js/main.js"></script>
-
-			<script src="https://kit.fontawesome.com/c8e4d183c2.js" crossorigin="anonymous"></script>
-
-			<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-			
+      </section>
+    </main>
+  </div>
 
   <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      document.title = 'Ma\u00EBl Ma\u00EEtre';
-      var el = document.querySelector('h2.about-me__info--title.buttom');
-      if (el) el.textContent = "Hey, I'm Ma\u00EBl Ma\u00EEtre";
-    });
+    function initMobileMenu(toggleId, menuId) {
+      const toggle = document.getElementById(toggleId);
+      const menu = document.getElementById(menuId);
+      if (!toggle || !menu) return;
+
+      toggle.addEventListener("click", function () {
+        const isHidden = menu.classList.contains("hidden");
+        menu.classList.toggle("hidden", !isHidden);
+        toggle.setAttribute("aria-expanded", String(isHidden));
+      });
+
+      menu.querySelectorAll("a").forEach(function (link) {
+        link.addEventListener("click", function () {
+          menu.classList.add("hidden");
+          toggle.setAttribute("aria-expanded", "false");
+        });
+      });
+    }
+
+    lucide.createIcons();
+    initMobileMenu("menuToggle", "mobileMenu");
   </script>
 </body>
 </html>
