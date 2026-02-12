@@ -85,6 +85,9 @@
         <a href="/#home" class="flex items-center gap-3">
           <img src="{{ url_for('static', filename='images/Mael Logo.png') }}" alt="Ma&euml;l Logo" class="h-9 w-auto rounded-md object-contain" />
           <span class="text-[13px] font-semibold tracking-[0.08em] text-slate-100">MM</span>
+          {% if current_user.is_authenticated %}
+          <span class="rounded-full border border-indigo-300/30 bg-indigo-500/15 px-2 py-0.5 text-[11px] font-medium text-indigo-100">Hi, {{ current_user.username }}</span>
+          {% endif %}
         </a>
 
         <button id="menuToggle" type="button" aria-label="Open menu" aria-expanded="false" class="inline-flex items-center justify-center rounded-xl soft-border bg-indigo-500/20 p-2 text-indigo-100 lg:hidden">
@@ -148,7 +151,7 @@
           <div>
             <h1 class="font-display text-[34px] font-extrabold leading-tight text-white sm:text-[44px]">Projects</h1>
             <p class="mt-3 max-w-2xl text-[17px] leading-relaxed text-slate-300">
-              Roadmap-driven projects aligned with my profile: Networking, Security, Linux, Automation, and Education.
+              Roadmap-driven projects aligned with my profile: Security, Linux, Automation, Networking, and Education.
             </p>
             <p class="mt-2 text-[13px] text-slate-400">
               Note: all projects listed on this page were manually created and curated by me.
@@ -223,7 +226,6 @@
             <button type="button" data-category-filter data-filter-scope="chips" data-category="networking" class="rounded-lg px-3 py-1.5 text-slate-300 hover:bg-indigo-500/15 hover:text-white">Networking</button>
             <button type="button" data-category-filter data-filter-scope="chips" data-category="linux" class="rounded-lg px-3 py-1.5 text-slate-300 hover:bg-indigo-500/15 hover:text-white">Linux</button>
             <button type="button" data-category-filter data-filter-scope="chips" data-category="automation" class="rounded-lg px-3 py-1.5 text-slate-300 hover:bg-indigo-500/15 hover:text-white">Automation</button>
-            <button type="button" data-category-filter data-filter-scope="chips" data-category="data-analytics" class="rounded-lg px-3 py-1.5 text-slate-300 hover:bg-indigo-500/15 hover:text-white">Data & Analytics</button>
             <button type="button" data-category-filter data-filter-scope="chips" data-category="educational" class="rounded-lg px-3 py-1.5 text-slate-300 hover:bg-indigo-500/15 hover:text-white">Educational</button>
             <button type="button" data-category-filter data-filter-scope="chips" data-category="personal-brand" class="rounded-lg px-3 py-1.5 text-slate-300 hover:bg-indigo-500/15 hover:text-white">Personal Brand</button>
           </div>
@@ -310,98 +312,7 @@
             </article>
             {% endif %}
 
-            <article data-project-card data-categories="networking" data-status="planned" class="project-card rounded-2xl p-4 ring-1 ring-indigo-300/12">
-              <div class="mb-2 flex items-start justify-between gap-2">
-                <div class="flex items-center gap-3">
-                  <span class="grid h-11 w-11 place-items-center rounded-xl bg-cyan-500/20">
-                    <i data-lucide="network" class="h-5 w-5 text-cyan-200"></i>
-                  </span>
-                  <h3 class="text-[22px] font-bold leading-none text-white">SNMP Monitoring Tool</h3>
-                </div>
-                <i data-lucide="more-horizontal" class="h-4 w-4 text-slate-400"></i>
-              </div>
-              <p class="text-[14px] leading-relaxed text-slate-300">Collect SNMP metrics and expose CPU, RAM, and interface throughput in one monitoring view.</p>
-              <div class="mt-3 flex flex-wrap gap-2 text-[11px]">
-                <span class="chip rounded-full px-2 py-1 text-indigo-100">Networking</span>
-                <span class="chip rounded-full px-2 py-1 text-indigo-100">NMS</span>
-                <span class="chip rounded-full px-2 py-1 text-indigo-100">SNMP</span>
-              </div>
-              <div class="mt-4 flex items-center justify-between">
-                <span class="text-[12px] text-amber-300">Status: Planned</span>
-                <a href="/contact" class="rounded-lg soft-border bg-indigo-500/18 px-4 py-1.5 text-[13px] font-semibold text-indigo-100">Get access</a>
-              </div>
-            </article>
-
-            <article data-project-card data-categories="networking" data-status="planned" class="project-card rounded-2xl p-4 ring-1 ring-indigo-300/12">
-              <div class="mb-2 flex items-start justify-between gap-2">
-                <div class="flex items-center gap-3">
-                  <span class="grid h-11 w-11 place-items-center rounded-xl bg-sky-500/20">
-                    <i data-lucide="workflow" class="h-5 w-5 text-sky-200"></i>
-                  </span>
-                  <h3 class="text-[22px] font-bold leading-none text-white">Network Topology Visualizer</h3>
-                </div>
-                <i data-lucide="more-horizontal" class="h-4 w-4 text-slate-400"></i>
-              </div>
-              <p class="text-[14px] leading-relaxed text-slate-300">Dynamic topology rendering from JSON data to map links, nodes, and infrastructure relations.</p>
-              <div class="mt-3 flex flex-wrap gap-2 text-[11px]">
-                <span class="chip rounded-full px-2 py-1 text-indigo-100">Networking</span>
-                <span class="chip rounded-full px-2 py-1 text-indigo-100">Visualization</span>
-                <span class="chip rounded-full px-2 py-1 text-indigo-100">JSON</span>
-              </div>
-              <div class="mt-4 flex items-center justify-between">
-                <span class="text-[12px] text-amber-300">Status: Planned</span>
-                <a href="/contact" class="rounded-lg soft-border bg-indigo-500/18 px-4 py-1.5 text-[13px] font-semibold text-indigo-100">Get access</a>
-              </div>
-            </article>
-
-            <article data-project-card data-categories="networking,data-analytics" data-status="planned" class="project-card rounded-2xl p-4 ring-1 ring-indigo-300/12">
-              <div class="mb-2 flex items-start justify-between gap-2">
-                <div class="flex items-center gap-3">
-                  <span class="grid h-11 w-11 place-items-center rounded-xl bg-blue-500/20">
-                    <i data-lucide="bar-chart-3" class="h-5 w-5 text-blue-200"></i>
-                  </span>
-                  <h3 class="text-[22px] font-bold leading-none text-white">Bandwidth Usage Analyzer</h3>
-                </div>
-                <i data-lucide="more-horizontal" class="h-4 w-4 text-slate-400"></i>
-              </div>
-              <p class="text-[14px] leading-relaxed text-slate-300">CSV-based traffic analytics for routers with usage trends and bandwidth behavior insights.</p>
-              <div class="mt-3 flex flex-wrap gap-2 text-[11px]">
-                <span class="chip rounded-full px-2 py-1 text-indigo-100">Networking</span>
-                <span class="chip rounded-full px-2 py-1 text-indigo-100">CSV</span>
-                <span class="chip rounded-full px-2 py-1 text-indigo-100">Analytics</span>
-              </div>
-              <div class="mt-4 flex items-center justify-between">
-                <span class="text-[12px] text-amber-300">Status: Planned</span>
-                <a href="/contact" class="rounded-lg soft-border bg-indigo-500/18 px-4 py-1.5 text-[13px] font-semibold text-indigo-100">Get access</a>
-              </div>
-            </article>
-
-            {% if current_user.is_admin %}
-            <article data-project-card data-categories="linux" data-status="planned" class="project-card rounded-2xl p-4 ring-1 ring-indigo-300/12">
-              <div class="mb-2 flex items-start justify-between gap-2">
-                <div class="flex items-center gap-3">
-                  <span class="grid h-11 w-11 place-items-center rounded-xl bg-emerald-500/20">
-                    <i data-lucide="terminal" class="h-5 w-5 text-emerald-200"></i>
-                  </span>
-                  <h3 class="text-[22px] font-bold leading-none text-white">Linux Command Playground</h3>
-                </div>
-                <span class="rounded-full border border-amber-300/35 bg-amber-500/10 px-2 py-1 text-[10px] font-semibold uppercase tracking-[0.08em] text-amber-200">Admin only</span>
-                <i data-lucide="more-horizontal" class="h-4 w-4 text-slate-400"></i>
-              </div>
-              <p class="text-[14px] leading-relaxed text-slate-300">Web sandbox to practice Linux commands with guided examples and safe execution boundaries.</p>
-              <div class="mt-3 flex flex-wrap gap-2 text-[11px]">
-                <span class="chip rounded-full px-2 py-1 text-indigo-100">Linux</span>
-                <span class="chip rounded-full px-2 py-1 text-indigo-100">Training</span>
-                <span class="chip rounded-full px-2 py-1 text-indigo-100">CLI</span>
-              </div>
-              <div class="mt-4 flex items-center justify-between">
-                <span class="text-[12px] text-amber-300">Status: Planned</span>
-                <a href="/contact" class="rounded-lg soft-border bg-indigo-500/18 px-4 py-1.5 text-[13px] font-semibold text-indigo-100">Get access</a>
-              </div>
-            </article>
-            {% endif %}
-
-            <article data-project-card data-categories="automation,data-analytics" data-status="planned" class="project-card rounded-2xl p-4 ring-1 ring-indigo-300/12">
+            <article data-project-card data-categories="automation" data-status="planned" class="project-card rounded-2xl p-4 ring-1 ring-indigo-300/12">
               <div class="mb-2 flex items-start justify-between gap-2">
                 <div class="flex items-center gap-3">
                   <span class="grid h-11 w-11 place-items-center rounded-xl bg-lime-500/20">
@@ -438,28 +349,6 @@
                 <span class="chip rounded-full px-2 py-1 text-indigo-100">Automation</span>
                 <span class="chip rounded-full px-2 py-1 text-indigo-100">Linux</span>
                 <span class="chip rounded-full px-2 py-1 text-indigo-100">Scheduling</span>
-              </div>
-              <div class="mt-4 flex items-center justify-between">
-                <span class="text-[12px] text-amber-300">Status: Planned</span>
-                <a href="/contact" class="rounded-lg soft-border bg-indigo-500/18 px-4 py-1.5 text-[13px] font-semibold text-indigo-100">Get access</a>
-              </div>
-            </article>
-
-            <article data-project-card data-categories="data-analytics,networking" data-status="planned" class="project-card rounded-2xl p-4 ring-1 ring-indigo-300/12">
-              <div class="mb-2 flex items-start justify-between gap-2">
-                <div class="flex items-center gap-3">
-                  <span class="grid h-11 w-11 place-items-center rounded-xl bg-violet-500/20">
-                    <i data-lucide="bar-chart-3" class="h-5 w-5 text-violet-200"></i>
-                  </span>
-                  <h3 class="text-[22px] font-bold leading-none text-white">Telecom KPI Dashboard</h3>
-                </div>
-                <i data-lucide="more-horizontal" class="h-4 w-4 text-slate-400"></i>
-              </div>
-              <p class="text-[14px] leading-relaxed text-slate-300">Analyze call success rate, packet loss, and availability to track telecom network quality.</p>
-              <div class="mt-3 flex flex-wrap gap-2 text-[11px]">
-                <span class="chip rounded-full px-2 py-1 text-indigo-100">Data & Analytics</span>
-                <span class="chip rounded-full px-2 py-1 text-indigo-100">Telecom</span>
-                <span class="chip rounded-full px-2 py-1 text-indigo-100">KPI</span>
               </div>
               <div class="mt-4 flex items-center justify-between">
                 <span class="text-[12px] text-amber-300">Status: Planned</span>
@@ -548,6 +437,7 @@
 
     function initProjectFilters() {
       const cards = Array.from(document.querySelectorAll("[data-project-card]"));
+      const projectGrid = document.getElementById("projectGrid");
       const categoryButtons = Array.from(
         document.querySelectorAll("[data-category-filter]")
       );
@@ -562,6 +452,23 @@
       let activeCategory = "all";
       let activeStatus = "all";
       let searchQuery = "";
+
+      // Keep in-progress items at the top of the grid for visibility.
+      if (projectGrid) {
+        const statusRank = function (card) {
+          return (card.dataset.status || "").trim().toLowerCase() === "in-progress"
+            ? 0
+            : 1;
+        };
+        cards
+          .slice()
+          .sort(function (a, b) {
+            return statusRank(a) - statusRank(b);
+          })
+          .forEach(function (card) {
+            projectGrid.appendChild(card);
+          });
+      }
 
       function applyButtonState(button, isActive) {
         const scope = button.dataset.filterScope || "chips";

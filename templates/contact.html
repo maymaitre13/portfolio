@@ -74,6 +74,9 @@
         <a href="/#home" class="flex items-center gap-3">
           <img src="{{ url_for('static', filename='images/Mael Logo.png') }}" alt="Ma&euml;l Logo" class="h-9 w-auto rounded-lg object-contain" />
           <span class="text-sm font-semibold tracking-wide text-white/95">MM</span>
+          {% if current_user.is_authenticated %}
+          <span class="rounded-full border border-indigo-300/30 bg-indigo-500/15 px-2 py-0.5 text-[11px] font-medium text-indigo-100">Hi, {{ current_user.username }}</span>
+          {% endif %}
         </a>
 
         <button id="menuToggle" type="button" aria-label="Open menu" aria-expanded="false" class="inline-flex items-center justify-center rounded-xl border border-indigo-300/35 bg-indigo-500/20 p-2 text-indigo-100 lg:hidden">

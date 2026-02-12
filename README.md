@@ -19,38 +19,68 @@ The repo also contains an optional Next.js frontend in `frontend/`.
 - Google Fonts (`Sora`, `Space Grotesk`)
 - Optional: Next.js app (`frontend/`) with proxy rewrite to Flask
 
-## What Was Recently Added
+## Current Feature Highlights
 
-- New routes/pages:
-  - `GET /projects` (`templates/projects.html`)
-  - `GET /tools` (`templates/tools.html`)
-  - `GET /more-tools` (`templates/more_tools.html`, login required)
-  - `GET /login` and `GET /logout`
-- Mobile nav that collapses behind a menu button (`menuToggle` / `mobileMenu`)
-- Updated branding assets:
-  - Header logo: `static/images/Mael Logo.png`
-  - Hero image: `static/images/Mael Maitre.png`
+- Auth and access control:
+  - `GET /login`, `GET /logout`, protected `GET /more-tools`
+  - admin-only `GET /user-admin`
+  - account lockout after repeated failed login attempts
+  - auth events and sessions tracked (last 20 shown in admin UI)
+- Projects page:
+  - curated project set (public + admin-only cards)
+  - category + status + search filters
+  - `In progress` cards sorted to top of the list
+- Tools page:
+  - simple public tools only
+  - category + status + search filters
+- More Tools page:
+  - private security/operations tools
+  - private social media video downloader roadmap cards (`Planned`)
 - Contact flow hardening:
   - JSON + form payload support
-  - Honeypot field (`company`)
-  - Minimum message length validation
-- Authentication hardening:
-  - SQLite-backed users
-  - Password hashing with Werkzeug
-  - Account lockout after failed attempts (no IP-based restriction)
+  - honeypot field (`company`)
+  - minimum message length validation
+- UX:
+  - mobile nav menu (`menuToggle` / `mobileMenu`)
+  - authenticated header greeting (`Hi, <username>`)
 
 ## Project Structure (Important Files)
 
 - `main.py`: Flask app, routes, and `/send_email` API
 - `get_info.py`: SMTP send logic
 - `templates/index.html`: Home page
-- `templates/projects.html`: Projects page (placeholder)
-- `templates/tools.html`: public/private tools page
-- `templates/more_tools.html`: private tools page
+- `templates/projects.html`: Projects page (curated project catalog + filters)
+- `templates/tools.html`: public simple tools catalog + filters
+- `templates/more_tools.html`: authenticated/private tools + social downloader roadmap
 - `templates/login.html`: login page
 - `templates/contact.html`: Contact page and frontend submit JS
+- `templates/user_admin.html`: admin user management + recent sessions/auth events
 - `static/images/`: image assets (logo, hero, social images, etc.)
 - `env.example`: expected environment variables
+
+## Current Portfolio Scope
+
+Public/primary projects:
+- Log Analyzer
+- Brute Force Detector (admin-only visibility)
+- Mini SOC Dashboard (admin-only visibility)
+- Automated Report Generator
+- Cron Job Manager UI
+- CCNA Lab & Subnet Trainer
+- IT Course Platform (Youth)
+
+Public/simple tools:
+- JSON Formatter
+- PDF Compressor
+- Image Converter
+- Text to Speech
+- Unit Converter
+
+Private tools (`/more-tools`):
+- SOC Parser
+- Credential Audit
+- Incident Notebook
+- TikTok/Facebook/X/Instagram downloader cards (planned only)
 
 ## Backend Setup (Flask)
 
@@ -89,7 +119,7 @@ This project uses SQLite + Flask-Login.
 pip install -r requirements.txt
 ```
 
-2. Set admin credentials in your shell (or `.env` loader if you use one):
+2. Set admin credentials in your shell or in `.env`:
 ```powershell
 $env:ADMIN_USERNAME="admin"
 $env:ADMIN_PASSWORD="change-this-password"
@@ -193,4 +223,5 @@ curl http://127.0.0.1:5000/health
 ## Notes
 
 - CORS is enabled globally in `main.py` with `CORS(app)`.
-- `main.py` reads env vars directly (no implicit `.env` loader).
+- `main.py` includes a local `.env` loader (`load_dotenv_file()`).
+- SQLite database URIs are normalized to absolute paths via `normalize_database_uri(...)`.
