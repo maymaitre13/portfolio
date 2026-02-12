@@ -4,11 +4,14 @@ import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 
+# --- External API endpoints ---
 AGIFY_LINK = "https://api.agify.io"
 GEN_LINK = "https://api.genderize.io"
 
 
+# --- Name-based enrichment helpers ---
 def get_age(name):
+    """Return the estimated age for a given first name."""
     data_age = {"name": name}
 
     value = requests.get(AGIFY_LINK, params=data_age)
@@ -16,13 +19,16 @@ def get_age(name):
 
 
 def get_sex(name):
+    """Return the estimated gender for a given first name."""
     data_sex = {"name": name}
 
     value = requests.get(GEN_LINK, params=data_sex)
     return str(value.json()["gender"])  # Reterning the Gender
 
 
+# --- Contact email delivery via SMTP ---
 def send_email(fName, lName, email, message):
+    """Send a contact-form email using SMTP settings from environment variables."""
     # SMTP server settings from environment
     smtp_server = os.getenv("SMTP_SERVER", "smtp.mail.yahoo.com")
     smtp_port = int(os.getenv("SMTP_PORT", "587"))
@@ -64,7 +70,7 @@ def send_email(fName, lName, email, message):
     msg["Subject"] = subject
     msg.attach(MIMEText(body, "plain"))
 
-    # Connect to the SMTP server and send the email.
+    # Establish the SMTP connection and deliver the message.
     # Yahoo supports STARTTLS (587) and SSL/TLS (465).
     use_ssl = smtp_use_ssl or smtp_port == 465
     if use_ssl:

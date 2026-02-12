@@ -71,6 +71,7 @@
   </style>
 </head>
 <body class="bg-mesh min-h-screen text-slate-100 font-sans antialiased">
+  <!-- Decorative background gradients -->
   <div class="fixed inset-0 pointer-events-none">
     <div class="absolute -left-24 -top-28 h-80 w-80 rounded-full bg-indigo-500/30 blur-3xl"></div>
     <div class="absolute -right-20 top-20 h-[24rem] w-[24rem] rounded-full bg-blue-500/20 blur-3xl"></div>
@@ -78,6 +79,7 @@
   </div>
 
   <div class="relative mx-auto w-[min(1220px,calc(100%-1.2rem))] py-4">
+    <!-- Global header and navigation -->
     <header class="glass rounded-2xl px-4 py-3 shadow-card topline">
       <div class="flex items-center justify-between gap-3">
         <a href="/#home" class="flex items-center gap-3">
@@ -138,7 +140,9 @@
       </div>
     </header>
 
+    <!-- Projects page content -->
     <main class="space-y-4 pt-2">
+      <!-- Page title and search input -->
       <section class="panel rounded-3xl p-6 lg:p-7">
         <div class="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
           <div>
@@ -163,6 +167,8 @@
       </section>
 
       <section class="grid gap-4 lg:grid-cols-12">
+        <!-- Legacy sidebar filters are intentionally kept commented for future reuse -->
+        <!--
         <aside class="panel rounded-3xl p-4 lg:col-span-2">
           <h2 class="mb-3 text-[12px] font-semibold uppercase tracking-[0.14em] text-slate-300">Categories</h2>
           <ul class="space-y-2 text-[14px]">
@@ -191,9 +197,26 @@
               <button type="button" data-category-filter data-filter-scope="sidebar" data-category="personal-brand" class="w-full rounded-xl px-3 py-2 text-left text-slate-200 transition hover:bg-indigo-500/10">Personal Brand</button>
             </li>
           </ul>
-        </aside>
 
-        <article class="panel rounded-3xl p-4 lg:col-span-10">
+          <h2 class="mb-3 mt-6 text-[12px] font-semibold uppercase tracking-[0.14em] text-slate-300">Status</h2>
+          <ul class="space-y-2 text-[14px]">
+            <li>
+              <button type="button" data-status-filter data-filter-scope="sidebar" data-status="all" class="w-full rounded-xl bg-indigo-500/15 px-3 py-2 text-left font-semibold text-white transition">All</button>
+            </li>
+            <li>
+              <button type="button" data-status-filter data-filter-scope="sidebar" data-status="available" class="w-full rounded-xl px-3 py-2 text-left text-slate-200 transition hover:bg-indigo-500/10">Available</button>
+            </li>
+            <li>
+              <button type="button" data-status-filter data-filter-scope="sidebar" data-status="planned" class="w-full rounded-xl px-3 py-2 text-left text-slate-200 transition hover:bg-indigo-500/10">Planned</button>
+            </li>
+            <li>
+              <button type="button" data-status-filter data-filter-scope="sidebar" data-status="in-progress" class="w-full rounded-xl px-3 py-2 text-left text-slate-200 transition hover:bg-indigo-500/10">In progress</button>
+            </li>
+          </ul>
+        </aside>
+        -->
+        <article class="panel rounded-3xl p-4 lg:col-span-12">
+          <!-- Horizontal category filters -->
           <div id="projects" class="mb-4 flex flex-wrap gap-2 border-b border-indigo-300/12 pb-4 text-[13px]">
             <button type="button" data-category-filter data-filter-scope="chips" data-category="all" class="rounded-lg bg-indigo-500/20 px-3 py-1.5 font-semibold text-white">All</button>
             <button type="button" data-category-filter data-filter-scope="chips" data-category="cybersecurity" class="rounded-lg px-3 py-1.5 text-slate-300 hover:bg-indigo-500/15 hover:text-white">Cybersecurity</button>
@@ -204,9 +227,18 @@
             <button type="button" data-category-filter data-filter-scope="chips" data-category="educational" class="rounded-lg px-3 py-1.5 text-slate-300 hover:bg-indigo-500/15 hover:text-white">Educational</button>
             <button type="button" data-category-filter data-filter-scope="chips" data-category="personal-brand" class="rounded-lg px-3 py-1.5 text-slate-300 hover:bg-indigo-500/15 hover:text-white">Personal Brand</button>
           </div>
+          <!-- Horizontal status filters -->
+          <div class="mb-4 flex flex-wrap items-center gap-2 border-b border-indigo-300/12 pb-4 text-[13px]">
+            <span class="mr-1 text-[12px] font-semibold uppercase tracking-[0.08em] text-slate-400">Status</span>
+            <button type="button" data-status-filter data-filter-scope="chips" data-status="all" class="rounded-lg bg-indigo-500/20 px-3 py-1.5 font-semibold text-white">All</button>
+            <button type="button" data-status-filter data-filter-scope="chips" data-status="available" class="rounded-lg px-3 py-1.5 text-slate-300 hover:bg-indigo-500/15 hover:text-white">Available</button>
+            <button type="button" data-status-filter data-filter-scope="chips" data-status="planned" class="rounded-lg px-3 py-1.5 text-slate-300 hover:bg-indigo-500/15 hover:text-white">Planned</button>
+            <button type="button" data-status-filter data-filter-scope="chips" data-status="in-progress" class="rounded-lg px-3 py-1.5 text-slate-300 hover:bg-indigo-500/15 hover:text-white">In progress</button>
+          </div>
 
+          <!-- Project cards grid -->
           <div id="projectGrid" class="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
-            <article data-project-card data-categories="cybersecurity" class="project-card rounded-2xl p-4 ring-1 ring-indigo-300/12">
+            <article data-project-card data-categories="cybersecurity" data-status="planned" class="project-card rounded-2xl p-4 ring-1 ring-indigo-300/12">
               <div class="mb-2 flex items-start justify-between gap-2">
                 <div class="flex items-center gap-3">
                   <span class="grid h-11 w-11 place-items-center rounded-xl bg-rose-500/20">
@@ -229,7 +261,7 @@
             </article>
 
             {% if current_user.is_admin %}
-            <article data-project-card data-categories="cybersecurity" class="project-card rounded-2xl p-4 ring-1 ring-indigo-300/12">
+            <article data-project-card data-categories="cybersecurity" data-status="planned" class="project-card rounded-2xl p-4 ring-1 ring-indigo-300/12">
               <div class="mb-2 flex items-start justify-between gap-2">
                 <div class="flex items-center gap-3">
                   <span class="grid h-11 w-11 place-items-center rounded-xl bg-orange-500/20">
@@ -247,14 +279,14 @@
                 <span class="chip rounded-full px-2 py-1 text-indigo-100">Flask</span>
               </div>
               <div class="mt-4 flex items-center justify-between">
-                <span class="text-[12px] text-emerald-300">Status: In progress</span>
+                <span class="text-[12px] text-amber-300">Status: Planned</span>
                 <a href="/contact" class="rounded-lg soft-border bg-indigo-500/18 px-4 py-1.5 text-[13px] font-semibold text-indigo-100">Get access</a>
               </div>
             </article>
             {% endif %}
 
             {% if current_user.is_admin %}
-            <article data-project-card data-categories="cybersecurity" class="project-card rounded-2xl p-4 ring-1 ring-indigo-300/12">
+            <article data-project-card data-categories="cybersecurity" data-status="planned" class="project-card rounded-2xl p-4 ring-1 ring-indigo-300/12">
               <div class="mb-2 flex items-start justify-between gap-2">
                 <div class="flex items-center gap-3">
                   <span class="grid h-11 w-11 place-items-center rounded-xl bg-fuchsia-500/20">
@@ -278,7 +310,7 @@
             </article>
             {% endif %}
 
-            <article data-project-card data-categories="networking" class="project-card rounded-2xl p-4 ring-1 ring-indigo-300/12">
+            <article data-project-card data-categories="networking" data-status="planned" class="project-card rounded-2xl p-4 ring-1 ring-indigo-300/12">
               <div class="mb-2 flex items-start justify-between gap-2">
                 <div class="flex items-center gap-3">
                   <span class="grid h-11 w-11 place-items-center rounded-xl bg-cyan-500/20">
@@ -295,12 +327,12 @@
                 <span class="chip rounded-full px-2 py-1 text-indigo-100">SNMP</span>
               </div>
               <div class="mt-4 flex items-center justify-between">
-                <span class="text-[12px] text-indigo-200">Status: Priority</span>
+                <span class="text-[12px] text-amber-300">Status: Planned</span>
                 <a href="/contact" class="rounded-lg soft-border bg-indigo-500/18 px-4 py-1.5 text-[13px] font-semibold text-indigo-100">Get access</a>
               </div>
             </article>
 
-            <article data-project-card data-categories="networking" class="project-card rounded-2xl p-4 ring-1 ring-indigo-300/12">
+            <article data-project-card data-categories="networking" data-status="planned" class="project-card rounded-2xl p-4 ring-1 ring-indigo-300/12">
               <div class="mb-2 flex items-start justify-between gap-2">
                 <div class="flex items-center gap-3">
                   <span class="grid h-11 w-11 place-items-center rounded-xl bg-sky-500/20">
@@ -322,7 +354,7 @@
               </div>
             </article>
 
-            <article data-project-card data-categories="networking,data-analytics" class="project-card rounded-2xl p-4 ring-1 ring-indigo-300/12">
+            <article data-project-card data-categories="networking,data-analytics" data-status="planned" class="project-card rounded-2xl p-4 ring-1 ring-indigo-300/12">
               <div class="mb-2 flex items-start justify-between gap-2">
                 <div class="flex items-center gap-3">
                   <span class="grid h-11 w-11 place-items-center rounded-xl bg-blue-500/20">
@@ -345,7 +377,7 @@
             </article>
 
             {% if current_user.is_admin %}
-            <article data-project-card data-categories="linux" class="project-card rounded-2xl p-4 ring-1 ring-indigo-300/12">
+            <article data-project-card data-categories="linux" data-status="planned" class="project-card rounded-2xl p-4 ring-1 ring-indigo-300/12">
               <div class="mb-2 flex items-start justify-between gap-2">
                 <div class="flex items-center gap-3">
                   <span class="grid h-11 w-11 place-items-center rounded-xl bg-emerald-500/20">
@@ -369,7 +401,7 @@
             </article>
             {% endif %}
 
-            <article data-project-card data-categories="automation,data-analytics" class="project-card rounded-2xl p-4 ring-1 ring-indigo-300/12">
+            <article data-project-card data-categories="automation,data-analytics" data-status="planned" class="project-card rounded-2xl p-4 ring-1 ring-indigo-300/12">
               <div class="mb-2 flex items-start justify-between gap-2">
                 <div class="flex items-center gap-3">
                   <span class="grid h-11 w-11 place-items-center rounded-xl bg-lime-500/20">
@@ -391,7 +423,7 @@
               </div>
             </article>
 
-            <article data-project-card data-categories="automation,linux" class="project-card rounded-2xl p-4 ring-1 ring-indigo-300/12">
+            <article data-project-card data-categories="automation,linux" data-status="planned" class="project-card rounded-2xl p-4 ring-1 ring-indigo-300/12">
               <div class="mb-2 flex items-start justify-between gap-2">
                 <div class="flex items-center gap-3">
                   <span class="grid h-11 w-11 place-items-center rounded-xl bg-pink-500/20">
@@ -413,7 +445,7 @@
               </div>
             </article>
 
-            <article data-project-card data-categories="data-analytics,networking" class="project-card rounded-2xl p-4 ring-1 ring-indigo-300/12">
+            <article data-project-card data-categories="data-analytics,networking" data-status="planned" class="project-card rounded-2xl p-4 ring-1 ring-indigo-300/12">
               <div class="mb-2 flex items-start justify-between gap-2">
                 <div class="flex items-center gap-3">
                   <span class="grid h-11 w-11 place-items-center rounded-xl bg-violet-500/20">
@@ -430,12 +462,12 @@
                 <span class="chip rounded-full px-2 py-1 text-indigo-100">KPI</span>
               </div>
               <div class="mt-4 flex items-center justify-between">
-                <span class="text-[12px] text-indigo-200">Status: Priority</span>
+                <span class="text-[12px] text-amber-300">Status: Planned</span>
                 <a href="/contact" class="rounded-lg soft-border bg-indigo-500/18 px-4 py-1.5 text-[13px] font-semibold text-indigo-100">Get access</a>
               </div>
             </article>
 
-            <article data-project-card data-categories="educational,networking" class="project-card rounded-2xl p-4 ring-1 ring-indigo-300/12">
+            <article data-project-card data-categories="educational,networking" data-status="planned" class="project-card rounded-2xl p-4 ring-1 ring-indigo-300/12">
               <div class="mb-2 flex items-start justify-between gap-2">
                 <div class="flex items-center gap-3">
                   <span class="grid h-11 w-11 place-items-center rounded-xl bg-indigo-500/20">
@@ -457,7 +489,7 @@
               </div>
             </article>
 
-            <article data-project-card data-categories="educational,personal-brand" class="project-card rounded-2xl p-4 ring-1 ring-indigo-300/12">
+            <article data-project-card data-categories="educational,personal-brand" data-status="in-progress" class="project-card rounded-2xl p-4 ring-1 ring-indigo-300/12">
               <div class="mb-2 flex items-start justify-between gap-2">
                 <div class="flex items-center gap-3">
                   <span class="grid h-11 w-11 place-items-center rounded-xl bg-teal-500/20">
@@ -493,6 +525,7 @@
     </main>
   </div>
 
+  <!-- Client-side menu + category/status/search filtering -->
   <script>
     function initMobileMenu(toggleId, menuId) {
       const toggle = document.getElementById(toggleId);
@@ -515,15 +548,19 @@
 
     function initProjectFilters() {
       const cards = Array.from(document.querySelectorAll("[data-project-card]"));
-      const filterButtons = Array.from(
+      const categoryButtons = Array.from(
         document.querySelectorAll("[data-category-filter]")
+      );
+      const statusButtons = Array.from(
+        document.querySelectorAll("[data-status-filter]")
       );
       const searchInput = document.querySelector("[data-project-search]");
       const noResults = document.getElementById("projectNoResults");
 
-      if (!cards.length || !filterButtons.length) return;
+      if (!cards.length || !categoryButtons.length || !statusButtons.length) return;
 
       let activeCategory = "all";
+      let activeStatus = "all";
       let searchQuery = "";
 
       function applyButtonState(button, isActive) {
@@ -561,10 +598,16 @@
         return (card.textContent || "").toLowerCase().includes(searchQuery);
       }
 
+      function matchesStatus(card) {
+        if (activeStatus === "all") return true;
+        return (card.dataset.status || "").trim().toLowerCase() === activeStatus;
+      }
+
       function applyFilters() {
         let visibleCount = 0;
         cards.forEach(function (card) {
-          const shouldShow = matchesCategory(card) && matchesSearch(card);
+          const shouldShow =
+            matchesCategory(card) && matchesStatus(card) && matchesSearch(card);
           card.classList.toggle("hidden", !shouldShow);
           if (shouldShow) visibleCount += 1;
         });
@@ -576,16 +619,31 @@
 
       function setActiveCategory(category) {
         activeCategory = category;
-        filterButtons.forEach(function (button) {
+        categoryButtons.forEach(function (button) {
           const buttonCategory = (button.dataset.category || "all").toLowerCase();
           applyButtonState(button, buttonCategory === activeCategory);
         });
         applyFilters();
       }
 
-      filterButtons.forEach(function (button) {
+      function setActiveStatus(status) {
+        activeStatus = status;
+        statusButtons.forEach(function (button) {
+          const buttonStatus = (button.dataset.status || "all").toLowerCase();
+          applyButtonState(button, buttonStatus === activeStatus);
+        });
+        applyFilters();
+      }
+
+      categoryButtons.forEach(function (button) {
         button.addEventListener("click", function () {
           setActiveCategory((button.dataset.category || "all").toLowerCase());
+        });
+      });
+
+      statusButtons.forEach(function (button) {
+        button.addEventListener("click", function () {
+          setActiveStatus((button.dataset.status || "all").toLowerCase());
         });
       });
 
@@ -597,6 +655,7 @@
       }
 
       setActiveCategory(activeCategory);
+      setActiveStatus(activeStatus);
     }
 
     lucide.createIcons();

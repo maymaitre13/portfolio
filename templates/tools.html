@@ -71,6 +71,7 @@
   </style>
 </head>
 <body class="bg-mesh min-h-screen text-slate-100 font-sans antialiased">
+  <!-- Decorative background gradients -->
   <div class="fixed inset-0 pointer-events-none">
     <div class="absolute -left-24 -top-28 h-80 w-80 rounded-full bg-indigo-500/30 blur-3xl"></div>
     <div class="absolute -right-20 top-20 h-[24rem] w-[24rem] rounded-full bg-blue-500/20 blur-3xl"></div>
@@ -78,6 +79,7 @@
   </div>
 
   <div class="relative mx-auto w-[min(1220px,calc(100%-1.2rem))] py-4">
+    <!-- Global header and navigation -->
     <header class="glass rounded-2xl px-4 py-3 shadow-card topline">
       <div class="flex items-center justify-between gap-3">
         <a href="/#home" class="flex items-center gap-3">
@@ -138,7 +140,9 @@
       </div>
     </header>
 
+    <!-- Tools page content -->
     <main class="space-y-4 pt-2">
+      <!-- Page title and search input -->
       <section class="panel rounded-3xl p-6 lg:p-7">
         <div class="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
           <div>
@@ -157,6 +161,8 @@
       </section>
 
       <section class="grid gap-4 lg:grid-cols-12">
+        <!-- Legacy sidebar filters are intentionally kept commented for future reuse -->
+        <!--
         <aside class="panel rounded-3xl p-4 lg:col-span-2">
           <h2 class="mb-3 text-[12px] font-semibold uppercase tracking-[0.14em] text-slate-300">Categories</h2>
           <ul class="space-y-2 text-[14px]">
@@ -176,9 +182,27 @@
               <button type="button" data-tool-filter data-filter-scope="sidebar" data-category="media" class="w-full rounded-xl px-3 py-2 text-left text-slate-200 transition hover:bg-indigo-500/10">Media</button>
             </li>
           </ul>
-        </aside>
 
-        <article class="panel rounded-3xl p-4 lg:col-span-10">
+          <h2 class="mb-3 mt-6 text-[12px] font-semibold uppercase tracking-[0.14em] text-slate-300">Status</h2>
+          <ul class="space-y-2 text-[14px]">
+            <li>
+              <button type="button" data-tool-status-filter data-filter-scope="sidebar" data-status="all" class="w-full rounded-xl bg-indigo-500/15 px-3 py-2 text-left font-semibold text-white transition">All</button>
+            </li>
+            <li>
+              <button type="button" data-tool-status-filter data-filter-scope="sidebar" data-status="available" class="w-full rounded-xl px-3 py-2 text-left text-slate-200 transition hover:bg-indigo-500/10">Available</button>
+            </li>
+            <li>
+              <button type="button" data-tool-status-filter data-filter-scope="sidebar" data-status="planned" class="w-full rounded-xl px-3 py-2 text-left text-slate-200 transition hover:bg-indigo-500/10">Planned</button>
+            </li>
+            <li>
+              <button type="button" data-tool-status-filter data-filter-scope="sidebar" data-status="in-progress" class="w-full rounded-xl px-3 py-2 text-left text-slate-200 transition hover:bg-indigo-500/10">In progress</button>
+            </li>
+          </ul>
+        </aside>
+        -->
+
+        <article class="panel rounded-3xl p-4 lg:col-span-12">
+          <!-- Horizontal category filters -->
           <div id="tools" class="mb-4 flex flex-wrap gap-2 border-b border-indigo-300/12 pb-4 text-[13px]">
             <button type="button" data-tool-filter data-filter-scope="chips" data-category="all" class="rounded-lg bg-indigo-500/20 px-3 py-1.5 font-semibold text-white">All</button>
             <button type="button" data-tool-filter data-filter-scope="chips" data-category="file-utilities" class="rounded-lg px-3 py-1.5 text-slate-300 hover:bg-indigo-500/15 hover:text-white">File Utilities</button>
@@ -186,9 +210,18 @@
             <button type="button" data-tool-filter data-filter-scope="chips" data-category="text-tools" class="rounded-lg px-3 py-1.5 text-slate-300 hover:bg-indigo-500/15 hover:text-white">Text Tools</button>
             <button type="button" data-tool-filter data-filter-scope="chips" data-category="media" class="rounded-lg px-3 py-1.5 text-slate-300 hover:bg-indigo-500/15 hover:text-white">Media</button>
           </div>
+          <!-- Horizontal status filters -->
+          <div class="mb-4 flex flex-wrap items-center gap-2 border-b border-indigo-300/12 pb-4 text-[13px]">
+            <span class="mr-1 text-[12px] font-semibold uppercase tracking-[0.08em] text-slate-400">Status</span>
+            <button type="button" data-tool-status-filter data-filter-scope="chips" data-status="all" class="rounded-lg bg-indigo-500/20 px-3 py-1.5 font-semibold text-white">All</button>
+            <button type="button" data-tool-status-filter data-filter-scope="chips" data-status="available" class="rounded-lg px-3 py-1.5 text-slate-300 hover:bg-indigo-500/15 hover:text-white">Available</button>
+            <button type="button" data-tool-status-filter data-filter-scope="chips" data-status="planned" class="rounded-lg px-3 py-1.5 text-slate-300 hover:bg-indigo-500/15 hover:text-white">Planned</button>
+            <button type="button" data-tool-status-filter data-filter-scope="chips" data-status="in-progress" class="rounded-lg px-3 py-1.5 text-slate-300 hover:bg-indigo-500/15 hover:text-white">In progress</button>
+          </div>
 
+          <!-- Tool cards grid -->
           <div id="toolGrid" class="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
-            <article data-tool-card data-categories="text-tools,productivity" class="tool-card rounded-2xl p-4 ring-1 ring-indigo-300/12">
+            <article data-tool-card data-categories="text-tools,productivity" data-status="planned" class="tool-card rounded-2xl p-4 ring-1 ring-indigo-300/12">
               <div class="mb-2 flex items-start justify-between gap-2">
                 <div class="flex items-center gap-3">
                   <span class="grid h-11 w-11 place-items-center rounded-xl bg-violet-500/20">
@@ -205,12 +238,12 @@
                 <span class="chip rounded-full px-2 py-1 text-indigo-100">Web</span>
               </div>
               <div class="mt-4 flex items-center justify-between">
-                <span class="text-[12px] text-slate-400">Browser</span>
+                <span class="text-[12px] text-amber-300">Status: Planned</span>
                 <button class="rounded-lg soft-border bg-indigo-500/18 px-4 py-1.5 text-[13px] font-semibold text-indigo-100">Open</button>
               </div>
             </article>
 
-            <article data-tool-card data-categories="file-utilities,productivity" class="tool-card rounded-2xl p-4 ring-1 ring-indigo-300/12">
+            <article data-tool-card data-categories="file-utilities,productivity" data-status="planned" class="tool-card rounded-2xl p-4 ring-1 ring-indigo-300/12">
               <div class="mb-2 flex items-start justify-between gap-2">
                 <div class="flex items-center gap-3">
                   <span class="grid h-11 w-11 place-items-center rounded-xl bg-red-500/20">
@@ -227,12 +260,12 @@
                 <span class="chip rounded-full px-2 py-1 text-indigo-100">Productivity</span>
               </div>
               <div class="mt-4 flex items-center justify-between">
-                <span class="text-[12px] text-slate-400">Web Tool</span>
+                <span class="text-[12px] text-amber-300">Status: Planned</span>
                 <button class="rounded-lg soft-border bg-indigo-500/18 px-4 py-1.5 text-[13px] font-semibold text-indigo-100">Open</button>
               </div>
             </article>
 
-            <article data-tool-card data-categories="file-utilities,media" class="tool-card rounded-2xl p-4 ring-1 ring-indigo-300/12">
+            <article data-tool-card data-categories="file-utilities,media" data-status="planned" class="tool-card rounded-2xl p-4 ring-1 ring-indigo-300/12">
               <div class="mb-2 flex items-start justify-between gap-2">
                 <div class="flex items-center gap-3">
                   <span class="grid h-11 w-11 place-items-center rounded-xl bg-cyan-500/20">
@@ -249,12 +282,12 @@
                 <span class="chip rounded-full px-2 py-1 text-indigo-100">Images</span>
               </div>
               <div class="mt-4 flex items-center justify-between">
-                <span class="text-[12px] text-slate-400">Web Tool</span>
+                <span class="text-[12px] text-amber-300">Status: Planned</span>
                 <button class="rounded-lg soft-border bg-indigo-500/18 px-4 py-1.5 text-[13px] font-semibold text-indigo-100">Open</button>
               </div>
             </article>
 
-            <article data-tool-card data-categories="text-tools,media" class="tool-card rounded-2xl p-4 ring-1 ring-indigo-300/12">
+            <article data-tool-card data-categories="text-tools,media" data-status="planned" class="tool-card rounded-2xl p-4 ring-1 ring-indigo-300/12">
               <div class="mb-2 flex items-start justify-between gap-2">
                 <div class="flex items-center gap-3">
                   <span class="grid h-11 w-11 place-items-center rounded-xl bg-amber-500/20">
@@ -271,12 +304,12 @@
                 <span class="chip rounded-full px-2 py-1 text-indigo-100">Accessibility</span>
               </div>
               <div class="mt-4 flex items-center justify-between">
-                <span class="text-[12px] text-slate-400">Web Tool</span>
+                <span class="text-[12px] text-amber-300">Status: Planned</span>
                 <button class="rounded-lg soft-border bg-indigo-500/18 px-4 py-1.5 text-[13px] font-semibold text-indigo-100">Open</button>
               </div>
             </article>
 
-            <article data-tool-card data-categories="productivity" class="tool-card rounded-2xl p-4 ring-1 ring-indigo-300/12">
+            <article data-tool-card data-categories="productivity" data-status="planned" class="tool-card rounded-2xl p-4 ring-1 ring-indigo-300/12">
               <div class="mb-2 flex items-start justify-between gap-2">
                 <div class="flex items-center gap-3">
                   <span class="grid h-11 w-11 place-items-center rounded-xl bg-emerald-500/20">
@@ -293,7 +326,7 @@
                 <span class="chip rounded-full px-2 py-1 text-indigo-100">Quick Utility</span>
               </div>
               <div class="mt-4 flex items-center justify-between">
-                <span class="text-[12px] text-slate-400">Browser</span>
+                <span class="text-[12px] text-amber-300">Status: Planned</span>
                 <button class="rounded-lg soft-border bg-indigo-500/18 px-4 py-1.5 text-[13px] font-semibold text-indigo-100">Open</button>
               </div>
             </article>
@@ -312,6 +345,7 @@
     </main>
   </div>
 
+  <!-- Client-side menu + category/status/search filtering -->
   <script>
     function initMobileMenu(toggleId, menuId) {
       const toggle = document.getElementById(toggleId);
@@ -334,13 +368,17 @@
 
     function initToolFilters() {
       const cards = Array.from(document.querySelectorAll("[data-tool-card]"));
-      const filterButtons = Array.from(document.querySelectorAll("[data-tool-filter]"));
+      const categoryButtons = Array.from(document.querySelectorAll("[data-tool-filter]"));
+      const statusButtons = Array.from(
+        document.querySelectorAll("[data-tool-status-filter]")
+      );
       const searchInput = document.querySelector("[data-tool-search]");
       const noResults = document.getElementById("toolNoResults");
 
-      if (!cards.length || !filterButtons.length) return;
+      if (!cards.length || !categoryButtons.length || !statusButtons.length) return;
 
       let activeCategory = "all";
+      let activeStatus = "all";
       let searchQuery = "";
 
       function applyButtonState(button, isActive) {
@@ -378,10 +416,16 @@
         return (card.textContent || "").toLowerCase().includes(searchQuery);
       }
 
+      function matchesStatus(card) {
+        if (activeStatus === "all") return true;
+        return (card.dataset.status || "").trim().toLowerCase() === activeStatus;
+      }
+
       function applyFilters() {
         let visibleCount = 0;
         cards.forEach(function (card) {
-          const shouldShow = matchesCategory(card) && matchesSearch(card);
+          const shouldShow =
+            matchesCategory(card) && matchesStatus(card) && matchesSearch(card);
           card.classList.toggle("hidden", !shouldShow);
           if (shouldShow) visibleCount += 1;
         });
@@ -393,16 +437,31 @@
 
       function setActiveCategory(category) {
         activeCategory = category;
-        filterButtons.forEach(function (button) {
+        categoryButtons.forEach(function (button) {
           const buttonCategory = (button.dataset.category || "all").toLowerCase();
           applyButtonState(button, buttonCategory === activeCategory);
         });
         applyFilters();
       }
 
-      filterButtons.forEach(function (button) {
+      function setActiveStatus(status) {
+        activeStatus = status;
+        statusButtons.forEach(function (button) {
+          const buttonStatus = (button.dataset.status || "all").toLowerCase();
+          applyButtonState(button, buttonStatus === activeStatus);
+        });
+        applyFilters();
+      }
+
+      categoryButtons.forEach(function (button) {
         button.addEventListener("click", function () {
           setActiveCategory((button.dataset.category || "all").toLowerCase());
+        });
+      });
+
+      statusButtons.forEach(function (button) {
+        button.addEventListener("click", function () {
+          setActiveStatus((button.dataset.status || "all").toLowerCase());
         });
       });
 
@@ -414,6 +473,7 @@
       }
 
       setActiveCategory(activeCategory);
+      setActiveStatus(activeStatus);
     }
 
     lucide.createIcons();

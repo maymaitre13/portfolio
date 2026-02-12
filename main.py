@@ -29,6 +29,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 import get_info as gt
 
 
+# --- Environment loading and config normalization helpers ---
 def load_dotenv_file(path=".env"):
     """Load .env key/value pairs into process env when not already set."""
     if not os.path.isabs(path):
@@ -78,6 +79,8 @@ def normalize_database_uri(uri):
         normalized = f"{normalized}?{query}"
     return normalized
 
+
+# --- Flask app initialization and runtime configuration ---
 app = Flask(__name__)
 CORS(app)
 
@@ -105,6 +108,7 @@ login_manager.login_view = "login"
 login_manager.login_message = None
 
 
+# --- Database models ---
 class User(UserMixin, db.Model):
     __tablename__ = "users"
 
@@ -180,6 +184,7 @@ class AuthEvent(db.Model):
     )
 
 
+# --- Login manager callbacks and request metadata helpers ---
 @login_manager.user_loader
 def load_user(user_id):
     return db.session.get(User, int(user_id))
@@ -226,6 +231,7 @@ def add_auth_event(
     return event
 
 
+# --- Database bootstrap and lightweight schema migration ---
 def ensure_schema_columns():
     inspector = inspect(db.engine)
     if "users" not in inspector.get_table_names():
@@ -287,6 +293,7 @@ with app.app_context():
     ensure_schema_columns()
 
 
+# --- Access-control decorators ---
 def admin_required(view_func):
     @wraps(view_func)
     @login_required
@@ -298,6 +305,7 @@ def admin_required(view_func):
     return wrapped
 
 
+# --- Public pages ---
 @app.route("/")
 def home():
     return rt("index.html")
@@ -324,6 +332,7 @@ def more_tools():
     return rt("more_tools.html")
 
 
+# --- User administration routes (admin-only) ---
 @app.route("/user-admin")
 @admin_required
 def user_admin():
@@ -465,6 +474,7 @@ def user_admin_delete(user_id):
     return redirect(url_for("user_admin", success="User deleted."))
 
 
+# --- Authentication routes ---
 def _safe_next_url(next_url):
     return bool(next_url) and next_url.startswith("/") and not next_url.startswith("//")
 
@@ -576,6 +586,7 @@ def logout():
     return redirect(url_for("home"))
 
 
+# --- Health check and contact API ---
 @app.route("/health")
 def health():
     return jsonify(
@@ -631,6 +642,7 @@ def send_email():
         return jsonify({"ok": False, "error": "Invalid request"}), 400
 
 
+# --- Local entrypoint / CLI compatibility ---
 if __name__ == "__main__":
     if len(sys.argv) > 1 and sys.argv[1] == "init-db":
         with app.app_context():

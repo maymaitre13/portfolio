@@ -61,6 +61,7 @@
   </style>
 </head>
 <body class="bg-mesh min-h-screen text-slate-100 font-sans antialiased">
+  <!-- Decorative background gradients -->
   <div class="fixed inset-0 pointer-events-none">
     <div class="absolute -left-24 -top-28 h-80 w-80 rounded-full bg-indigo-500/30 blur-3xl"></div>
     <div class="absolute -right-20 top-20 h-[24rem] w-[24rem] rounded-full bg-blue-500/20 blur-3xl"></div>
@@ -68,6 +69,7 @@
   </div>
 
   <div class="relative mx-auto w-[min(1220px,calc(100%-1.2rem))] py-4">
+    <!-- Global header and navigation -->
     <header class="glass rounded-2xl px-4 py-3 shadow-card topline">
       <div class="flex items-center justify-between gap-3">
         <a href="/#home" class="flex items-center gap-3">
@@ -116,12 +118,15 @@
       </div>
     </header>
 
+    <!-- Private tools content -->
     <main class="space-y-4 pt-2">
+      <!-- Page intro -->
       <section class="panel rounded-3xl p-6 lg:p-7">
         <h1 class="font-display text-[34px] font-extrabold leading-tight text-white sm:text-[44px]">More Tools</h1>
         <p class="mt-3 text-[16px] text-slate-300">Private tools visible only after successful authentication.</p>
       </section>
 
+      <!-- Private tools list -->
       <section class="panel rounded-3xl p-4">
         <div class="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
           <article class="rounded-2xl bg-slate-900/35 p-4 ring-1 ring-indigo-300/12">
@@ -158,6 +163,7 @@
     </main>
   </div>
 
+  <!-- Page interactions (mobile menu and icons) -->
   <script>
     function initMobileMenu(toggleId, menuId) {
       const toggle = document.getElementById(toggleId);
