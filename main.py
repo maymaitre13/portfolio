@@ -28,16 +28,67 @@ from werkzeug.security import check_password_hash, generate_password_hash
 
 import get_info as gt
 
+
+def load_dotenv_file(path=".env"):
+    """Load .env key/value pairs into process env when not already set."""
+    if not os.path.isabs(path):
+        local_path = os.path.join(os.path.dirname(__file__), path)
+        if os.path.exists(local_path):
+            path = local_path
+
+    if not os.path.exists(path):
+        return
+
+    with open(path, "r", encoding="utf-8") as env_file:
+        for raw_line in env_file:
+            line = raw_line.strip()
+            if not line or line.startswith("#") or "=" not in line:
+                continue
+            key, value = line.split("=", 1)
+            key = key.strip()
+            value = value.strip().strip('"').strip("'")
+            if key:
+                os.environ.setdefault(key, value)
+
+
+load_dotenv_file()
+
+
+def normalize_database_uri(uri):
+    """Normalize SQLite URIs to absolute paths and ensure parent dirs exist."""
+    if not uri or not uri.startswith("sqlite:///"):
+        return uri
+
+    db_target = uri[len("sqlite:///") :]
+    db_path, has_query, query = db_target.partition("?")
+
+    # Leave special SQLite targets untouched.
+    if db_path in {":memory:", ""} or db_path.startswith("file:"):
+        return uri
+
+    if not os.path.isabs(db_path):
+        db_path = os.path.abspath(os.path.join(os.path.dirname(__file__), db_path))
+
+    db_dir = os.path.dirname(db_path)
+    if db_dir:
+        os.makedirs(db_dir, exist_ok=True)
+
+    normalized = f"sqlite:///{db_path.replace(os.sep, '/')}"
+    if has_query:
+        normalized = f"{normalized}?{query}"
+    return normalized
+
 app = Flask(__name__)
 CORS(app)
 
 os.makedirs(app.instance_path, exist_ok=True)
 
 app.config["SECRET_KEY"] = os.getenv("SECRET_KEY", "change-this-secret-key")
-app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv(
+raw_database_uri = os.getenv(
     "DATABASE_URL",
     f"sqlite:///{os.path.join(app.instance_path, 'portfolio.db')}",
 )
+app.config["SQLALCHEMY_DATABASE_URI"] = normalize_database_uri(raw_database_uri)
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config["SESSION_COOKIE_HTTPONLY"] = True
 app.config["SESSION_COOKIE_SAMESITE"] = "Lax"

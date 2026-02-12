@@ -26,15 +26,18 @@ def send_email(fName, lName, email, message):
     # SMTP server settings from environment
     smtp_server = os.getenv("SMTP_SERVER", "smtp.mail.yahoo.com")
     smtp_port = int(os.getenv("SMTP_PORT", "587"))
-    smtp_username = os.getenv("SMTP_USERNAME")
-    smtp_password = os.getenv("SMTP_PASSWORD")
+    smtp_username = (os.getenv("SMTP_USERNAME") or "").strip()
+    smtp_password = (os.getenv("SMTP_PASSWORD") or "").strip()
     smtp_use_ssl = os.getenv("SMTP_USE_SSL", "0") == "1"
     smtp_timeout = int(os.getenv("SMTP_TIMEOUT", "20"))
 
     # Recipient and optional overrides
-    to_address = os.getenv("CONTACT_TO_ADDRESS")
-    from_address = os.getenv("CONTACT_FROM_ADDRESS", smtp_username)
-    subject = os.getenv("CONTACT_SUBJECT", "Message from portfolio contact form")
+    to_address = (os.getenv("CONTACT_TO_ADDRESS") or "").strip()
+    from_override = (os.getenv("CONTACT_FROM_ADDRESS") or "").strip()
+    from_address = from_override or smtp_username
+    subject = (
+        os.getenv("CONTACT_SUBJECT", "Message from portfolio contact form") or ""
+    ).strip() or "Message from portfolio contact form"
 
     # Validate required configuration
     missing = [
