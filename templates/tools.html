@@ -89,7 +89,8 @@
           <i data-lucide="menu" class="h-5 w-5"></i>
         </button>
 
-        <nav class="hidden items-center gap-7 text-[15px] text-slate-300 lg:flex">
+        <div class="hidden items-center gap-3 lg:flex">
+        <nav class="flex items-center gap-7 text-[15px] text-slate-300">
           <a class="transition hover:text-white" href="/#home">Home</a>
           <a class="transition hover:text-white" href="/projects">Projects</a>
           <a class="font-semibold text-white" href="/tools">Tools</a>
@@ -102,13 +103,14 @@
           <a class="transition hover:text-white" href="/#about">About</a>
         </nav>
 
-        <div class="hidden gap-2 lg:flex">
+        <div class="flex gap-2">
           <a href="/contact" class="rounded-xl soft-border bg-indigo-500/18 px-4 py-2 text-center text-sm font-semibold text-indigo-100">Contact</a>
           {% if current_user.is_authenticated %}
           <a href="/logout" class="rounded-xl soft-border bg-slate-700/20 px-4 py-2 text-center text-sm font-semibold text-slate-200">Logout</a>
           {% else %}
           <a href="/login" class="rounded-xl soft-border bg-slate-700/20 px-4 py-2 text-center text-sm font-semibold text-slate-200">Login</a>
           {% endif %}
+        </div>
         </div>
       </div>
 
@@ -142,16 +144,13 @@
           <div>
             <h1 class="font-display text-[34px] font-extrabold leading-tight text-white sm:text-[44px]">Tools</h1>
             <p class="mt-3 max-w-2xl text-[17px] leading-relaxed text-slate-300">
-              Here are some powerful tools and apps I built. Explore them below.
+              Simple and practical utilities for everyday tasks.
             </p>
-            {% if not current_user.is_authenticated %}
-            <p class="mt-2 text-[14px] text-slate-400">Login to unlock private tools and More Tools.</p>
-            {% endif %}
           </div>
 
           <label class="relative block w-full lg:max-w-md">
             <i data-lucide="search" class="pointer-events-none absolute left-3 top-3.5 h-4 w-4 text-slate-400"></i>
-            <input type="text" placeholder="Search tools..." class="w-full rounded-xl soft-border bg-slate-900/35 py-3 pl-10 pr-10 text-sm text-slate-200 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-400/45" />
+            <input id="toolSearch" data-tool-search type="text" placeholder="Search tools..." class="w-full rounded-xl soft-border bg-slate-900/35 py-3 pl-10 pr-10 text-sm text-slate-200 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-400/45" />
             <i data-lucide="sliders-horizontal" class="pointer-events-none absolute right-3 top-3.5 h-4 w-4 text-slate-400"></i>
           </label>
         </div>
@@ -161,171 +160,152 @@
         <aside class="panel rounded-3xl p-4 lg:col-span-2">
           <h2 class="mb-3 text-[12px] font-semibold uppercase tracking-[0.14em] text-slate-300">Categories</h2>
           <ul class="space-y-2 text-[14px]">
-            <li class="rounded-xl bg-indigo-500/15 px-3 py-2 font-semibold text-white">All</li>
-            <li class="rounded-xl px-3 py-2 text-slate-200 hover:bg-indigo-500/10">Mods</li>
-            <li class="rounded-xl px-3 py-2 text-slate-200 hover:bg-indigo-500/10">Productivity</li>
-            <li class="rounded-xl px-3 py-2 text-slate-200 hover:bg-indigo-500/10">Networking</li>
-            <li class="rounded-xl px-3 py-2 text-slate-200 hover:bg-indigo-500/10">Security</li>
-            <li class="rounded-xl px-3 py-2 text-slate-200 hover:bg-indigo-500/10">Utilities</li>
+            <li>
+              <button type="button" data-tool-filter data-filter-scope="sidebar" data-category="all" class="w-full rounded-xl bg-indigo-500/15 px-3 py-2 text-left font-semibold text-white transition">All</button>
+            </li>
+            <li>
+              <button type="button" data-tool-filter data-filter-scope="sidebar" data-category="file-utilities" class="w-full rounded-xl px-3 py-2 text-left text-slate-200 transition hover:bg-indigo-500/10">File Utilities</button>
+            </li>
+            <li>
+              <button type="button" data-tool-filter data-filter-scope="sidebar" data-category="productivity" class="w-full rounded-xl px-3 py-2 text-left text-slate-200 transition hover:bg-indigo-500/10">Productivity</button>
+            </li>
+            <li>
+              <button type="button" data-tool-filter data-filter-scope="sidebar" data-category="text-tools" class="w-full rounded-xl px-3 py-2 text-left text-slate-200 transition hover:bg-indigo-500/10">Text Tools</button>
+            </li>
+            <li>
+              <button type="button" data-tool-filter data-filter-scope="sidebar" data-category="media" class="w-full rounded-xl px-3 py-2 text-left text-slate-200 transition hover:bg-indigo-500/10">Media</button>
+            </li>
           </ul>
         </aside>
 
         <article class="panel rounded-3xl p-4 lg:col-span-10">
           <div id="tools" class="mb-4 flex flex-wrap gap-2 border-b border-indigo-300/12 pb-4 text-[13px]">
-            <button class="rounded-lg bg-indigo-500/20 px-3 py-1.5 font-semibold text-white">All</button>
-            <button class="rounded-lg px-3 py-1.5 text-slate-300 hover:bg-indigo-500/15 hover:text-white">Mods</button>
-            <button class="rounded-lg px-3 py-1.5 text-slate-300 hover:bg-indigo-500/15 hover:text-white">Productivity</button>
-            <button class="rounded-lg px-3 py-1.5 text-slate-300 hover:bg-indigo-500/15 hover:text-white">Networking</button>
-            <button class="rounded-lg px-3 py-1.5 text-slate-300 hover:bg-indigo-500/15 hover:text-white">Security</button>
-            <button class="rounded-lg px-3 py-1.5 text-slate-300 hover:bg-indigo-500/15 hover:text-white">Utilities</button>
+            <button type="button" data-tool-filter data-filter-scope="chips" data-category="all" class="rounded-lg bg-indigo-500/20 px-3 py-1.5 font-semibold text-white">All</button>
+            <button type="button" data-tool-filter data-filter-scope="chips" data-category="file-utilities" class="rounded-lg px-3 py-1.5 text-slate-300 hover:bg-indigo-500/15 hover:text-white">File Utilities</button>
+            <button type="button" data-tool-filter data-filter-scope="chips" data-category="productivity" class="rounded-lg px-3 py-1.5 text-slate-300 hover:bg-indigo-500/15 hover:text-white">Productivity</button>
+            <button type="button" data-tool-filter data-filter-scope="chips" data-category="text-tools" class="rounded-lg px-3 py-1.5 text-slate-300 hover:bg-indigo-500/15 hover:text-white">Text Tools</button>
+            <button type="button" data-tool-filter data-filter-scope="chips" data-category="media" class="rounded-lg px-3 py-1.5 text-slate-300 hover:bg-indigo-500/15 hover:text-white">Media</button>
           </div>
 
-          <div class="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
-            <article class="tool-card rounded-2xl p-4 ring-1 ring-indigo-300/12">
+          <div id="toolGrid" class="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
+            <article data-tool-card data-categories="text-tools,productivity" class="tool-card rounded-2xl p-4 ring-1 ring-indigo-300/12">
               <div class="mb-2 flex items-start justify-between gap-2">
                 <div class="flex items-center gap-3">
-                  <span class="grid h-11 w-11 place-items-center rounded-xl bg-rose-500/20">
-                    <i data-lucide="youtube" class="h-5 w-5 text-rose-200"></i>
+                  <span class="grid h-11 w-11 place-items-center rounded-xl bg-violet-500/20">
+                    <i data-lucide="braces" class="h-5 w-5 text-violet-200"></i>
                   </span>
-                  <h3 class="text-[23px] font-bold leading-none text-white">YouTube Downloader</h3>
+                  <h3 class="text-[23px] font-bold leading-none text-white">JSON Formatter</h3>
                 </div>
                 <i data-lucide="more-horizontal" class="h-4 w-4 text-slate-400"></i>
               </div>
-              <p class="text-[14px] leading-relaxed text-slate-300">Fast downloader for media export and offline workflow support.</p>
+              <p class="text-[14px] leading-relaxed text-slate-300">Format, validate, and beautify JSON payloads quickly for cleaner debugging.</p>
               <div class="mt-3 flex flex-wrap gap-2 text-[11px]">
-                <span class="chip rounded-full px-2 py-1 text-indigo-100">Browser</span>
-                <span class="chip rounded-full px-2 py-1 text-indigo-100">API</span>
-                <span class="chip rounded-full px-2 py-1 text-indigo-100">Media</span>
-              </div>
-              <div class="mt-4 flex items-center justify-between">
-                <span class="text-[12px] text-slate-400">Python</span>
-                <button class="rounded-lg soft-border bg-indigo-500/18 px-4 py-1.5 text-[13px] font-semibold text-indigo-100">Open</button>
-              </div>
-            </article>
-
-            <article class="tool-card rounded-2xl p-4 ring-1 ring-indigo-300/12">
-              <div class="mb-2 flex items-start justify-between gap-2">
-                <div class="flex items-center gap-3">
-                  <span class="grid h-11 w-11 place-items-center rounded-xl bg-sky-500/20">
-                    <i data-lucide="twitter" class="h-5 w-5 text-sky-200"></i>
-                  </span>
-                  <h3 class="text-[23px] font-bold leading-none text-white">X Video Saver</h3>
-                </div>
-                <i data-lucide="more-horizontal" class="h-4 w-4 text-slate-400"></i>
-              </div>
-              <p class="text-[14px] leading-relaxed text-slate-300">Grab media from X and prepare clean downloadable exports.</p>
-              <div class="mt-3 flex flex-wrap gap-2 text-[11px]">
-                <span class="chip rounded-full px-2 py-1 text-indigo-100">Automation</span>
-                <span class="chip rounded-full px-2 py-1 text-indigo-100">API</span>
-                <span class="chip rounded-full px-2 py-1 text-indigo-100">SaaS</span>
-              </div>
-              <div class="mt-4 flex items-center justify-between">
-                <span class="text-[12px] text-slate-400">YouTube</span>
-                <button class="rounded-lg soft-border bg-indigo-500/18 px-4 py-1.5 text-[13px] font-semibold text-indigo-100">Open</button>
-              </div>
-            </article>
-
-            <article class="tool-card rounded-2xl p-4 ring-1 ring-indigo-300/12">
-              <div class="mb-2 flex items-start justify-between gap-2">
-                <div class="flex items-center gap-3">
-                  <span class="grid h-11 w-11 place-items-center rounded-xl bg-amber-500/20">
-                    <i data-lucide="music-2" class="h-5 w-5 text-amber-200"></i>
-                  </span>
-                  <h3 class="text-[23px] font-bold leading-none text-white">TikTok Downloader</h3>
-                </div>
-                <i data-lucide="more-horizontal" class="h-4 w-4 text-slate-400"></i>
-              </div>
-              <p class="text-[14px] leading-relaxed text-slate-300">Archive clips quickly with format controls and clean output.</p>
-              <div class="mt-3 flex flex-wrap gap-2 text-[11px]">
-                <span class="chip rounded-full px-2 py-1 text-indigo-100">Extract</span>
+                <span class="chip rounded-full px-2 py-1 text-indigo-100">Text Tools</span>
+                <span class="chip rounded-full px-2 py-1 text-indigo-100">Developer</span>
                 <span class="chip rounded-full px-2 py-1 text-indigo-100">Web</span>
-                <span class="chip rounded-full px-2 py-1 text-indigo-100">AAC</span>
               </div>
               <div class="mt-4 flex items-center justify-between">
-                <span class="text-[12px] text-slate-400">Python, Nmap</span>
+                <span class="text-[12px] text-slate-400">Browser</span>
                 <button class="rounded-lg soft-border bg-indigo-500/18 px-4 py-1.5 text-[13px] font-semibold text-indigo-100">Open</button>
               </div>
             </article>
 
-            {% if current_user.is_authenticated %}
-            <article class="tool-card rounded-2xl p-4 ring-1 ring-indigo-300/12">
+            <article data-tool-card data-categories="file-utilities,productivity" class="tool-card rounded-2xl p-4 ring-1 ring-indigo-300/12">
               <div class="mb-2 flex items-start justify-between gap-2">
                 <div class="flex items-center gap-3">
-                  <span class="grid h-11 w-11 place-items-center rounded-xl bg-fuchsia-500/20">
-                    <i data-lucide="reddit" class="h-5 w-5 text-fuchsia-200"></i>
+                  <span class="grid h-11 w-11 place-items-center rounded-xl bg-red-500/20">
+                    <i data-lucide="file-text" class="h-5 w-5 text-red-200"></i>
                   </span>
-                  <h3 class="text-[23px] font-bold leading-none text-white">Reddit Video Saver</h3>
+                  <h3 class="text-[23px] font-bold leading-none text-white">PDF Compressor</h3>
                 </div>
                 <i data-lucide="more-horizontal" class="h-4 w-4 text-slate-400"></i>
               </div>
-              <p class="text-[14px] leading-relaxed text-slate-300">Fast saving tool for Reddit media and threaded content capture.</p>
+              <p class="text-[14px] leading-relaxed text-slate-300">Reduce PDF file size for easier upload, sharing, and archiving.</p>
               <div class="mt-3 flex flex-wrap gap-2 text-[11px]">
-                <span class="chip rounded-full px-2 py-1 text-indigo-100">Network</span>
-                <span class="chip rounded-full px-2 py-1 text-indigo-100">CLI</span>
-                <span class="chip rounded-full px-2 py-1 text-indigo-100">SaaS</span>
+                <span class="chip rounded-full px-2 py-1 text-indigo-100">File Utilities</span>
+                <span class="chip rounded-full px-2 py-1 text-indigo-100">PDF</span>
+                <span class="chip rounded-full px-2 py-1 text-indigo-100">Productivity</span>
               </div>
               <div class="mt-4 flex items-center justify-between">
-                <span class="text-[12px] text-slate-400">Python, Nmap</span>
+                <span class="text-[12px] text-slate-400">Web Tool</span>
                 <button class="rounded-lg soft-border bg-indigo-500/18 px-4 py-1.5 text-[13px] font-semibold text-indigo-100">Open</button>
               </div>
             </article>
 
-            <article class="tool-card rounded-2xl p-4 ring-1 ring-indigo-300/12">
+            <article data-tool-card data-categories="file-utilities,media" class="tool-card rounded-2xl p-4 ring-1 ring-indigo-300/12">
               <div class="mb-2 flex items-start justify-between gap-2">
                 <div class="flex items-center gap-3">
                   <span class="grid h-11 w-11 place-items-center rounded-xl bg-cyan-500/20">
                     <i data-lucide="image" class="h-5 w-5 text-cyan-200"></i>
                   </span>
-                  <h3 class="text-[23px] font-bold leading-none text-white">Image Resizer</h3>
+                  <h3 class="text-[23px] font-bold leading-none text-white">Image Converter</h3>
                 </div>
                 <i data-lucide="more-horizontal" class="h-4 w-4 text-slate-400"></i>
               </div>
-              <p class="text-[14px] leading-relaxed text-slate-300">Batch resize and export utility for image assets and previews.</p>
+              <p class="text-[14px] leading-relaxed text-slate-300">Convert images between common formats with quick output presets.</p>
               <div class="mt-3 flex flex-wrap gap-2 text-[11px]">
-                <span class="chip rounded-full px-2 py-1 text-indigo-100">Compression</span>
-                <span class="chip rounded-full px-2 py-1 text-indigo-100">UI</span>
-                <span class="chip rounded-full px-2 py-1 text-indigo-100">SaaS</span>
+                <span class="chip rounded-full px-2 py-1 text-indigo-100">File Utilities</span>
+                <span class="chip rounded-full px-2 py-1 text-indigo-100">Media</span>
+                <span class="chip rounded-full px-2 py-1 text-indigo-100">Images</span>
               </div>
               <div class="mt-4 flex items-center justify-between">
-                <span class="text-[12px] text-slate-400">Web Tooling</span>
+                <span class="text-[12px] text-slate-400">Web Tool</span>
                 <button class="rounded-lg soft-border bg-indigo-500/18 px-4 py-1.5 text-[13px] font-semibold text-indigo-100">Open</button>
               </div>
             </article>
 
-            <article class="tool-card rounded-2xl p-4 ring-1 ring-indigo-300/12">
+            <article data-tool-card data-categories="text-tools,media" class="tool-card rounded-2xl p-4 ring-1 ring-indigo-300/12">
               <div class="mb-2 flex items-start justify-between gap-2">
                 <div class="flex items-center gap-3">
-                  <span class="grid h-11 w-11 place-items-center rounded-xl bg-pink-500/20">
-                    <i data-lucide="panel-top" class="h-5 w-5 text-pink-200"></i>
+                  <span class="grid h-11 w-11 place-items-center rounded-xl bg-amber-500/20">
+                    <i data-lucide="mic" class="h-5 w-5 text-amber-200"></i>
                   </span>
-                  <h3 class="text-[23px] font-bold leading-none text-white">Thumbnail Maker</h3>
+                  <h3 class="text-[23px] font-bold leading-none text-white">Text to Speech</h3>
                 </div>
                 <i data-lucide="more-horizontal" class="h-4 w-4 text-slate-400"></i>
               </div>
-              <p class="text-[14px] leading-relaxed text-slate-300">Template driven thumbnail generator for social and video channels.</p>
+              <p class="text-[14px] leading-relaxed text-slate-300">Convert typed text into natural speech for listening and accessibility.</p>
               <div class="mt-3 flex flex-wrap gap-2 text-[11px]">
-                <span class="chip rounded-full px-2 py-1 text-indigo-100">UX</span>
-                <span class="chip rounded-full px-2 py-1 text-indigo-100">A/B</span>
-                <span class="chip rounded-full px-2 py-1 text-indigo-100">PNG</span>
+                <span class="chip rounded-full px-2 py-1 text-indigo-100">Text Tools</span>
+                <span class="chip rounded-full px-2 py-1 text-indigo-100">Audio</span>
+                <span class="chip rounded-full px-2 py-1 text-indigo-100">Accessibility</span>
               </div>
               <div class="mt-4 flex items-center justify-between">
-                <span class="text-[12px] text-slate-400">Python, Web</span>
+                <span class="text-[12px] text-slate-400">Web Tool</span>
                 <button class="rounded-lg soft-border bg-indigo-500/18 px-4 py-1.5 text-[13px] font-semibold text-indigo-100">Open</button>
               </div>
             </article>
-            {% endif %}
+
+            <article data-tool-card data-categories="productivity" class="tool-card rounded-2xl p-4 ring-1 ring-indigo-300/12">
+              <div class="mb-2 flex items-start justify-between gap-2">
+                <div class="flex items-center gap-3">
+                  <span class="grid h-11 w-11 place-items-center rounded-xl bg-emerald-500/20">
+                    <i data-lucide="calculator" class="h-5 w-5 text-emerald-200"></i>
+                  </span>
+                  <h3 class="text-[23px] font-bold leading-none text-white">Unit Converter</h3>
+                </div>
+                <i data-lucide="more-horizontal" class="h-4 w-4 text-slate-400"></i>
+              </div>
+              <p class="text-[14px] leading-relaxed text-slate-300">Quick conversion for common units like length, weight, and temperature.</p>
+              <div class="mt-3 flex flex-wrap gap-2 text-[11px]">
+                <span class="chip rounded-full px-2 py-1 text-indigo-100">Productivity</span>
+                <span class="chip rounded-full px-2 py-1 text-indigo-100">Math</span>
+                <span class="chip rounded-full px-2 py-1 text-indigo-100">Quick Utility</span>
+              </div>
+              <div class="mt-4 flex items-center justify-between">
+                <span class="text-[12px] text-slate-400">Browser</span>
+                <button class="rounded-lg soft-border bg-indigo-500/18 px-4 py-1.5 text-[13px] font-semibold text-indigo-100">Open</button>
+              </div>
+            </article>
           </div>
+          <p id="toolNoResults" class="mt-4 hidden rounded-xl soft-border bg-slate-900/35 px-4 py-3 text-sm text-slate-300">
+            No tools match this category or search term.
+          </p>
 
           <div class="mt-5 flex justify-center">
-            {% if current_user.is_authenticated %}
-            <a href="/more-tools" class="rounded-xl border border-indigo-300/40 bg-gradient-to-r from-indigo-600 to-indigo-500 px-7 py-3 text-sm font-semibold text-white shadow-glow">
-              More Tools
+            <a href="/contact" class="rounded-xl border border-indigo-300/40 bg-gradient-to-r from-indigo-600 to-indigo-500 px-7 py-3 text-sm font-semibold text-white shadow-glow">
+              Request A Custom Tool
             </a>
-            {% else %}
-            <a href="/login?next=/tools" class="rounded-xl border border-indigo-300/40 bg-gradient-to-r from-indigo-600 to-indigo-500 px-7 py-3 text-sm font-semibold text-white shadow-glow">
-              Login for Private Tools
-            </a>
-            {% endif %}
           </div>
         </article>
       </section>
@@ -352,8 +332,93 @@
       });
     }
 
+    function initToolFilters() {
+      const cards = Array.from(document.querySelectorAll("[data-tool-card]"));
+      const filterButtons = Array.from(document.querySelectorAll("[data-tool-filter]"));
+      const searchInput = document.querySelector("[data-tool-search]");
+      const noResults = document.getElementById("toolNoResults");
+
+      if (!cards.length || !filterButtons.length) return;
+
+      let activeCategory = "all";
+      let searchQuery = "";
+
+      function applyButtonState(button, isActive) {
+        const scope = button.dataset.filterScope || "chips";
+        if (scope === "sidebar") {
+          button.classList.toggle("bg-indigo-500/15", isActive);
+          button.classList.toggle("font-semibold", isActive);
+          button.classList.toggle("text-white", isActive);
+          button.classList.toggle("text-slate-200", !isActive);
+          button.classList.toggle("hover:bg-indigo-500/10", !isActive);
+          return;
+        }
+
+        button.classList.toggle("bg-indigo-500/20", isActive);
+        button.classList.toggle("font-semibold", isActive);
+        button.classList.toggle("text-white", isActive);
+        button.classList.toggle("text-slate-300", !isActive);
+        button.classList.toggle("hover:bg-indigo-500/15", !isActive);
+        button.classList.toggle("hover:text-white", !isActive);
+      }
+
+      function matchesCategory(card) {
+        if (activeCategory === "all") return true;
+        const categories = (card.dataset.categories || "")
+          .split(",")
+          .map(function (category) {
+            return category.trim().toLowerCase();
+          })
+          .filter(Boolean);
+        return categories.includes(activeCategory);
+      }
+
+      function matchesSearch(card) {
+        if (!searchQuery) return true;
+        return (card.textContent || "").toLowerCase().includes(searchQuery);
+      }
+
+      function applyFilters() {
+        let visibleCount = 0;
+        cards.forEach(function (card) {
+          const shouldShow = matchesCategory(card) && matchesSearch(card);
+          card.classList.toggle("hidden", !shouldShow);
+          if (shouldShow) visibleCount += 1;
+        });
+
+        if (noResults) {
+          noResults.classList.toggle("hidden", visibleCount > 0);
+        }
+      }
+
+      function setActiveCategory(category) {
+        activeCategory = category;
+        filterButtons.forEach(function (button) {
+          const buttonCategory = (button.dataset.category || "all").toLowerCase();
+          applyButtonState(button, buttonCategory === activeCategory);
+        });
+        applyFilters();
+      }
+
+      filterButtons.forEach(function (button) {
+        button.addEventListener("click", function () {
+          setActiveCategory((button.dataset.category || "all").toLowerCase());
+        });
+      });
+
+      if (searchInput) {
+        searchInput.addEventListener("input", function () {
+          searchQuery = (searchInput.value || "").trim().toLowerCase();
+          applyFilters();
+        });
+      }
+
+      setActiveCategory(activeCategory);
+    }
+
     lucide.createIcons();
     initMobileMenu("menuToggle", "mobileMenu");
+    initToolFilters();
   </script>
 </body>
 </html>

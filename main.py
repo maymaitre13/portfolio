@@ -94,7 +94,9 @@ class UserSession(db.Model):
     __tablename__ = "user_sessions"
 
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=True, index=True)
+    user_id = db.Column(
+        db.Integer, db.ForeignKey("users.id"), nullable=True, index=True
+    )
     username = db.Column(db.String(120), nullable=False)
     login_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     logout_at = db.Column(db.DateTime, nullable=True)
@@ -108,9 +110,13 @@ class AuthEvent(db.Model):
     __tablename__ = "auth_events"
 
     id = db.Column(db.Integer, primary_key=True)
-    created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow, index=True)
+    created_at = db.Column(
+        db.DateTime, nullable=False, default=datetime.utcnow, index=True
+    )
     username = db.Column(db.String(120), nullable=True, index=True)
-    user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=True, index=True)
+    user_id = db.Column(
+        db.Integer, db.ForeignKey("users.id"), nullable=True, index=True
+    )
     event_type = db.Column(db.String(48), nullable=False)
     status = db.Column(db.String(32), nullable=False)
     success = db.Column(db.Boolean, nullable=False, default=False)
@@ -180,7 +186,9 @@ def ensure_schema_columns():
         try:
             with db.engine.begin() as conn:
                 conn.execute(
-                    text("ALTER TABLE users ADD COLUMN is_admin BOOLEAN NOT NULL DEFAULT 0")
+                    text(
+                        "ALTER TABLE users ADD COLUMN is_admin BOOLEAN NOT NULL DEFAULT 0"
+                    )
                 )
         except OperationalError as exc:
             if "duplicate column name" not in str(exc).lower():
@@ -277,8 +285,12 @@ def user_admin():
         users_query = users_query.filter(User.username.ilike(f"%{query_text}%"))
 
     users = users_query.order_by(User.username.asc()).all()
-    recent_auth_events = AuthEvent.query.order_by(AuthEvent.created_at.desc()).limit(50).all()
-    recent_sessions = UserSession.query.order_by(UserSession.login_at.desc()).limit(30).all()
+    recent_auth_events = (
+        AuthEvent.query.order_by(AuthEvent.created_at.desc()).limit(20).all()
+    )
+    recent_sessions = (
+        UserSession.query.order_by(UserSession.login_at.desc()).limit(20).all()
+    )
     return rt(
         "user_admin.html",
         users=users,
@@ -299,7 +311,9 @@ def user_admin_create():
     is_admin = request.form.get("is_admin") == "on"
 
     if not username or not password:
-        return redirect(url_for("user_admin", error="Username and password are required."))
+        return redirect(
+            url_for("user_admin", error="Username and password are required.")
+        )
 
     if len(password) < 8:
         return redirect(
@@ -346,7 +360,9 @@ def user_admin_update(user_id):
         return redirect(url_for("user_admin", error="Username already in use."))
 
     if user.id == current_user.id and not is_admin:
-        return redirect(url_for("user_admin", error="You cannot remove your own admin role."))
+        return redirect(
+            url_for("user_admin", error="You cannot remove your own admin role.")
+        )
 
     user.username = username
     user.enabled = enabled
@@ -355,7 +371,9 @@ def user_admin_update(user_id):
     if password:
         if len(password) < 8:
             return redirect(
-                url_for("user_admin", error="New password must be at least 8 characters.")
+                url_for(
+                    "user_admin", error="New password must be at least 8 characters."
+                )
             )
         user.set_password(password)
 
@@ -379,7 +397,9 @@ def user_admin_delete(user_id):
         return redirect(url_for("user_admin", error="User not found."))
 
     if user.id == current_user.id:
-        return redirect(url_for("user_admin", error="You cannot delete your own account."))
+        return redirect(
+            url_for("user_admin", error="You cannot delete your own account.")
+        )
 
     target_username = user.username
     db.session.delete(user)
@@ -427,7 +447,11 @@ def login():
             return rt("login.html", error=error, next_url=next_url), 429
 
         if not user or not user.enabled or not user.check_password(password):
-            reason = "disabled_account" if (user and not user.enabled) else "invalid_credentials"
+            reason = (
+                "disabled_account"
+                if (user and not user.enabled)
+                else "invalid_credentials"
+            )
             if user:
                 user.register_failed_login()
             add_auth_event(
@@ -550,6 +574,7 @@ def send_email():
         except ValueError as exc:
             return jsonify({"ok": False, "error": str(exc)}), 500
         except Exception:
+            app.logger.exception("Email send failure")
             return jsonify({"ok": False, "error": "Send failure"}), 500
     except Exception:
         return jsonify({"ok": False, "error": "Invalid request"}), 400

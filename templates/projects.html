@@ -14,7 +14,12 @@
             sans: ["Space Grotesk", "ui-sans-serif", "system-ui"],
             display: ["Sora", "Space Grotesk", "ui-sans-serif"]
           },
+          colors: {
+            accent: "#6f63ff",
+            accent2: "#8e81ff"
+          },
           boxShadow: {
+            glow: "0 0 35px rgba(125, 114, 255, 0.22)",
             card: "0 14px 36px rgba(6, 8, 24, 0.42)"
           }
         }
@@ -53,6 +58,16 @@
     .soft-border {
       border: 1px solid rgba(130, 138, 235, 0.16);
     }
+
+    .chip {
+      border: 1px solid rgba(134, 139, 220, 0.28);
+      background: rgba(43, 47, 91, 0.48);
+    }
+
+    .project-card {
+      background: rgba(22, 24, 47, 0.88);
+      box-shadow: 0 10px 24px rgba(4, 6, 21, 0.38);
+    }
   </style>
 </head>
 <body class="bg-mesh min-h-screen text-slate-100 font-sans antialiased">
@@ -74,7 +89,8 @@
           <i data-lucide="menu" class="h-5 w-5"></i>
         </button>
 
-        <nav class="hidden items-center gap-7 text-[15px] text-slate-300 lg:flex">
+        <div class="hidden items-center gap-3 lg:flex">
+        <nav class="flex items-center gap-7 text-[15px] text-slate-300">
           <a class="transition hover:text-white" href="/#home">Home</a>
           <a class="font-semibold text-white" href="/projects">Projects</a>
           <a class="transition hover:text-white" href="/tools">Tools</a>
@@ -87,13 +103,14 @@
           <a class="transition hover:text-white" href="/#about">About</a>
         </nav>
 
-        <div class="hidden gap-2 lg:flex">
+        <div class="flex gap-2">
           <a href="/contact" class="rounded-xl soft-border bg-indigo-500/18 px-4 py-2 text-center text-sm font-semibold text-indigo-100">Contact</a>
           {% if current_user.is_authenticated %}
           <a href="/logout" class="rounded-xl soft-border bg-slate-700/20 px-4 py-2 text-center text-sm font-semibold text-slate-200">Logout</a>
           {% else %}
           <a href="/login" class="rounded-xl soft-border bg-slate-700/20 px-4 py-2 text-center text-sm font-semibold text-slate-200">Login</a>
           {% endif %}
+        </div>
         </div>
       </div>
 
@@ -123,8 +140,355 @@
 
     <main class="space-y-4 pt-2">
       <section class="panel rounded-3xl p-6 lg:p-7">
-        <h1 class="font-display text-[34px] font-extrabold leading-tight text-white sm:text-[44px]">Projects</h1>
-        <p class="mt-3 text-[16px] text-slate-300">No projects published yet.</p>
+        <div class="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
+          <div>
+            <h1 class="font-display text-[34px] font-extrabold leading-tight text-white sm:text-[44px]">Projects</h1>
+            <p class="mt-3 max-w-2xl text-[17px] leading-relaxed text-slate-300">
+              Roadmap-driven projects aligned with my profile: Networking, Security, Linux, Automation, and Education.
+            </p>
+            <p class="mt-2 text-[13px] text-slate-400">
+              Note: all projects listed on this page were manually created and curated by me.
+            </p>
+            <p class="mt-1 text-[13px] text-slate-500">
+              Advanced security projects are visible to admin users only.
+            </p>
+          </div>
+
+          <label class="relative block w-full lg:max-w-md">
+            <i data-lucide="search" class="pointer-events-none absolute left-3 top-3.5 h-4 w-4 text-slate-400"></i>
+            <input id="projectSearch" data-project-search type="text" placeholder="Search projects..." class="w-full rounded-xl soft-border bg-slate-900/35 py-3 pl-10 pr-10 text-sm text-slate-200 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-400/45" />
+            <i data-lucide="sliders-horizontal" class="pointer-events-none absolute right-3 top-3.5 h-4 w-4 text-slate-400"></i>
+          </label>
+        </div>
+      </section>
+
+      <section class="grid gap-4 lg:grid-cols-12">
+        <aside class="panel rounded-3xl p-4 lg:col-span-2">
+          <h2 class="mb-3 text-[12px] font-semibold uppercase tracking-[0.14em] text-slate-300">Categories</h2>
+          <ul class="space-y-2 text-[14px]">
+            <li>
+              <button type="button" data-category-filter data-filter-scope="sidebar" data-category="all" class="w-full rounded-xl bg-indigo-500/15 px-3 py-2 text-left font-semibold text-white transition">All</button>
+            </li>
+            <li>
+              <button type="button" data-category-filter data-filter-scope="sidebar" data-category="cybersecurity" class="w-full rounded-xl px-3 py-2 text-left text-slate-200 transition hover:bg-indigo-500/10">Cybersecurity</button>
+            </li>
+            <li>
+              <button type="button" data-category-filter data-filter-scope="sidebar" data-category="networking" class="w-full rounded-xl px-3 py-2 text-left text-slate-200 transition hover:bg-indigo-500/10">Networking</button>
+            </li>
+            <li>
+              <button type="button" data-category-filter data-filter-scope="sidebar" data-category="linux" class="w-full rounded-xl px-3 py-2 text-left text-slate-200 transition hover:bg-indigo-500/10">Linux</button>
+            </li>
+            <li>
+              <button type="button" data-category-filter data-filter-scope="sidebar" data-category="automation" class="w-full rounded-xl px-3 py-2 text-left text-slate-200 transition hover:bg-indigo-500/10">Automation</button>
+            </li>
+            <li>
+              <button type="button" data-category-filter data-filter-scope="sidebar" data-category="data-analytics" class="w-full rounded-xl px-3 py-2 text-left text-slate-200 transition hover:bg-indigo-500/10">Data & Analytics</button>
+            </li>
+            <li>
+              <button type="button" data-category-filter data-filter-scope="sidebar" data-category="educational" class="w-full rounded-xl px-3 py-2 text-left text-slate-200 transition hover:bg-indigo-500/10">Educational</button>
+            </li>
+            <li>
+              <button type="button" data-category-filter data-filter-scope="sidebar" data-category="personal-brand" class="w-full rounded-xl px-3 py-2 text-left text-slate-200 transition hover:bg-indigo-500/10">Personal Brand</button>
+            </li>
+          </ul>
+        </aside>
+
+        <article class="panel rounded-3xl p-4 lg:col-span-10">
+          <div id="projects" class="mb-4 flex flex-wrap gap-2 border-b border-indigo-300/12 pb-4 text-[13px]">
+            <button type="button" data-category-filter data-filter-scope="chips" data-category="all" class="rounded-lg bg-indigo-500/20 px-3 py-1.5 font-semibold text-white">All</button>
+            <button type="button" data-category-filter data-filter-scope="chips" data-category="cybersecurity" class="rounded-lg px-3 py-1.5 text-slate-300 hover:bg-indigo-500/15 hover:text-white">Cybersecurity</button>
+            <button type="button" data-category-filter data-filter-scope="chips" data-category="networking" class="rounded-lg px-3 py-1.5 text-slate-300 hover:bg-indigo-500/15 hover:text-white">Networking</button>
+            <button type="button" data-category-filter data-filter-scope="chips" data-category="linux" class="rounded-lg px-3 py-1.5 text-slate-300 hover:bg-indigo-500/15 hover:text-white">Linux</button>
+            <button type="button" data-category-filter data-filter-scope="chips" data-category="automation" class="rounded-lg px-3 py-1.5 text-slate-300 hover:bg-indigo-500/15 hover:text-white">Automation</button>
+            <button type="button" data-category-filter data-filter-scope="chips" data-category="data-analytics" class="rounded-lg px-3 py-1.5 text-slate-300 hover:bg-indigo-500/15 hover:text-white">Data & Analytics</button>
+            <button type="button" data-category-filter data-filter-scope="chips" data-category="educational" class="rounded-lg px-3 py-1.5 text-slate-300 hover:bg-indigo-500/15 hover:text-white">Educational</button>
+            <button type="button" data-category-filter data-filter-scope="chips" data-category="personal-brand" class="rounded-lg px-3 py-1.5 text-slate-300 hover:bg-indigo-500/15 hover:text-white">Personal Brand</button>
+          </div>
+
+          <div id="projectGrid" class="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
+            <article data-project-card data-categories="cybersecurity" class="project-card rounded-2xl p-4 ring-1 ring-indigo-300/12">
+              <div class="mb-2 flex items-start justify-between gap-2">
+                <div class="flex items-center gap-3">
+                  <span class="grid h-11 w-11 place-items-center rounded-xl bg-rose-500/20">
+                    <i data-lucide="shield" class="h-5 w-5 text-rose-200"></i>
+                  </span>
+                  <h3 class="text-[22px] font-bold leading-none text-white">Log Analyzer</h3>
+                </div>
+                <i data-lucide="more-horizontal" class="h-4 w-4 text-slate-400"></i>
+              </div>
+              <p class="text-[14px] leading-relaxed text-slate-300">Mini SIEM with suspicious IP detection, brute-force alerts, and visual dashboards.</p>
+              <div class="mt-3 flex flex-wrap gap-2 text-[11px]">
+                <span class="chip rounded-full px-2 py-1 text-indigo-100">Cybersecurity</span>
+                <span class="chip rounded-full px-2 py-1 text-indigo-100">Flask</span>
+                <span class="chip rounded-full px-2 py-1 text-indigo-100">Chart.js</span>
+              </div>
+              <div class="mt-4 flex items-center justify-between">
+                <span class="text-[12px] text-amber-300">Status: Planned</span>
+                <a href="/contact" class="rounded-lg soft-border bg-indigo-500/18 px-4 py-1.5 text-[13px] font-semibold text-indigo-100">Get access</a>
+              </div>
+            </article>
+
+            {% if current_user.is_admin %}
+            <article data-project-card data-categories="cybersecurity" class="project-card rounded-2xl p-4 ring-1 ring-indigo-300/12">
+              <div class="mb-2 flex items-start justify-between gap-2">
+                <div class="flex items-center gap-3">
+                  <span class="grid h-11 w-11 place-items-center rounded-xl bg-orange-500/20">
+                    <i data-lucide="lock" class="h-5 w-5 text-orange-200"></i>
+                  </span>
+                  <h3 class="text-[22px] font-bold leading-none text-white">Brute Force Detector</h3>
+                </div>
+                <span class="rounded-full border border-amber-300/35 bg-amber-500/10 px-2 py-1 text-[10px] font-semibold uppercase tracking-[0.08em] text-amber-200">Admin only</span>
+                <i data-lucide="more-horizontal" class="h-4 w-4 text-slate-400"></i>
+              </div>
+              <p class="text-[14px] leading-relaxed text-slate-300">Secure login workflow with failed-attempt counters, lock windows, and auth event tracking.</p>
+              <div class="mt-3 flex flex-wrap gap-2 text-[11px]">
+                <span class="chip rounded-full px-2 py-1 text-indigo-100">Cybersecurity</span>
+                <span class="chip rounded-full px-2 py-1 text-indigo-100">Authentication</span>
+                <span class="chip rounded-full px-2 py-1 text-indigo-100">Flask</span>
+              </div>
+              <div class="mt-4 flex items-center justify-between">
+                <span class="text-[12px] text-emerald-300">Status: In progress</span>
+                <a href="/contact" class="rounded-lg soft-border bg-indigo-500/18 px-4 py-1.5 text-[13px] font-semibold text-indigo-100">Get access</a>
+              </div>
+            </article>
+            {% endif %}
+
+            {% if current_user.is_admin %}
+            <article data-project-card data-categories="cybersecurity" class="project-card rounded-2xl p-4 ring-1 ring-indigo-300/12">
+              <div class="mb-2 flex items-start justify-between gap-2">
+                <div class="flex items-center gap-3">
+                  <span class="grid h-11 w-11 place-items-center rounded-xl bg-fuchsia-500/20">
+                    <i data-lucide="activity" class="h-5 w-5 text-fuchsia-200"></i>
+                  </span>
+                  <h3 class="text-[22px] font-bold leading-none text-white">Mini SOC Dashboard</h3>
+                </div>
+                <span class="rounded-full border border-amber-300/35 bg-amber-500/10 px-2 py-1 text-[10px] font-semibold uppercase tracking-[0.08em] text-amber-200">Admin only</span>
+                <i data-lucide="more-horizontal" class="h-4 w-4 text-slate-400"></i>
+              </div>
+              <p class="text-[14px] leading-relaxed text-slate-300">Centralized view for alerts, logs, stats, and IP reputation checks for incident triage.</p>
+              <div class="mt-3 flex flex-wrap gap-2 text-[11px]">
+                <span class="chip rounded-full px-2 py-1 text-indigo-100">Cybersecurity</span>
+                <span class="chip rounded-full px-2 py-1 text-indigo-100">Monitoring</span>
+                <span class="chip rounded-full px-2 py-1 text-indigo-100">Dashboard</span>
+              </div>
+              <div class="mt-4 flex items-center justify-between">
+                <span class="text-[12px] text-amber-300">Status: Planned</span>
+                <a href="/contact" class="rounded-lg soft-border bg-indigo-500/18 px-4 py-1.5 text-[13px] font-semibold text-indigo-100">Get access</a>
+              </div>
+            </article>
+            {% endif %}
+
+            <article data-project-card data-categories="networking" class="project-card rounded-2xl p-4 ring-1 ring-indigo-300/12">
+              <div class="mb-2 flex items-start justify-between gap-2">
+                <div class="flex items-center gap-3">
+                  <span class="grid h-11 w-11 place-items-center rounded-xl bg-cyan-500/20">
+                    <i data-lucide="network" class="h-5 w-5 text-cyan-200"></i>
+                  </span>
+                  <h3 class="text-[22px] font-bold leading-none text-white">SNMP Monitoring Tool</h3>
+                </div>
+                <i data-lucide="more-horizontal" class="h-4 w-4 text-slate-400"></i>
+              </div>
+              <p class="text-[14px] leading-relaxed text-slate-300">Collect SNMP metrics and expose CPU, RAM, and interface throughput in one monitoring view.</p>
+              <div class="mt-3 flex flex-wrap gap-2 text-[11px]">
+                <span class="chip rounded-full px-2 py-1 text-indigo-100">Networking</span>
+                <span class="chip rounded-full px-2 py-1 text-indigo-100">NMS</span>
+                <span class="chip rounded-full px-2 py-1 text-indigo-100">SNMP</span>
+              </div>
+              <div class="mt-4 flex items-center justify-between">
+                <span class="text-[12px] text-indigo-200">Status: Priority</span>
+                <a href="/contact" class="rounded-lg soft-border bg-indigo-500/18 px-4 py-1.5 text-[13px] font-semibold text-indigo-100">Get access</a>
+              </div>
+            </article>
+
+            <article data-project-card data-categories="networking" class="project-card rounded-2xl p-4 ring-1 ring-indigo-300/12">
+              <div class="mb-2 flex items-start justify-between gap-2">
+                <div class="flex items-center gap-3">
+                  <span class="grid h-11 w-11 place-items-center rounded-xl bg-sky-500/20">
+                    <i data-lucide="workflow" class="h-5 w-5 text-sky-200"></i>
+                  </span>
+                  <h3 class="text-[22px] font-bold leading-none text-white">Network Topology Visualizer</h3>
+                </div>
+                <i data-lucide="more-horizontal" class="h-4 w-4 text-slate-400"></i>
+              </div>
+              <p class="text-[14px] leading-relaxed text-slate-300">Dynamic topology rendering from JSON data to map links, nodes, and infrastructure relations.</p>
+              <div class="mt-3 flex flex-wrap gap-2 text-[11px]">
+                <span class="chip rounded-full px-2 py-1 text-indigo-100">Networking</span>
+                <span class="chip rounded-full px-2 py-1 text-indigo-100">Visualization</span>
+                <span class="chip rounded-full px-2 py-1 text-indigo-100">JSON</span>
+              </div>
+              <div class="mt-4 flex items-center justify-between">
+                <span class="text-[12px] text-amber-300">Status: Planned</span>
+                <a href="/contact" class="rounded-lg soft-border bg-indigo-500/18 px-4 py-1.5 text-[13px] font-semibold text-indigo-100">Get access</a>
+              </div>
+            </article>
+
+            <article data-project-card data-categories="networking,data-analytics" class="project-card rounded-2xl p-4 ring-1 ring-indigo-300/12">
+              <div class="mb-2 flex items-start justify-between gap-2">
+                <div class="flex items-center gap-3">
+                  <span class="grid h-11 w-11 place-items-center rounded-xl bg-blue-500/20">
+                    <i data-lucide="bar-chart-3" class="h-5 w-5 text-blue-200"></i>
+                  </span>
+                  <h3 class="text-[22px] font-bold leading-none text-white">Bandwidth Usage Analyzer</h3>
+                </div>
+                <i data-lucide="more-horizontal" class="h-4 w-4 text-slate-400"></i>
+              </div>
+              <p class="text-[14px] leading-relaxed text-slate-300">CSV-based traffic analytics for routers with usage trends and bandwidth behavior insights.</p>
+              <div class="mt-3 flex flex-wrap gap-2 text-[11px]">
+                <span class="chip rounded-full px-2 py-1 text-indigo-100">Networking</span>
+                <span class="chip rounded-full px-2 py-1 text-indigo-100">CSV</span>
+                <span class="chip rounded-full px-2 py-1 text-indigo-100">Analytics</span>
+              </div>
+              <div class="mt-4 flex items-center justify-between">
+                <span class="text-[12px] text-amber-300">Status: Planned</span>
+                <a href="/contact" class="rounded-lg soft-border bg-indigo-500/18 px-4 py-1.5 text-[13px] font-semibold text-indigo-100">Get access</a>
+              </div>
+            </article>
+
+            {% if current_user.is_admin %}
+            <article data-project-card data-categories="linux" class="project-card rounded-2xl p-4 ring-1 ring-indigo-300/12">
+              <div class="mb-2 flex items-start justify-between gap-2">
+                <div class="flex items-center gap-3">
+                  <span class="grid h-11 w-11 place-items-center rounded-xl bg-emerald-500/20">
+                    <i data-lucide="terminal" class="h-5 w-5 text-emerald-200"></i>
+                  </span>
+                  <h3 class="text-[22px] font-bold leading-none text-white">Linux Command Playground</h3>
+                </div>
+                <span class="rounded-full border border-amber-300/35 bg-amber-500/10 px-2 py-1 text-[10px] font-semibold uppercase tracking-[0.08em] text-amber-200">Admin only</span>
+                <i data-lucide="more-horizontal" class="h-4 w-4 text-slate-400"></i>
+              </div>
+              <p class="text-[14px] leading-relaxed text-slate-300">Web sandbox to practice Linux commands with guided examples and safe execution boundaries.</p>
+              <div class="mt-3 flex flex-wrap gap-2 text-[11px]">
+                <span class="chip rounded-full px-2 py-1 text-indigo-100">Linux</span>
+                <span class="chip rounded-full px-2 py-1 text-indigo-100">Training</span>
+                <span class="chip rounded-full px-2 py-1 text-indigo-100">CLI</span>
+              </div>
+              <div class="mt-4 flex items-center justify-between">
+                <span class="text-[12px] text-amber-300">Status: Planned</span>
+                <a href="/contact" class="rounded-lg soft-border bg-indigo-500/18 px-4 py-1.5 text-[13px] font-semibold text-indigo-100">Get access</a>
+              </div>
+            </article>
+            {% endif %}
+
+            <article data-project-card data-categories="automation,data-analytics" class="project-card rounded-2xl p-4 ring-1 ring-indigo-300/12">
+              <div class="mb-2 flex items-start justify-between gap-2">
+                <div class="flex items-center gap-3">
+                  <span class="grid h-11 w-11 place-items-center rounded-xl bg-lime-500/20">
+                    <i data-lucide="bot" class="h-5 w-5 text-lime-200"></i>
+                  </span>
+                  <h3 class="text-[22px] font-bold leading-none text-white">Automated Report Generator</h3>
+                </div>
+                <i data-lucide="more-horizontal" class="h-4 w-4 text-slate-400"></i>
+              </div>
+              <p class="text-[14px] leading-relaxed text-slate-300">Transform uploaded data into structured PDF reports for operations and service tracking.</p>
+              <div class="mt-3 flex flex-wrap gap-2 text-[11px]">
+                <span class="chip rounded-full px-2 py-1 text-indigo-100">Automation</span>
+                <span class="chip rounded-full px-2 py-1 text-indigo-100">PDF</span>
+                <span class="chip rounded-full px-2 py-1 text-indigo-100">Ops</span>
+              </div>
+              <div class="mt-4 flex items-center justify-between">
+                <span class="text-[12px] text-amber-300">Status: Planned</span>
+                <a href="/contact" class="rounded-lg soft-border bg-indigo-500/18 px-4 py-1.5 text-[13px] font-semibold text-indigo-100">Get access</a>
+              </div>
+            </article>
+
+            <article data-project-card data-categories="automation,linux" class="project-card rounded-2xl p-4 ring-1 ring-indigo-300/12">
+              <div class="mb-2 flex items-start justify-between gap-2">
+                <div class="flex items-center gap-3">
+                  <span class="grid h-11 w-11 place-items-center rounded-xl bg-pink-500/20">
+                    <i data-lucide="refresh-cw" class="h-5 w-5 text-pink-200"></i>
+                  </span>
+                  <h3 class="text-[22px] font-bold leading-none text-white">Cron Job Manager UI</h3>
+                </div>
+                <i data-lucide="more-horizontal" class="h-4 w-4 text-slate-400"></i>
+              </div>
+              <p class="text-[14px] leading-relaxed text-slate-300">Visual interface to create, monitor, and manage scheduled jobs with safer operations controls.</p>
+              <div class="mt-3 flex flex-wrap gap-2 text-[11px]">
+                <span class="chip rounded-full px-2 py-1 text-indigo-100">Automation</span>
+                <span class="chip rounded-full px-2 py-1 text-indigo-100">Linux</span>
+                <span class="chip rounded-full px-2 py-1 text-indigo-100">Scheduling</span>
+              </div>
+              <div class="mt-4 flex items-center justify-between">
+                <span class="text-[12px] text-amber-300">Status: Planned</span>
+                <a href="/contact" class="rounded-lg soft-border bg-indigo-500/18 px-4 py-1.5 text-[13px] font-semibold text-indigo-100">Get access</a>
+              </div>
+            </article>
+
+            <article data-project-card data-categories="data-analytics,networking" class="project-card rounded-2xl p-4 ring-1 ring-indigo-300/12">
+              <div class="mb-2 flex items-start justify-between gap-2">
+                <div class="flex items-center gap-3">
+                  <span class="grid h-11 w-11 place-items-center rounded-xl bg-violet-500/20">
+                    <i data-lucide="bar-chart-3" class="h-5 w-5 text-violet-200"></i>
+                  </span>
+                  <h3 class="text-[22px] font-bold leading-none text-white">Telecom KPI Dashboard</h3>
+                </div>
+                <i data-lucide="more-horizontal" class="h-4 w-4 text-slate-400"></i>
+              </div>
+              <p class="text-[14px] leading-relaxed text-slate-300">Analyze call success rate, packet loss, and availability to track telecom network quality.</p>
+              <div class="mt-3 flex flex-wrap gap-2 text-[11px]">
+                <span class="chip rounded-full px-2 py-1 text-indigo-100">Data & Analytics</span>
+                <span class="chip rounded-full px-2 py-1 text-indigo-100">Telecom</span>
+                <span class="chip rounded-full px-2 py-1 text-indigo-100">KPI</span>
+              </div>
+              <div class="mt-4 flex items-center justify-between">
+                <span class="text-[12px] text-indigo-200">Status: Priority</span>
+                <a href="/contact" class="rounded-lg soft-border bg-indigo-500/18 px-4 py-1.5 text-[13px] font-semibold text-indigo-100">Get access</a>
+              </div>
+            </article>
+
+            <article data-project-card data-categories="educational,networking" class="project-card rounded-2xl p-4 ring-1 ring-indigo-300/12">
+              <div class="mb-2 flex items-start justify-between gap-2">
+                <div class="flex items-center gap-3">
+                  <span class="grid h-11 w-11 place-items-center rounded-xl bg-indigo-500/20">
+                    <i data-lucide="graduation-cap" class="h-5 w-5 text-indigo-200"></i>
+                  </span>
+                  <h3 class="text-[22px] font-bold leading-none text-white">CCNA Lab & Subnet Trainer</h3>
+                </div>
+                <i data-lucide="more-horizontal" class="h-4 w-4 text-slate-400"></i>
+              </div>
+              <p class="text-[14px] leading-relaxed text-slate-300">Interactive practice environment for VLAN, routing scenarios, and subnetting challenges.</p>
+              <div class="mt-3 flex flex-wrap gap-2 text-[11px]">
+                <span class="chip rounded-full px-2 py-1 text-indigo-100">Educational</span>
+                <span class="chip rounded-full px-2 py-1 text-indigo-100">CCNA</span>
+                <span class="chip rounded-full px-2 py-1 text-indigo-100">Networking</span>
+              </div>
+              <div class="mt-4 flex items-center justify-between">
+                <span class="text-[12px] text-amber-300">Status: Planned</span>
+                <a href="/contact" class="rounded-lg soft-border bg-indigo-500/18 px-4 py-1.5 text-[13px] font-semibold text-indigo-100">Get access</a>
+              </div>
+            </article>
+
+            <article data-project-card data-categories="educational,personal-brand" class="project-card rounded-2xl p-4 ring-1 ring-indigo-300/12">
+              <div class="mb-2 flex items-start justify-between gap-2">
+                <div class="flex items-center gap-3">
+                  <span class="grid h-11 w-11 place-items-center rounded-xl bg-teal-500/20">
+                    <i data-lucide="book-open" class="h-5 w-5 text-teal-200"></i>
+                  </span>
+                  <h3 class="text-[22px] font-bold leading-none text-white">IT Course Platform (Youth)</h3>
+                </div>
+                <i data-lucide="more-horizontal" class="h-4 w-4 text-slate-400"></i>
+              </div>
+              <p class="text-[14px] leading-relaxed text-slate-300">Structured beginner courses for young learners focused on digital literacy and internet safety.</p>
+              <div class="mt-3 flex flex-wrap gap-2 text-[11px]">
+                <span class="chip rounded-full px-2 py-1 text-indigo-100">Educational</span>
+                <span class="chip rounded-full px-2 py-1 text-indigo-100">Personal Brand</span>
+                <span class="chip rounded-full px-2 py-1 text-indigo-100">Community</span>
+              </div>
+              <div class="mt-4 flex items-center justify-between">
+                <span class="text-[12px] text-emerald-300">Status: In progress</span>
+                <a href="/contact" class="rounded-lg soft-border bg-indigo-500/18 px-4 py-1.5 text-[13px] font-semibold text-indigo-100">Get access</a>
+              </div>
+            </article>
+          </div>
+          <p id="projectNoResults" class="mt-4 hidden rounded-xl soft-border bg-slate-900/35 px-4 py-3 text-sm text-slate-300">
+            No projects match this category or search term.
+          </p>
+
+          <div class="mt-5 flex justify-center">
+            <a href="/contact" class="rounded-xl border border-indigo-300/40 bg-gradient-to-r from-indigo-600 to-indigo-500 px-7 py-3 text-sm font-semibold text-white shadow-glow">
+              Discuss A Project
+            </a>
+          </div>
+        </article>
       </section>
     </main>
   </div>
@@ -149,8 +513,95 @@
       });
     }
 
+    function initProjectFilters() {
+      const cards = Array.from(document.querySelectorAll("[data-project-card]"));
+      const filterButtons = Array.from(
+        document.querySelectorAll("[data-category-filter]")
+      );
+      const searchInput = document.querySelector("[data-project-search]");
+      const noResults = document.getElementById("projectNoResults");
+
+      if (!cards.length || !filterButtons.length) return;
+
+      let activeCategory = "all";
+      let searchQuery = "";
+
+      function applyButtonState(button, isActive) {
+        const scope = button.dataset.filterScope || "chips";
+        if (scope === "sidebar") {
+          button.classList.toggle("bg-indigo-500/15", isActive);
+          button.classList.toggle("font-semibold", isActive);
+          button.classList.toggle("text-white", isActive);
+          button.classList.toggle("text-slate-200", !isActive);
+          button.classList.toggle("hover:bg-indigo-500/10", !isActive);
+          return;
+        }
+
+        button.classList.toggle("bg-indigo-500/20", isActive);
+        button.classList.toggle("font-semibold", isActive);
+        button.classList.toggle("text-white", isActive);
+        button.classList.toggle("text-slate-300", !isActive);
+        button.classList.toggle("hover:bg-indigo-500/15", !isActive);
+        button.classList.toggle("hover:text-white", !isActive);
+      }
+
+      function matchesCategory(card) {
+        if (activeCategory === "all") return true;
+        const categories = (card.dataset.categories || "")
+          .split(",")
+          .map(function (category) {
+            return category.trim().toLowerCase();
+          })
+          .filter(Boolean);
+        return categories.includes(activeCategory);
+      }
+
+      function matchesSearch(card) {
+        if (!searchQuery) return true;
+        return (card.textContent || "").toLowerCase().includes(searchQuery);
+      }
+
+      function applyFilters() {
+        let visibleCount = 0;
+        cards.forEach(function (card) {
+          const shouldShow = matchesCategory(card) && matchesSearch(card);
+          card.classList.toggle("hidden", !shouldShow);
+          if (shouldShow) visibleCount += 1;
+        });
+
+        if (noResults) {
+          noResults.classList.toggle("hidden", visibleCount > 0);
+        }
+      }
+
+      function setActiveCategory(category) {
+        activeCategory = category;
+        filterButtons.forEach(function (button) {
+          const buttonCategory = (button.dataset.category || "all").toLowerCase();
+          applyButtonState(button, buttonCategory === activeCategory);
+        });
+        applyFilters();
+      }
+
+      filterButtons.forEach(function (button) {
+        button.addEventListener("click", function () {
+          setActiveCategory((button.dataset.category || "all").toLowerCase());
+        });
+      });
+
+      if (searchInput) {
+        searchInput.addEventListener("input", function () {
+          searchQuery = (searchInput.value || "").trim().toLowerCase();
+          applyFilters();
+        });
+      }
+
+      setActiveCategory(activeCategory);
+    }
+
     lucide.createIcons();
     initMobileMenu("menuToggle", "mobileMenu");
+    initProjectFilters();
   </script>
 </body>
 </html>

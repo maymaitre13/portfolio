@@ -28,6 +28,8 @@ def send_email(fName, lName, email, message):
     smtp_port = int(os.getenv("SMTP_PORT", "587"))
     smtp_username = os.getenv("SMTP_USERNAME")
     smtp_password = os.getenv("SMTP_PASSWORD")
+    smtp_use_ssl = os.getenv("SMTP_USE_SSL", "0") == "1"
+    smtp_timeout = int(os.getenv("SMTP_TIMEOUT", "20"))
 
     # Recipient and optional overrides
     to_address = os.getenv("CONTACT_TO_ADDRESS")
@@ -59,8 +61,18 @@ def send_email(fName, lName, email, message):
     msg["Subject"] = subject
     msg.attach(MIMEText(body, "plain"))
 
-    # Connect to the SMTP server and send the email
-    with smtplib.SMTP(smtp_server, smtp_port) as server:
+    # Connect to the SMTP server and send the email.
+    # Yahoo supports STARTTLS (587) and SSL/TLS (465).
+    use_ssl = smtp_use_ssl or smtp_port == 465
+    if use_ssl:
+        with smtplib.SMTP_SSL(smtp_server, smtp_port, timeout=smtp_timeout) as server:
+            server.login(smtp_username, smtp_password)
+            server.sendmail(from_address, to_address, msg.as_string())
+        return
+
+    with smtplib.SMTP(smtp_server, smtp_port, timeout=smtp_timeout) as server:
+        server.ehlo()
         server.starttls()
+        server.ehlo()
         server.login(smtp_username, smtp_password)
         server.sendmail(from_address, to_address, msg.as_string())
